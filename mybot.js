@@ -174,6 +174,10 @@ client.on("message", async message => {
 
 client.on("message", async message => {
 	
+	if(message.guild == null) {
+		return;
+	}
+	
 	var ran = Math.floor(Math.random()*100);
 	
 	if(ran > 75){
