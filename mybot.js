@@ -1147,7 +1147,7 @@ function rotateFunction (message, degrees, im) {
 function setup (channel, user) {
 	user.send("Please reply with the name of your welcome channel").then(message => {
 		const filter = m => m.content.startsWith('#');
-		users.awaitMessages(filter, { max: 1, time: 120000, errors : ['time']})
+		user.awaitMessages(filter, { max: 1, time: 120000, errors : ['time']})
 			.then(collected => user.send("Ok!")
 			.catch(collected => {
 				if(collected.size < 1){
