@@ -145,8 +145,7 @@ client.on("guildDelete", guild => {
   client.user.setActivity(`on ${client.guilds.size} servers | e!help`);
 });
 
-client.on("message", async message => {
-	
+client.on("message", async message => {	
 	if(message.guild !== null) {
 		mongo.connect(ServerURL, function(err, db) {
 			var dbo = db.db("servers");
@@ -1149,10 +1148,10 @@ function setup (channel, user) {
 	user.send("Please reply with the name of your welcome channel").then(message => {
 		const filter = m => m.content.startsWith('#');
 		users.awaitMessages(filter, { max: 1, time: 120000, errors : ['time']})
-			.then(collected => users.send("Ok!")
+			.then(collected => user.send("Ok!")
 			.catch(collected => {
 				if(collected.size < 1){
-					users.send ("setup cancelled, you took longer than 2 minutes!");
+					user.send ("setup cancelled, you took longer than 2 minutes!");
 				}
 			}));
 	});
