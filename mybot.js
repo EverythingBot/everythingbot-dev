@@ -56,7 +56,9 @@ var helpMenu = {
 
 var defaultServer = {
 	"serverID":null,
-	"prefix":'e!'
+	"prefix":'e!',
+	"welcomeRole":null,
+	"welcomeChannel":null
 }
 
 var defaultUser = {
@@ -239,6 +241,10 @@ async function checkCommand (message, prefix) {
 	const args = message.content.slice(prefix.length).trim().split(/ +/g);
 	const command = args.shift().toLowerCase();
 	var col = null;
+	
+	if(command === "setup") {
+		setup (message.channel, message.author);
+	}
 	
 	if(command === "leaderboard" || command === "l"){
 		if(args[0] === "money"||args[0] === "m") {
@@ -1134,6 +1140,19 @@ function rotateFunction (message, degrees, im) {
 		message.reply(`you've done something wrong! Are you sure you did ${prefix}rotate [degrees] [link/user]?`);
 	}
 
+}
+
+function setup (channel, user) {
+	user.send("Please reply with the name of your welcome channel").then(message => {
+		const filter = m => m.content.startsWith('#');
+		users.awaitMessages(filter, { max: 1, time: 120000, errors : ['time']})
+			.then(collected => users.send("Ok!")
+			.catch(collected => {
+				if(collected.size < 1){
+					users.send ("setup cancelled, you took longer than 2 minutes!");
+				}
+			});
+	});
 }
 
 client.login(process.env.BOT_TOKEN);
