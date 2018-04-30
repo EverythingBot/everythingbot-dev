@@ -146,37 +146,36 @@ client.on("guildDelete", guild => {
 });
 
 client.on("message", async message => {
-	mongo.connect(ServerURL, function(err, db) {
-		var dbo = db.db("servers");
-		var query = { "serverID": message.guild.id };
-		if(message.guild !== null) {
-			dbo.collection("servers").find(query).toArray (function (err, result) {
-				if(err) throw err;
-				if(result[0] != null){
-					prefix = result[0].prefix;
-					checkCommand(message,prefix);
-				} else {
-					var serv = defaultServer;
-					serv.serverID = message.guild.id;
-					dbo.collection("servers").insert(serv, function(err, obj) {
-						if(err) throw err;
-						db.close();
-					});
-				}
-			});
-		}
-	});
 	
-	if(message.mentions.members.first()){
-		if(message.mentions.members.first().user.id===client.user.id) mentionCommand (message, message.mentions.members.first());
+	if(message.guild !== null) {
+		mongo.connect(ServerURL, function(err, db) {
+			var dbo = db.db("servers");
+			var query = { "serverID": message.guild.id };
+			if(message.guild !== null) {
+				dbo.collection("servers").find(query).toArray (function (err, result) {
+					if(err) throw err;
+					if(result[0] != null){
+						prefix = result[0].prefix;
+						checkCommand(message,prefix);
+					} else {
+						var serv = defaultServer;
+						serv.serverID = message.guild.id;
+						dbo.collection("servers").insert(serv, function(err, obj) {
+							if(err) throw err;
+							db.close();
+						});
+					}
+				});
+			}
+		});
+		
+		if(message.mentions.members.first()){
+			if(message.mentions.members.first().user.id===client.user.id) mentionCommand (message, message.mentions.members.first());
+		}
 	}
 });
 
 client.on("message", async message => {
-	
-	if(message.guild == null) {
-		return;
-	}
 	
 	var ran = Math.floor(Math.random()*100);
 	
