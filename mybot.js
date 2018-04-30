@@ -1151,7 +1151,7 @@ function setup (channel, user) {
 				if(collected.size < 1){
 					users.send ("setup cancelled, you took longer than 2 minutes!");
 				}
-			});
+			}));
 	});
 }
 
