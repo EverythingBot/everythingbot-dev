@@ -1207,6 +1207,7 @@ function setupChannel (collected, message, author) {
 			var query = { "serverID": message.guild.id };
 			dbo.collection("servers").findOne(query, function(err, result ) {
 				if(err) throw err;
+				var r = result;
 				var t = defaultServer;
 				t.serverID = result.serverID;
 				t.prefix = result.prefix;
@@ -1221,11 +1222,13 @@ function setupChannel (collected, message, author) {
 								var role = c.first().content.toString();
 								console.log(message.channel.guild.roles.exists("name", role));
 								if(message.channel.guild.roles.exists("name", role)) {
+									r.welcomeRole = role;
 									var dbo = db.db("servers");
 									var query = { "serverID": message.guild.id };
-									dbo.collection("servers").findOne(query, function(err, result ) {
-										var r = result;
-										r.welcomeRole = role;
+									dbo.collection("servers").update(query, r,function(err, result ) {
+										if(err) throw err;
+										message.channel.send(`Guild default role set to ${role}`);
+										message.channel.send("Setup complete! (For now)");
 									});
 								} else {
 									message.channel.send("That's not a valid role!");
