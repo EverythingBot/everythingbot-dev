@@ -124,7 +124,7 @@ client.on("guildMemberAdd", guild => {
 		dbo.collection("servers").find(query).toArray(function(err, result) {
 			if(err) throw err;
 			//console.log(result);
-			guild.guild.channels.get(result[0].welcomeChannel).send(`Welcome to ${guild.guild.name}, <@${guild.user.id}>`);
+			guild.guild.channels.get(result[0].welcomeChannel).send(`Welcome to __**${guild.guild.name}**__, <@${guild.user.id}>!`);
 			db.close();
 		});
 	});
