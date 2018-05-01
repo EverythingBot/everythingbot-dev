@@ -245,7 +245,7 @@ async function checkCommand (message, prefix) {
 	var col = null;
 	
 	if(command === "setup") {
-		setup (message);
+		setup (message, message.author.tag);
 	}
 	
 	if(command === "leaderboard" || command === "l"){
@@ -1144,9 +1144,9 @@ function rotateFunction (message, degrees, im) {
 
 }
 
-function setup (message) {
+function setup (message, author) {
 	message.reply("Please reply with the name of your welcome channel").then(message => {
-		const filter = m => m.content.startsWith('#');
+		const filter = m => m.author.tag.includes (author);
 		message.channel.awaitMessages(filter, { max: 1, time: 120000, errors : ['time']})
 			.then(collected => message.reply("ok!")
 			.catch(collected => {
