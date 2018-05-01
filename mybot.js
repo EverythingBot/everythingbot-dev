@@ -126,7 +126,8 @@ client.on("guildMemberAdd", guild => {
 			//console.log(result);
 			if(result[0].welcomeChannel!==null){
 				guild.guild.channels.get(result[0].welcomeChannel).send(`Welcome to __**${guild.guild.name}**__, <@${guild.user.id}>!`);
-				guild.addRole(result[0].welcomerole)
+				var r = guild.guild.roles.find('name',result[0].welcomerole);
+				guild.addRole(r)
 					.then(console.log)
 					.catch(console.error);
 				db.close();
@@ -1218,9 +1219,9 @@ function setupChannel (collected, message, author) {
 						const filter2 = m => m.author.tag.includes (author);
 						message.channel.awaitMessages(filter2, { max: 1, time: 60000, errors : ['time']})
 							.then(c => {
-								console.log(c.first().content);
+								//console.log(c.first().content);
 								var role = c.first().content.toString();
-								console.log(message.channel.guild.roles.exists("name", role));
+								//console.log(message.channel.guild.roles.exists("name", role));
 								if(message.channel.guild.roles.exists("name", role)) {
 									r.welcomeRole = role;
 									var dbo = db.db("servers");
