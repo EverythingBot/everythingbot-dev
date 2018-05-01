@@ -1162,7 +1162,7 @@ function setup (message, author) {
 function setupChannel (collected, message) {
 	console.log("Pack mom gay");
 	var query = { "content": -1 };
-	var c = collected.first().content.toString().replace(/[<@!>]/g, '');
+	var c = collected.first().content.toString().replace(/[<#>]/g, '');
 	console.log(c);
 	console.log(client.channels.get(c));
 	if(client.channels.get(c)) {
