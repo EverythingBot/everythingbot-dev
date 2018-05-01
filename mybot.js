@@ -1182,7 +1182,7 @@ function rotateFunction (message, degrees, im) {
 }
 
 function setup (message, author) {
-	message.reply("please reply with the name of your welcome channel").then(message => {
+	message.reply("please reply with your welcome channel").then(message => {
 		const filter = m => m.author.tag.includes (author);
 		message.channel.awaitMessages(filter, { max: 1, time: 60000, errors : ['time']})
 			.then(collected => {
@@ -1213,11 +1213,11 @@ function setupChannel (collected, message, author) {
 				t.welcomeChannel = c;
 				dbo.collection("servers").update(query, t, function (err, res) {
 					if(err) throw err;
-					message.channel.send("Now send the role you want people to get when they join").then(message=> {
+					message.channel.send("Now send name of the role you want people to get when they join").then(message=> {
 						const filter2 = m => m.author.tag.includes (author);
 						message.channel.awaitMessages(filter2, { max: 1, time: 60000, errors : ['time']})
-							.then(collected => {
-								const role = collected.first().content.toString().replace(/[<#>]/g, '');
+							.then(c => {
+								var role = c.first().content.toString().replace(/[<#>]/g, '');
 								if(message.guild.role.find("name", role)) {
 									var dbo = db.db("servers");
 									var query = { "serverID": message.guild.id };
@@ -1229,8 +1229,8 @@ function setupChannel (collected, message, author) {
 									message.channel.send("That's not a valid role!");
 								}
 							})
-							.catch(collected => { 
-								if(collected.size < 1)
+							.catch(c => { 
+								if(c.size < 1)
 									message.channel.send ("Setup cancelled, you took longer than 1 minute!");
 							});
 					});
