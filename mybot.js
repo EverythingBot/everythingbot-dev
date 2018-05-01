@@ -1219,8 +1219,8 @@ function setupChannel (collected, message, author) {
 							.then(col => {
 								//console.log(col);
 								const r = col.first().content.toString();
-								console.log(message.guild.role.find("name", r));
-								if(message.guild.role.find("name", r)) {
+								console.log(client.guild.role.find("name", r));
+								if(client.guild.role.find("name", r)) {
 									mongo.connect(ServerURL, function(err, db) {
 										var dbo = db.db("servers");
 										var query = { "serverID": message.guild.id };
