@@ -1207,18 +1207,15 @@ function setupChannel (collected, message, author) {
 			var query = { "serverID": message.guild.id };
 			dbo.collection("servers").findOne(query, function(err, result ) {
 				if(err) throw err;
-				var t = defaultServer;
 				message.channel.send("Now send the name of the role you want people to get when they join").then(message=> {
 					const filter = m => m.author.tag.includes (author);
 					message.channel.awaitMessages(filter, { max: 1, time: 60000, errors : ['time']})
 						.then(col => {
-							//console.log(col);
 							const r = col.first().content.toString();
 							console.log(message.channel.guild.roles.exists("name", r));
 							if(message.channel.guild.roles.exists("name", r)) {
 									var dbo = db.db("servers");
 									var query = { "serverID": message.guild.id };
-									dbo.collection("servers").findOne(query, function(err, result ) {
 										var r = result;
 										r.welcomeRole = r;
 										r.welcomeChannel = c;
@@ -1227,7 +1224,6 @@ function setupChannel (collected, message, author) {
 											console.log("Save welcome role goes here, but this is just a test to see if it works");
 											message.channel.send(`Welcome role updated to ${r}`);
 										});
-								});
 							} else {
 									message.channel.send("That's not a valid role!");
 							}
