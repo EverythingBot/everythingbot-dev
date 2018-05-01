@@ -1220,7 +1220,7 @@ function setupChannel (collected, message, author) {
 								//console.log(col);
 								const r = col.first().content.toString();
 								console.log(message.channel.guild.roles.exists("name", r));
-								if(message.channel.guild.roles.exists("name", r))) {
+								if(message.channel.guild.roles.exists("name", r)) {
 									mongo.connect(ServerURL, function(err, db) {
 										var dbo = db.db("servers");
 										var query = { "serverID": message.guild.id };
