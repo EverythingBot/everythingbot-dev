@@ -1159,8 +1159,10 @@ function setup (message, author) {
 					message.channel.send("No! That's not a real channel!");
 				}
 			})
-			.catch(collected =>
-					message.channel.send ("Setup cancelled, you took longer than 1 minute!")
+			.catch(collected => { 
+				if(collected.size < 1)
+					message.channel.send ("Setup cancelled, you took longer than 1 minute!");
+			}
 			);
 	});
 }
