@@ -1234,7 +1234,6 @@ function setupChannel (collected, message, author) {
 									message.channel.send ("Setup cancelled, you took longer than 1 minute!");
 							});
 					});
-					});
 				});
 			});
 		});
