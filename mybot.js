@@ -1151,8 +1151,8 @@ function setup (message, author) {
 			.then(collected => {
 				console.log(collected.content.replace(/[<@!>]/g, ''));
 				var c = collected.content.replace(/[<@!>]/g, '');
-				console.log(message.guild.channels.get("id", c));
-				if(message.guild.channels.get("id", c)) {
+				console.log(message.guild.channels.get(c));
+				if(message.guild.channels.get(c)) {
 					message.channel.send("Yay, that's a real channel!");
 				} else {
 					message.channel.send("No! That's not a real channel!");
