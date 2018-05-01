@@ -1149,14 +1149,17 @@ function setup (message, author) {
 		const filter = m => m.author.tag.includes (author);
 		message.channel.awaitMessages(filter, { max: 1, time: 60000, errors : ['time']})
 			.then(collected => {
-				var c = collected[0].content.toString().replace(/[<@!>]/g, '');
-				console.log(c);
-				console.log(client.channels.get(c));
-				if(client.channels.get(c)) {
-					message.channel.send("Yay, that's a real channel!");
-				} else {
-					message.channel.send("No! That's not a real channel!");
-				}
+				collected.toArray(function(err, result) {
+					result[0].content.toString().replace(/[<@!>]/g, '');
+					console.log(c);
+					console.log(collected.
+					console.log(client.channels.get(c));
+					if(client.channels.get(c)) {
+						message.channel.send("Yay, that's a real channel!");
+					} else {
+						message.channel.send("No! That's not a real channel!");
+					}
+				});
 			})
 			.catch(collected => { 
 				if(collected.size < 1)
