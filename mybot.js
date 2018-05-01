@@ -1149,11 +1149,9 @@ function setup (message, author) {
 		const filter = m => m.author.tag.includes (author);
 		message.channel.awaitMessages(filter, { max: 1, time: 60000, errors : ['time']})
 			.then(collected => message.reply("ok!")
-			.catch(collected => {
-				if(collected.size < 1){
-					message.reply ("setup cancelled, you took longer than 2 minutes!");
-				}
-			}));
+			.catch(collected =>
+					message.reply ("setup cancelled, you took longer than 1 minute!")
+			);
 	});
 }
 
