@@ -116,8 +116,8 @@ client.on("guildCreate", guild => {
   client.user.setActivity(`on ${client.guilds.size} servers | e!help`);
 });
 
-client.on("guildmemberadd", guild => {
-	console.log(guild.user.tag);
+client.on("guildMemberAdd", guild => {
+	//console.log(guild.user.tag);
 	mongo.connect(ServerURL, function(err, db) {
 		if(err) throw err;
 		var dbo = db.db("servers");
