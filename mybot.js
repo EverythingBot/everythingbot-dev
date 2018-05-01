@@ -1225,7 +1225,7 @@ function setupChannel (collected, message, author) {
 										dbo.collection("servers").findOne(query, function(err, result ) {
 											var r = result;
 											r.welcomeRole = r;
-											console.log("Save welcome role goes here, but this is just a test to see if it works);
+											console.log("Save welcome role goes here, but this is just a test to see if it works");
 											message.channel.send(`Welcome role updated to ${role}`);
 										});
 									});
