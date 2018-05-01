@@ -123,7 +123,7 @@ client.on("guildmemberadd", guild => {
 		var query = { "serverID": message.guild.id };
 		dbo.collection("servers").find(query).toArray(function(err, result) {
 			if(err) throw err;
-			guild.channels.get(result.welcomeChannel).send(`Welcome to ${guild.name} ${guild.user.tag}`);
+			guild.channels.get(result[0].welcomeChannel).send(`Welcome to ${guild.name} ${guild.user.tag}`);
 			db.close();
 		});
 	});
