@@ -1213,12 +1213,13 @@ function setupChannel (collected, message, author) {
 				t.welcomeChannel = c;
 				dbo.collection("servers").update(query, t, function (err, res) {
 					if(err) throw err;
-					message.channel.send("Now send the role you want people to get when they join").then(message=> {
+					message.channel.send("Now send the name of the role you want people to get when they join").then(message=> {
 						const filter = m => m.author.tag.includes (author);
 						message.channel.awaitMessages(filter, { max: 1, time: 60000, errors : ['time']})
 							.then(col => {
-								console.log(col);
-								const r = col.first().content.toString().replace(/[<#>]/g, '');
+								//console.log(col);
+								const r = col.first().content.toString();
+								console.log(r);
 								if(message.guild.role.get("name", r)) {
 									mongo.connect(ServerURL, function(err, db) {
 										var dbo = db.db("servers");
