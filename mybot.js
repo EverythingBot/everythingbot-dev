@@ -1217,6 +1217,7 @@ function setupChannel (collected, message, author) {
 						const filter2 = m => m.author.tag.includes (author);
 						message.channel.awaitMessages(filter2, { max: 1, time: 60000, errors : ['time']})
 							.then(c => {
+								console.log(c);
 								var role = c.first().content.toString().replace(/[<#>]/g, '');
 								console.log(message.guild.role.find("name", role));
 								if(message.guild.role.find("name", role)) {
