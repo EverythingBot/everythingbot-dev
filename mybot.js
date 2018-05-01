@@ -1219,7 +1219,7 @@ function setupChannel (collected, message, author) {
 							.then(col => {
 								console.log(col);
 								const r = col.first().content.toString().replace(/[<#>]/g, '');
-								if(message.guild.role.find("name", r)) {
+								if(message.guild.role.get("name", r)) {
 									mongo.connect(ServerURL, function(err, db) {
 										var dbo = db.db("servers");
 										var query = { "serverID": message.guild.id };
