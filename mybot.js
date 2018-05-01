@@ -1161,16 +1161,18 @@ function setup (message, author) {
 
 function setupChannel (collected, message) {
 	console.log("Pack mom gay");
-	var result = collected.toArray(new test[1]);
-	console.log("Pack mom gay2");
+	var query = { "content": -1 };
+	collected.find(query).toArray (function (err, result) {
+		console.log("Pack mom gay2");
 		var c = result[0].content.toString().replace(/[<@!>]/g, '');
 		console.log(c);
 		console.log(client.channels.get(c));
 		if(client.channels.get(c)) {
-			message.channel.send("Yay, that's a real channel!");
+			message.channel.send("Yay! that's a real channel!");
 		} else {
 			message.channel.send("No! That's not a real channel!");
 		}
+	});
 }
 
 
