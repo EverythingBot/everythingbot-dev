@@ -124,11 +124,15 @@ client.on("guildMemberAdd", guild => {
 		dbo.collection("servers").find(query).toArray(function(err, result) {
 			if(err) throw err;
 			//console.log(result);
-			guild.guild.channels.get(result[0].welcomeChannel).send(`Welcome to __**${guild.guild.name}**__, <@${guild.user.id}>!`);
-			user.addRole(result[0].welcomerole)
-			.then(console.log)
-			.catch(console.error);
-			db.close();
+			if(result[0].welcomeChannel!==null){
+				guild.guild.channels.get(result[0].welcomeChannel).send(`Welcome to __**${guild.guild.name}**__, <@${guild.user.id}>!`);
+				user.addRole(result[0].welcomerole)
+					.then(console.log)
+					.catch(console.error);
+				db.close();
+			}else {
+				db.close();
+			}
 		});
 	});
 	/*
@@ -1230,9 +1234,9 @@ function setupChannel (collected, message, author) {
 							.catch(collected => { 
 								if(collected.size < 1)
 									message.channel.send ("Setup cancelled, you took longer than 1 minute!");
-							}
-							);
-					}
+							});
+					});
+					});
 				});
 			});
 		});
