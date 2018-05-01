@@ -1148,7 +1148,7 @@ function setup (message) {
 	message.reply("Please reply with the name of your welcome channel").then(message => {
 		const filter = m => m.content.startsWith('#');
 		message.channel.awaitMessages(filter, { max: 1, time: 120000, errors : ['time']})
-			.then(collected => message.send("Ok!")
+			.then(collected => message.reply("ok!")
 			.catch(collected => {
 				if(collected.size < 1){
 					message.reply ("setup cancelled, you took longer than 2 minutes!");
