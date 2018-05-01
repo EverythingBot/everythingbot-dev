@@ -1197,7 +1197,6 @@ function setup (message, author) {
 }
 
 function setupChannel (collected, message, author) {
-	console.log("Pack mom gay");
 	var query = { "content": -1 };
 	var c = collected.first().content.toString().replace(/[<#>]/g, '');
 	var x = collected.first().content;
