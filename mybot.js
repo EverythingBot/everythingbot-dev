@@ -25,7 +25,7 @@ var helpMenu = {
       description: "EverythingBot, does literally everything (Still in production, currently doesn't do much). Here's the list of commands",
       fields: [{
           name: ":straight_ruler:  Admin/Mod",
-          value: "clear, kick, ban, unban, mute, unmute, setprefix"
+          value: "clear, kick, ban, unban, mute, unmute, setprefix, setup"
         },
 		{
           name: ":camera:  Image commands",
@@ -271,7 +271,11 @@ async function checkCommand (message, prefix) {
 	var col = null;
 	
 	if(command === "setup") {
-		setup (message, message.author.tag);
+		if(message.author.hasPermission("ADMINISTRATOR")){
+			setup (message, message.author.tag);
+		} else {
+			message.reply("you're not allowed to use this command!"); 
+		}
 	}
 	
 	if(command === "leaderboard" || command === "l"){
