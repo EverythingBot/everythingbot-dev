@@ -1217,6 +1217,7 @@ function setupChannel (collected, message, author) {
 						const filter2 = m => m.author.tag.includes (author);
 						message.channel.awaitMessages(filter2, { max: 1, time: 60000, errors : ['time']})
 							.then(c => {
+								console.log("Please end my suffering");
 								var role = c.first().content.toString().replace(/[<#>]/g, '');
 								if(message.guild.role.find("name", role)) {
 									var dbo = db.db("servers");
