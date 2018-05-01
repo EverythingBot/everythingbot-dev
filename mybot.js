@@ -118,12 +118,12 @@ client.on("guildCreate", guild => {
 
 client.on("guildmemberadd", guild => {
 	mongo.connect(ServerURL, function(err, db) {
-		if(err) message.reply("error connecting to server!");
+		if(err) throw err;
 		var dbo = db.db("servers");
-		var query = { "serverID": message.guild.id };
+		var query = { "serverID": guild.id };
 		dbo.collection("servers").find(query).toArray(function(err, result) {
 			if(err) throw err;
-			guild.channels.get(result[0].welcomeChannel).send(`Welcome to ${guild.name} ${guild.user.tag}`);
+				guild.channels.get(result[0].welcomeChannel).send(`Welcome to ${guild.name} ${guild.user.tag}`);
 			db.close();
 		});
 	});
