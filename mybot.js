@@ -1166,9 +1166,23 @@ function setupChannel (collected, message) {
 	console.log(c);
 	console.log(client.channels.get(c));
 	if(client.channels.get(c)) {
-		message.channel.send("Yay! that's a real channel!");
+		mongo.connect(ServerURL, function(err, db) {
+			var dbo = db.db("servers");
+			var query = { "serverID": message.guild.id };
+			dbo.collection("servers").findOne(query, function(err, result ) {
+				if(err) throw err;
+				var t = defaultServer;
+				t.serverID = result.serverID;
+				t.prefix = result.prefix;
+				t.welcomeChannel = c;
+				dbo.collection("servers").update(query, t, function (err, res) {
+					if(err) throw err;
+				});
+			});
+		});
+		message.channel.send("Guild welcome channel updated to #" + `${c}`);
 	} else {
-		message.channel.send("No! That's not a real channel!");
+		message.channel.send("That's not a channel!");
 	}
 }
 
