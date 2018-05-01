@@ -1149,6 +1149,7 @@ function setup (message, author) {
 		const filter = m => m.author.tag.includes (author);
 		message.channel.awaitMessages(filter, { max: 1, time: 60000, errors : ['time']})
 			.then(collected => {
+				console.log("Hmm weird isn't it");
 				var arr = collected.toArray(new test[collected.size]);
 				console.log(arr);
 				/*
