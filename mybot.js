@@ -271,7 +271,7 @@ async function checkCommand (message, prefix) {
 	var col = null;
 	
 	if(command === "setup") {
-		if(message.author.hasPermission("ADMINISTRATOR")){
+		if(message.member.hasPermission("ADMINISTRATOR")){
 			setup (message, message.author.tag);
 		} else {
 			message.reply("you're not allowed to use this command!"); 
