@@ -1149,17 +1149,7 @@ function setup (message, author) {
 		const filter = m => m.author.tag.includes (author);
 		message.channel.awaitMessages(filter, { max: 1, time: 60000, errors : ['time']})
 			.then(collected => {
-				collected.toArray(function(err, result) {
-					console.log("Pack mom gay");
-					var c = result[0].content.toString().replace(/[<@!>]/g, '');
-					console.log(c);
-					console.log(client.channels.get(c));
-					if(client.channels.get(c)) {
-						message.channel.send("Yay, that's a real channel!");
-					} else {
-						message.channel.send("No! That's not a real channel!");
-					}
-				});
+				setupChannel(collected,message);
 			})
 			.catch(collected => { 
 				if(collected.size < 1)
@@ -1168,6 +1158,22 @@ function setup (message, author) {
 			);
 	});
 }
+
+function setupChannel (collected, message) {
+	console.log("Pack mom gay");
+	collected.toArray(function(err, result) {
+		console.log("Pack mom gay2");
+		var c = result[0].content.toString().replace(/[<@!>]/g, '');
+		console.log(c);
+		console.log(client.channels.get(c));
+		if(client.channels.get(c)) {
+			message.channel.send("Yay, that's a real channel!");
+		} else {
+			message.channel.send("No! That's not a real channel!");
+		}
+	});
+}
+
 
 client.login(process.env.BOT_TOKEN);
 
