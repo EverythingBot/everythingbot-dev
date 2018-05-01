@@ -117,6 +117,7 @@ client.on("guildCreate", guild => {
 });
 
 client.on("guildmemberadd", guild => {
+	console.log(guild.user.tag);
 	mongo.connect(ServerURL, function(err, db) {
 		if(err) throw err;
 		var dbo = db.db("servers");
