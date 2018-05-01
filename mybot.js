@@ -1236,10 +1236,9 @@ function setupChannel (collected, message, author) {
 									message.channel.send ("Setup cancelled, you took longer than 1 minute!");
 							});
 					});
-					});
 				});
 			});
-		}
+		});
 		message.channel.send(`Guild welcome channel updated to ${x}`);
 	} else {
 		message.channel.send("That's not a channel!");
