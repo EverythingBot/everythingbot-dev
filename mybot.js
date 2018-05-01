@@ -1150,6 +1150,7 @@ function setup (message, author) {
 		message.channel.awaitMessages(filter, { max: 1, time: 60000, errors : ['time']})
 			.then(collected => {
 				console.log("Hmm weird isn't it");
+				console.log(collected);
 				var arr = collected.toArray(new test[collected.size]);
 				console.log(arr);
 				/*
