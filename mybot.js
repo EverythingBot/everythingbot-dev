@@ -1151,15 +1151,11 @@ function setup (message, author) {
 			.then(collected => {
 				console.log("Hmm weird isn't it");
 				console.log(collected);
-				var arr = collected.toArray(new test[collected.size]);
-				console.log(arr);
-				/*
-				if(message.guild.channels.find(arr)) {
+				if(message.guild.channels.find(collected.content.replace(/[<@!>]/g, ''))) {
 					message.channel.send("Yay, that's a real channel!");
 				} else {
 					message.channel.send("No! That's not a real channel!");
 				}
-				*/
 			})
 			.catch(collected => { 
 				if(collected.size < 1)
