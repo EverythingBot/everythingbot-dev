@@ -1149,7 +1149,7 @@ function setup (message, author) {
 		const filter = m => m.author.tag.includes (author);
 		message.channel.awaitMessages(filter, { max: 1, time: 60000, errors : ['time']})
 			.then(collected => {
-				console.log(collected.toArray(function(err,obj){ return obj[0];});
+				console.log(collected.toArray(function(err,obj){ return obj[0];}));
 				if(message.guild.channels.find(collected[0])) {
 					message.channel.send("Yay, that's a real channel!");
 				} else {
