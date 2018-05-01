@@ -1162,18 +1162,14 @@ function setup (message, author) {
 function setupChannel (collected, message) {
 	console.log("Pack mom gay");
 	var query = { "content": -1 };
-	collected.find(query).toArray (function (err, result) {
-		if(err) throw err;
-		console.log("Pack mom gay2");
-		var c = result[0].content.toString().replace(/[<@!>]/g, '');
-		console.log(c);
-		console.log(client.channels.get(c));
-		if(client.channels.get(c)) {
-			message.channel.send("Yay! that's a real channel!");
-		} else {
-			message.channel.send("No! That's not a real channel!");
-		}
-	});
+	var c = collected.first().content.toString().replace(/[<@!>]/g, '');
+	console.log(c);
+	console.log(client.channels.get(c));
+	if(client.channels.get(c)) {
+		message.channel.send("Yay! that's a real channel!");
+	} else {
+		message.channel.send("No! That's not a real channel!");
+	}
 }
 
 
