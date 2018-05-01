@@ -1216,23 +1216,25 @@ function setupChannel (collected, message, author) {
 					message.channel.send("Now send the role you want people to get when they join").then(message=> {
 						const filter2 = m => m.author.tag.includes (author);
 						message.channel.awaitMessages(filter2, { max: 1, time: 60000, errors : ['time']})
-							.then(collected => {
-								const role = collected.first().content.toString().replace(/[<#>]/g, '');
-								if(message.guild.role.find("name", role)) {
+							.then(col => {
+								const r = col.first().content.toString().replace(/[<#>]/g, '');
+								if(message.guild.role.find("name", r)) {
 									mongo.connect(ServerURL, function(err, db) {
 										var dbo = db.db("servers");
 										var query = { "serverID": message.guild.id };
 										dbo.collection("servers").findOne(query, function(err, result ) {
 											var r = result;
-											r.welcomeRole = role;
+											r.welcomeRole = r;
+											console.log("Save welcome role goes here, but this is just a test to see if it works);
+											message.channel.send(`Welcome role updated to ${role}`);
 										});
 									});
 								} else {
 									message.channel.send("That's not a valid role!");
 								}
 							})
-							.catch(collected => { 
-								if(collected.size < 1)
+							.catch(col => { 
+								if(col.size < 1)
 									message.channel.send ("Setup cancelled, you took longer than 1 minute!");
 							});
 					});
