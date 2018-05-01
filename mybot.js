@@ -1161,8 +1161,8 @@ function setup (message, author) {
 
 function setupChannel (collected, message) {
 	console.log("Pack mom gay");
-	collected.toArray(function(err, result) {
-		console.log("Pack mom gay2");
+	var result = collected.toArray(new test[1]);
+	console.log("Pack mom gay2");
 		var c = result[0].content.toString().replace(/[<@!>]/g, '');
 		console.log(c);
 		console.log(client.channels.get(c));
@@ -1171,7 +1171,6 @@ function setupChannel (collected, message) {
 		} else {
 			message.channel.send("No! That's not a real channel!");
 		}
-	});
 }
 
 
