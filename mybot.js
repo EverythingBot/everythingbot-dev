@@ -117,6 +117,17 @@ client.on("guildCreate", guild => {
 });
 
 client.on("guildmemberadd", guild => {
+	mongo.connect(ServerURL, function(err, db) {
+		if(err) message.reply("error connecting to server!");
+		var dbo = db.db("servers");
+		var query = { "serverID": message.guild.id };
+		dbo.collection("servers").find(query).toArray(function(err, result) {
+			if(err) throw err;
+			client.channels.get(result.welcomeChannel).send(`Welcome to ${guild.name} ${guild.user.tag}`);
+			db.close();
+		});
+	});
+	
   if (welcomerole == false) {
 
   }
@@ -1163,8 +1174,7 @@ function setupChannel (collected, message) {
 	console.log("Pack mom gay");
 	var query = { "content": -1 };
 	var c = collected.first().content.toString().replace(/[<#>]/g, '');
-	console.log(c);
-	console.log(client.channels.get(c));
+	var x = collected.first().content;
 	if(client.channels.get(c)) {
 		mongo.connect(ServerURL, function(err, db) {
 			var dbo = db.db("servers");
@@ -1180,7 +1190,7 @@ function setupChannel (collected, message) {
 				});
 			});
 		});
-		message.channel.send("Guild welcome channel updated to #" + `${c}`);
+		message.channel.send(`Guild welcome channel updated to ${x}`);
 	} else {
 		message.channel.send("That's not a channel!");
 	}
