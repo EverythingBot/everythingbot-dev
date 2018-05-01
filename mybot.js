@@ -1232,7 +1232,7 @@ function setupChannel (collected, message, author) {
 							.catch(collected => { 
 								if(collected.size < 1)
 									message.channel.send ("Setup cancelled, you took longer than 1 minute!");
-							}
+							});
 					});
 					}
 				});
