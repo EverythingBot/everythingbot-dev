@@ -1145,9 +1145,9 @@ function rotateFunction (message, degrees, im) {
 }
 
 function setup (message, author) {
-	message.reply("Please reply with the name of your welcome channel").then(message => {
+	message.reply("please reply with the name of your welcome channel").then(message => {
 		const filter = m => m.author.tag.includes (author);
-		message.channel.awaitMessages(filter, { max: 1, time: 120000, errors : ['time']})
+		message.channel.awaitMessages(filter, { max: 1, time: 60000, errors : ['time']})
 			.then(collected => message.reply("ok!")
 			.catch(collected => {
 				if(collected.size < 1){
