@@ -124,7 +124,7 @@ client.on("guildMemberAdd", guild => {
 		var query = { "serverID": guild.id };
 		dbo.collection("servers").find(query).toArray(function(err, result) {
 			if(err) throw err;
-			console.log(result[0]);
+			console.log(result);
 			//guild.channels.get(result[0].welcomeChannel).send(`Welcome to ${guild.name} ${guild.user.tag}`);
 			db.close();
 		});
