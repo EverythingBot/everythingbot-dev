@@ -126,7 +126,7 @@ client.on("guildMemberAdd", guild => {
 			//console.log(result);
 			if(result[0].welcomeChannel!==null){
 				guild.guild.channels.get(result[0].welcomeChannel).send(`Welcome to __**${guild.guild.name}**__, <@${guild.user.id}>!`);
-				var r = guild.guild.roles.find('name',result[0].welcomerole);
+				let r = guild.guild.roles.find("name'",result[0].welcomerole);
 				guild.addRole(r)
 					.then(console.log)
 					.catch(console.error);
