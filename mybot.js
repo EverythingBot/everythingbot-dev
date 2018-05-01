@@ -117,7 +117,6 @@ client.on("guildCreate", guild => {
 });
 
 client.on("guildMemberAdd", guild => {
-	//console.log(guild.user.tag);
 	mongo.connect(ServerURL, function(err, db) {
 		if(err) throw err;
 		var dbo = db.db("servers");
@@ -125,11 +124,11 @@ client.on("guildMemberAdd", guild => {
 		dbo.collection("servers").find(query).toArray(function(err, result) {
 			if(err) throw err;
 			//console.log(result);
-			guild.guild.channels.get(result[0].welcomeChannel).send(`Welcome to ${guild.guild.name} <@${guild.user.id}>`);
+			guild.guild.channels.get(result[0].welcomeChannel).send(`Welcome to ${guild.guild.name}, <@${guild.user.id}>`);
 			db.close();
 		});
 	});
-	
+	/*
   if (welcomerole == false) {
 
   }
@@ -138,6 +137,20 @@ client.on("guildMemberAdd", guild => {
       .then(console.log)
       .catch(console.error);
   }
+  */
+});
+
+client.on("guildMemberRemove", guild => {
+	mongo.connect(ServerURL, function(err, db) {
+		if(err) throw err;
+		var dbo = db.db("servers");
+		var query = { "serverID": guild.guild.id };
+		dbo.collection("servers").find(query).toArray(function(err, result) {
+			if(err) throw err;
+			guild.guild.channels.get(result[0].welcomeChannel).send(`${guild.user.tag} has just left. See you later!`);
+			db.close();
+		});
+	});
 });
 
 client.on("guildDelete", guild => {
