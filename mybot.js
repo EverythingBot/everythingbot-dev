@@ -1144,14 +1144,14 @@ function rotateFunction (message, degrees, im) {
 
 }
 
-function setup (channel, user) {
-	user.send("Please reply with the name of your welcome channel").then(message => {
+function setup (channel, message) {
+	message.reply("Please reply with the name of your welcome channel").then(message => {
 		const filter = m => m.content.startsWith('#');
-		user.awaitMessages(filter, { max: 1, time: 120000, errors : ['time']})
-			.then(collected => user.send("Ok!")
+		message.channel.awaitMessages(filter, { max: 1, time: 120000, errors : ['time']})
+			.then(collected => message.send("Ok!")
 			.catch(collected => {
 				if(collected.size < 1){
-					user.send ("setup cancelled, you took longer than 2 minutes!");
+					message.reply ("setup cancelled, you took longer than 2 minutes!");
 				}
 			}));
 	});
