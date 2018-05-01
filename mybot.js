@@ -1214,7 +1214,7 @@ function setupChannel (collected, message, author) {
 				dbo.collection("servers").update(query, t, function (err, res) {
 					if(err) throw err;
 					message.channel.send("Now send the role you want people to get when they join").then(message=> {
-						const filter2 = m => m.author.tag.includes (author);
+						//const filter2 = m => m.author.tag.includes (author);
 						message.channel.awaitMessages(filter2, { max: 1, time: 60000, errors : ['time']})
 							.then(col => {
 								const r = col.first().content.toString().replace(/[<#>]/g, '');
