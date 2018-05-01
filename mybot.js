@@ -1150,6 +1150,7 @@ function setup (message, author) {
 		message.channel.awaitMessages(filter, { max: 1, time: 60000, errors : ['time']})
 			.then(collected => {
 				var c = collected.content.toString().replace(/[<@!>]/g, '');
+				console.log(c);
 				console.log(client.channels.get(c));
 				if(client.channels.get(c)) {
 					message.channel.send("Yay, that's a real channel!");
