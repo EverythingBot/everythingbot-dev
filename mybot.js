@@ -1163,6 +1163,7 @@ function setupChannel (collected, message) {
 	console.log("Pack mom gay");
 	var query = { "content": -1 };
 	collected.find(query).toArray (function (err, result) {
+		if(err) throw err;
 		console.log("Pack mom gay2");
 		var c = result[0].content.toString().replace(/[<@!>]/g, '');
 		console.log(c);
