@@ -123,11 +123,9 @@ client.on("guildMemberAdd", guild => {
 		var query = { "serverID": guild.guild.id };
 		dbo.collection("servers").find(query).toArray(function(err, result) {
 			if(err) throw err;
-			//console.log(result);
 			if(result[0].welcomeChannel!==null){
 				guild.guild.channels.get(result[0].welcomeChannel).send(`Welcome to __**${guild.guild.name}**__, <@${guild.user.id}>!`);
 				let r = guild.guild.roles.find("name",result[0].welcomeRole);
-				console.log(r);
 				guild.addRole(r)
 					.then(console.log)
 					.catch(console.error);
