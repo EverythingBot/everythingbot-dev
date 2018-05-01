@@ -1215,17 +1215,15 @@ function setupChannel (collected, message, author) {
 							const r = col.first().content.toString();
 							console.log(message.channel.guild.roles.exists("name", r));
 							if(message.channel.guild.roles.exists("name", r)) {
-								mongo.connect(ServerURL, function(err, db) {
-									var dbo = db.db("servers");
-									var query = { "serverID": message.guild.id };
-										var r = result;
-										r.welcomeRole = r;
-										r.welcomeChannel = c;
-										dbo.collection("servers").update(query, r, function (err, res) {
-											if(err) throw err;
-											console.log("Save welcome role goes here, but this is just a test to see if it works");
-											message.channel.send(`Welcome role updated to ${r}`);
-										});
+								var dbo = db.db("servers");
+								var query = { "serverID": message.guild.id };
+								var r = result;
+								r.welcomeRole = r;
+								r.welcomeChannel = c;
+								dbo.collection("servers").update(query, r, function (err, res) {
+									if(err) throw err;
+									console.log("Save welcome role goes here, but this is just a test to see if it works");
+									message.channel.send(`Welcome role updated to ${r}`);
 								});
 							} else {
 									message.channel.send("That's not a valid role!");
