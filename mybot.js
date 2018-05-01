@@ -1218,9 +1218,9 @@ function setupChannel (collected, message, author) {
 						message.channel.awaitMessages(filter2, { max: 1, time: 60000, errors : ['time']})
 							.then(c => {
 								console.log(c.first().content);
-								var role = c.first().content.toString();;
-								console.log(message.guild.role.find("name", role));
-								if(message.guild.role.find("name", role)) {
+								var role = c.first().content.toString();
+								console.log(message.channel.guild.roles.exists("name", role));
+								if(message.channel.guild.roles.exists("name", role)) {
 									var dbo = db.db("servers");
 									var query = { "serverID": message.guild.id };
 									dbo.collection("servers").findOne(query, function(err, result ) {
