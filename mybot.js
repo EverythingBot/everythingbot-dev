@@ -1198,43 +1198,47 @@ function setup (message, author) {
 
 function setupChannel (collected, message, author) {
 	console.log("Pack mom gay");
+	var query = { "content": -1 };
 	var c = collected.first().content.toString().replace(/[<#>]/g, '');
 	var x = collected.first().content;
 	if(client.channels.get(c)) {
-		message.channel.send(`Guild welcome channel updated to ${x}`);
 		mongo.connect(ServerURL, function(err, db) {
 			var dbo = db.db("servers");
 			var query = { "serverID": message.guild.id };
 			dbo.collection("servers").findOne(query, function(err, result ) {
 				if(err) throw err;
-				message.channel.send("Now send the name of the role you want people to get when they join").then(message=> {
-					const filter = m => m.author.tag.includes (author);
-					message.channel.awaitMessages(filter, { max: 1, time: 60000, errors : ['time']})
-						.then(col => {
-							const r = col.first().content.toString();
-							console.log(message.channel.guild.roles.exists("name", r));
-							if(message.channel.guild.roles.exists("name", r)) {
+				var t = defaultServer;
+				t.serverID = result.serverID;
+				t.prefix = result.prefix;
+				t.welcomeChannel = c;
+				dbo.collection("servers").update(query, t, function (err, res) {
+					if(err) throw err;
+					message.channel.send("Now send the role you want people to get when they join").then(message=> {
+						const filter2 = m => m.author.tag.includes (author);
+						message.channel.awaitMessages(filter2, { max: 1, time: 60000, errors : ['time']})
+							.then(collected => {
+								const role = collected.first().content.toString().replace(/[<#>]/g, '');
+								if(message.guild.role.find("name", role)) {
 									var dbo = db.db("servers");
 									var query = { "serverID": message.guild.id };
+									dbo.collection("servers").findOne(query, function(err, result ) {
 										var r = result;
-										r.welcomeRole = r;
-										r.welcomeChannel = c;
-										dbo.collection("servers").update(query, r, function (err, res) {
-											if(err) throw err;
-											console.log("Save welcome role goes here, but this is just a test to see if it works");
-											message.channel.send(`Welcome role updated to ${r}`);
-										});
-							} else {
+										r.welcomeRole = role;
+									});
+								} else {
 									message.channel.send("That's not a valid role!");
-							}
+								}
 							})
-						.catch(col => { 
-							if(col.size < 1)
-								message.channel.send ("Setup cancelled, you took longer than 1 minute!");
-						});
+							.catch(collected => { 
+								if(collected.size < 1)
+									message.channel.send ("Setup cancelled, you took longer than 1 minute!");
+							}
+					});
+					}
 				});
 			});
 		});
+		message.channel.send(`Guild welcome channel updated to ${x}`);
 	} else {
 		message.channel.send("That's not a channel!");
 	}
