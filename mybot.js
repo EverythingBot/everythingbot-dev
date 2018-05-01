@@ -1198,10 +1198,10 @@ function setup (message, author) {
 
 function setupChannel (collected, message, author) {
 	console.log("Pack mom gay");
-	var query = { "content": -1 };
 	var c = collected.first().content.toString().replace(/[<#>]/g, '');
 	var x = collected.first().content;
 	if(client.channels.get(c)) {
+		message.channel.send(`Guild welcome channel updated to ${x}`);
 		mongo.connect(ServerURL, function(err, db) {
 			var dbo = db.db("servers");
 			var query = { "serverID": message.guild.id };
@@ -1228,14 +1228,13 @@ function setupChannel (collected, message, author) {
 									message.channel.send("That's not a valid role!");
 							}
 							})
-							.catch(col => { 
-								if(col.size < 1)
-									message.channel.send ("Setup cancelled, you took longer than 1 minute!");
-							});
+						.catch(col => { 
+							if(col.size < 1)
+								message.channel.send ("Setup cancelled, you took longer than 1 minute!");
+						});
 				});
 			});
 		});
-		message.channel.send(`Guild welcome channel updated to ${x}`);
 	} else {
 		message.channel.send("That's not a channel!");
 	}
