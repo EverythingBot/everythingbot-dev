@@ -4,7 +4,7 @@ const Attachment = require("discord.js").Attachment;
 var Jimp = require("jimp");
 var ms = require("ms");
 var mongo = require("mongodb").MongoClient;
-var welcomerole = false;
+//var welcomerole = false;
 
 //MongoDB URL
 var UserURL = process.env.USER;
@@ -125,6 +125,9 @@ client.on("guildMemberAdd", guild => {
 			if(err) throw err;
 			//console.log(result);
 			guild.guild.channels.get(result[0].welcomeChannel).send(`Welcome to __**${guild.guild.name}**__, <@${guild.user.id}>!`);
+			user.addRole(result[0].welcomerole)
+			.then(console.log)
+			.catch(console.error);
 			db.close();
 		});
 	});
@@ -1179,7 +1182,7 @@ function setup (message, author) {
 		const filter = m => m.author.tag.includes (author);
 		message.channel.awaitMessages(filter, { max: 1, time: 60000, errors : ['time']})
 			.then(collected => {
-				setupChannel(collected,message);
+				setupChannel(collected,message, author);
 			})
 			.catch(collected => { 
 				if(collected.size < 1)
@@ -1189,7 +1192,7 @@ function setup (message, author) {
 	});
 }
 
-function setupChannel (collected, message) {
+function setupChannel (collected, message, author) {
 	console.log("Pack mom gay");
 	var query = { "content": -1 };
 	var c = collected.first().content.toString().replace(/[<#>]/g, '');
@@ -1206,6 +1209,30 @@ function setupChannel (collected, message) {
 				t.welcomeChannel = c;
 				dbo.collection("servers").update(query, t, function (err, res) {
 					if(err) throw err;
+					message.channel.send("Now send the role you want people to get when they join").then(message=> {
+						const filter2 = m => m.author.tag.includes (author);
+						message.channel.awaitMessages(filter2, { max: 1, time: 60000, errors : ['time']})
+							.then(collected => {
+								const role = collected.first().content.toString().replace(/[<#>]/g, '');
+								if(message.guild.role.find("name", role)) {
+									mongo.connect(ServerURL, function(err, db) {
+										var dbo = db.db("servers");
+										var query = { "serverID": message.guild.id };
+										dbo.collection("servers").findOne(query, function(err, result ) {
+											var r = result;
+											r.welcomeRole = role;
+										});
+									});
+								} else {
+									message.channel.send("That's not a valid role!");
+								}
+							})
+							.catch(collected => { 
+								if(collected.size < 1)
+									message.channel.send ("Setup cancelled, you took longer than 1 minute!");
+							}
+							);
+					}
 				});
 			});
 		});
