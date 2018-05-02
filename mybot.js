@@ -281,7 +281,7 @@ async function checkCommand (message, prefix) {
 					if(err) throw err;
 					if(result[0] != null){
 						r = result[0];
-						r.role = null;
+						r.welcomeRole = null;
 						dbo.collection("servers").update(query, r, function (err, res) {
 							if(err) throw err;
 							message.reply("the default role has been disabled. To re-enable, run the `setup` command again");
