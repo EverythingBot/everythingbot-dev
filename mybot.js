@@ -125,26 +125,15 @@ client.on("guildMemberAdd", guild => {
 			if(err) throw err;
 			if(result[0].welcomeChannel!==null){
 				guild.guild.channels.get(result[0].welcomeChannel).send(`Welcome to __**${guild.guild.name}**__, <@${guild.user.id}>!`);
+			}
+			if(result[0].welcomeRole!==null){
 				let r = guild.guild.roles.find("name",result[0].welcomeRole);
 				guild.addRole(r)
-					.then(console.log)
 					.catch(console.error);
-				db.close();
-			}else {
-				db.close();
 			}
+			db.close();
 		});
 	});
-	/*
-  if (welcomerole == false) {
-
-  }
-  else {
-    user.addRole(welcomerole)
-      .then(console.log)
-      .catch(console.error);
-  }
-  */
 });
 
 client.on("guildMemberRemove", guild => {
@@ -154,26 +143,13 @@ client.on("guildMemberRemove", guild => {
 		var query = { "serverID": guild.guild.id };
 		dbo.collection("servers").find(query).toArray(function(err, result) {
 			if(err) throw err;
-			guild.guild.channels.get(result[0].welcomeChannel).send(`${guild.user.tag} has just left. See you later!`);
+			guild.guild.channels.get(result[0].welcomeChannel).send(`**${guild.user.tag}** just left. See you later!`);
 			db.close();
 		});
 	});
 });
 
 client.on("guildDelete", guild => {
-	/*
-  mongo.connect(ServerURL, function(err, db) {
-  var dbo = db.db("servers");
-  var query = { "serverID": guild.id };
-	dbo.collection("servers").findOne(query, function (err, result) {
-		if(err) throw err;
-		dbo.collection("servers").deleteOne(query, function(err, obj) {
-			if(err) throw err;
-			db.close();
-		});
-	});
-  });
-  */
   console.log(`I have been removed from: ${guild.name} (id: ${guild.id})`);
   client.user.setActivity(`on ${client.guilds.size} servers | e!help`);
 });
@@ -189,6 +165,7 @@ client.on("message", async message => {
 					if(result[0] != null){
 						prefix = result[0].prefix;
 						checkCommand(message,prefix);
+						db.close();
 					} else {
 						var serv = defaultServer;
 						serv.serverID = message.guild.id;
@@ -208,9 +185,7 @@ client.on("message", async message => {
 });
 
 client.on("message", async message => {
-	
 	var ran = Math.floor(Math.random()*100);
-	
 	if(ran > 75){
 		mongo.connect(UserURL, function(err, db) {
 			var dbo = db.db("users");
@@ -222,7 +197,10 @@ client.on("message", async message => {
 					upd.xp = result.xp + Math.floor(Math.random()*5)+1;
 					dbo.collection("users").update(query, upd, function (err, res){
 						if(err) throw err;
+						db.close();
 					});
+				} else {
+					db.close();
 				}
 			});
 		});
@@ -243,6 +221,8 @@ client.on("message", async message => {
 						if(err) throw err;
 						db.close();
 					});
+				} else {
+					db.close();
 				}
 			} else {
 				var user = defaultUser;
@@ -252,6 +232,8 @@ client.on("message", async message => {
 						if(err) throw err;
 						db.close();
 					});
+				} else {
+					db.close();
 				}
 			}
 		});
@@ -285,12 +267,57 @@ async function checkCommand (message, prefix) {
 		}
 	}
 	
+	if(command === "disable" || command === "d") {
+		if(args[0] === "role" || args[0] === "r") {
+			mongo.connect(UserURL, function(err, db) {
+				if(err) throw err;
+				var dbo = db.db("servers");
+				var query = { "serverID": message.guild.id };
+				dbo.collection("servers").find(query).toArray (function (err, result) {
+					if(err) throw err;
+					if(result[0] != null){
+						r = result[0];
+						r.role = null;
+						dbo.collection("servers").update(query, r, function (err, res) {
+							if(err) throw err;
+							message.reply("the default role has been disabled. To re-enable, run the `setup` command again");
+							db.close();
+						});
+					} else {
+						db.close();
+					}
+				});
+			});
+		} else if(args[0] === "welcome" || args[0] === "w") {
+			mongo.connect(UserURL, function(err, db) {
+				if(err) throw err;
+				var dbo = db.db("servers");
+				var query = { "serverID": message.guild.id };
+				dbo.collection("servers").find(query).toArray (function (err, result) {
+					if(err) throw err;
+					if(result[0] != null){
+						r = result[0];
+						r.welcomeChannel = null;
+						dbo.collection("servers").update(query, r, function (err, res) {
+							if(err) throw err;
+							message.reply("welcome message has been disabled. To re-enable, run the `setup` command again");
+							db.close();
+						});
+					} else {
+						db.close();
+					}
+				});
+			});
+		} else {
+			message.reply("Available options to disable are `welcome` and `role`");
+		}
+	}
+	
 	if(command === "leaderboard" || command === "l"){
 		if(args[0] === "money"||args[0] === "m") {
 			mongo.connect(UserURL, function(err, db) {
 				if(err) message.reply("error connecting to server!");
 				var dbo = db.db("users");
-				var sort = { "money": -1 };
 				dbo.collection("users").find().sort(sort).toArray(function(err, result) {
 					if(err) throw err;
 					sendEmbed(message, result, true);
@@ -333,6 +360,7 @@ async function checkCommand (message, prefix) {
 						ch.daily = d.getDate()+d.getMonth();
 						dbo.collection("users").update(query, ch, function (err, res) {
 							if(err) throw err;
+							db.close();
 						});
 					} else {
 						message.reply("you've already gotten your daily!");
@@ -889,12 +917,16 @@ V`).then(() => {
 			var cha = result;
 			if(cha != null){
 				makeProfile(message,cha.money,cha.xp,cha.level,tags);
+				db.close();
 			} else {
 				if(args[0] != null){
+					db.close();
 					message.reply("this user isn't registered yet, have them try some other commands first!");
-				} else message.reply("you haven't been registered yet! Try some other commands first!");
+				} else {
+					message.reply("you haven't been registered yet! Try some other commands first!");
+					db.close();
+				}
 			}
-			db.close();
 		});
 	  });
   }
@@ -911,8 +943,7 @@ V`).then(() => {
 			var query = { "serverID": message.guild.id };
 			dbo.collection("servers").findOne(query, function(err, result ) {
 				if(err) throw err;
-				var t = defaultServer;
-				t.serverID = message.guild.id;
+				var t = result;
 				t.prefix = args[0].toString();
 				dbo.collection("servers").update(query, t, function (err, res) {
 					if(err) throw err;
@@ -1228,14 +1259,18 @@ function setupChannel (collected, message, author) {
 										if(err) throw err;
 										message.channel.send(`Guild default role set to ${role}`);
 										message.channel.send("Setup complete! (For now)");
+										db.close();
 									});
 								} else {
 									message.channel.send("That's not a valid role!");
+									db.close();
 								}
 							})
 							.catch(c => { 
-								if(c.size < 1)
+								if(c.size < 1) {
 									message.channel.send ("Setup cancelled, you took longer than 1 minute!");
+									db.close();
+								}
 							});
 					});
 				});
