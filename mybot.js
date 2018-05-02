@@ -1242,38 +1242,35 @@ function setupChannel (collected, message, author) {
 			dbo.collection("servers").findOne(query, function(err, result ) {
 				if(err) throw err;
 				var r = result;
-				dbo.collection("servers").update(query, t, function (err, res) {
-					if(err) throw err;
 					message.channel.send("Now send name of the role you want people to get when they join").then(message=> {
-						const filter2 = m => m.author.tag.includes (author);
-						message.channel.awaitMessages(filter2, { max: 1, time: 60000, errors : ['time']})
-							.then(c => {
-								//console.log(c.first().content);
-								var role = c.first().content.toString();
-								//console.log(message.channel.guild.roles.exists("name", role));
-								if(message.channel.guild.roles.exists("name", role)) {
-									r.welcomeRole = role;
-									r.welcomeChannel = c;
-									var dbo = db.db("servers");
-									var query = { "serverID": message.guild.id };
-									dbo.collection("servers").update(query, r,function(err, result ) {
-										if(err) throw err;
-										message.channel.send(`Guild default role set to ${role}`);
-										message.channel.send("Setup complete! (For now)");
-										db.close();
-									});
-								} else {
-									message.channel.send("That's not a valid role!");
+					const filter2 = m => m.author.tag.includes (author);
+					message.channel.awaitMessages(filter2, { max: 1, time: 60000, errors : ['time']})
+						.then(c => {
+							//console.log(c.first().content);
+							var role = c.first().content.toString();
+							//console.log(message.channel.guild.roles.exists("name", role));
+							if(message.channel.guild.roles.exists("name", role)) {
+								r.welcomeRole = role;
+								r.welcomeChannel = c;
+								var dbo = db.db("servers");
+								var query = { "serverID": message.guild.id };
+								dbo.collection("servers").update(query, r,function(err, result ) {
+									if(err) throw err;
+									message.channel.send(`Guild default role set to ${role}`);
+									message.channel.send("Setup complete! (For now)");
 									db.close();
-								}
-							})
-							.catch(c => { 
-								if(c.size < 1) {
-									message.channel.send ("Setup cancelled, you took longer than 1 minute!");
-									db.close();
-								}
-							});
-					});
+								});
+							} else {
+								message.channel.send("That's not a valid role!");
+								db.close();
+							}
+						})
+						.catch(c => { 
+							if(c.size < 1) {
+								message.channel.send ("Setup cancelled, you took longer than 1 minute!");
+								db.close();
+							}
+						});
 				});
 			});
 		});
