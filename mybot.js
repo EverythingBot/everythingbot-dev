@@ -143,8 +143,12 @@ client.on("guildMemberRemove", guild => {
 		var query = { "serverID": guild.guild.id };
 		dbo.collection("servers").find(query).toArray(function(err, result) {
 			if(err) throw err;
-			guild.guild.channels.get(result[0].welcomeChannel).send(`**${guild.user.tag}** just left. See you later!`);
-			db.close();
+			if(result[0].welcomeChannel!==null){
+				guild.guild.channels.get(result[0].welcomeChannel).send(`**${guild.user.tag}** just left. See you later!`);
+				db.close();
+			} else {
+				db.close();
+			}
 		});
 	});
 });
