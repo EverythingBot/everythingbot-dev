@@ -25,7 +25,7 @@ var helpMenu = {
       description: "EverythingBot, does literally everything (Still in production, currently doesn't do much). Here's the list of commands",
       fields: [{
           name: ":straight_ruler:  Admin/Mod",
-          value: "clear, kick, ban, unban, mute, unmute, setprefix, setup"
+          value: "clear, kick, ban, unban, mute, unmute, setprefix, setup, disable"
         },
 		{
           name: ":camera:  Image commands",
@@ -37,7 +37,7 @@ var helpMenu = {
         },
 		{
           name: ":briefcase: User commands",
-          value: "bal, daily, leaderboard"
+          value: "bal, daily, leaderboard/l"
         },
         {
           name: ":regional_indicator_t: :regional_indicator_e: :regional_indicator_x: :regional_indicator_t:  commands",
@@ -45,7 +45,7 @@ var helpMenu = {
         },
 		{
           name: ":thinking: Etc commands",
-          value: "credits"
+          value: "credits, membercount/mc"
         }
       ],
       footer: {
@@ -102,7 +102,7 @@ client.on("guildCreate", guild => {
 		}
 	}
   });
-  defaultChannel.send("Thanks for inviting me to the server! I'm **EverythingBot**. If you need any help, type `e!help`. \r\nIf you have any questions, contact the dev `Yer Good Ol' Loli Grandpappy#8486`");
+  defaultChannel.send("Thanks for inviting me to the server! I'm **EverythingBot**. If you need any help, type `e!help`. \r\nIf you have any questions, join the support server https://discord.gg/yuSHrjr");
   mongo.connect(ServerURL, function(err, db) {
 	  var dbo = db.db("servers");
 	  var serv = defaultServer;
@@ -272,6 +272,7 @@ async function checkCommand (message, prefix) {
 	}
 	
 	if(command === "disable" || command === "d") {
+		if(message.member.hasPermission("ADMINISTRATOR")){
 		if(args[0] === "role" || args[0] === "r") {
 			mongo.connect(ServerURL, function(err, db) {
 				if(err) throw err;
@@ -314,6 +315,9 @@ async function checkCommand (message, prefix) {
 			});
 		} else {
 			message.reply("Available options to disable are `welcome` and `role`");
+		}
+		} else {
+			message.reply("you're not allowed to use this command!"); 
 		}
 	}
 	
@@ -451,6 +455,23 @@ async function checkCommand (message, prefix) {
 		}
 	}
 	
+	if(command === "membercount" || command === "mc"){
+		message.channel.send({
+			"embed": {
+				"color": 65299,
+				"fields": [
+				{
+					"name":"Total members",
+					"value":`${message.guild.memberCount}`,
+					"inline":true
+				}
+				]
+			}
+		});
+	}
+	
+	//This isn't even used anymore, but I'll keep it since it's not public
+	/*
 	if (command === "welcomerole") {
     const sayMessage = args.join(" ");
     console.log(sayMessage);
@@ -464,6 +485,7 @@ async function checkCommand (message, prefix) {
       welcomerole = false;
     }
   }
+  */
 
 	if(command === "ping") {
     const m = await message.channel.send("Ping?");
@@ -1245,7 +1267,7 @@ function setupChannel (collected, message, author) {
 				r.welcomeChannel = c;
 				dbo.collection("servers").update(query, r, function (err, res) {
 					if(err) throw err;
-					message.channel.send("Now send name of the role you want people to get when they join").then(message=> {
+					message.channel.send("Now send the name of the role you want people to get when they join").then(message=> {
 						const filter2 = m => m.author.tag.includes (author);
 						message.channel.awaitMessages(filter2, { max: 1, time: 60000, errors : ['time']})
 							.then(c => {
