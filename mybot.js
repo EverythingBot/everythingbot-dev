@@ -269,7 +269,7 @@ async function checkCommand (message, prefix) {
 	
 	if(command === "disable" || command === "d") {
 		if(args[0] === "role" || args[0] === "r") {
-			mongo.connect(UserURL, function(err, db) {
+			mongo.connect(ServerURL, function(err, db) {
 				if(err) throw err;
 				var dbo = db.db("servers");
 				var query = { "serverID": message.guild.id };
@@ -289,7 +289,7 @@ async function checkCommand (message, prefix) {
 				});
 			});
 		} else if(args[0] === "welcome" || args[0] === "w") {
-			mongo.connect(UserURL, function(err, db) {
+			mongo.connect(ServerURL, function(err, db) {
 				if(err) throw err;
 				var dbo = db.db("servers");
 				var query = { "serverID": message.guild.id };
