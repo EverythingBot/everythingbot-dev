@@ -1242,10 +1242,6 @@ function setupChannel (collected, message, author) {
 			dbo.collection("servers").findOne(query, function(err, result ) {
 				if(err) throw err;
 				var r = result;
-				var t = defaultServer;
-				t.serverID = result.serverID;
-				t.prefix = result.prefix;
-				t.welcomeChannel = c;
 				dbo.collection("servers").update(query, t, function (err, res) {
 					if(err) throw err;
 					message.channel.send("Now send name of the role you want people to get when they join").then(message=> {
@@ -1257,6 +1253,7 @@ function setupChannel (collected, message, author) {
 								//console.log(message.channel.guild.roles.exists("name", role));
 								if(message.channel.guild.roles.exists("name", role)) {
 									r.welcomeRole = role;
+									r.welcomeChannel = c;
 									var dbo = db.db("servers");
 									var query = { "serverID": message.guild.id };
 									dbo.collection("servers").update(query, r,function(err, result ) {
