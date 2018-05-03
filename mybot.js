@@ -191,7 +191,7 @@ client.on("message", async message => {
 			dbo.collection("users").findOne(query, function (err, result) {
 				if(err) throw err;
 				if(result !== null){
-					var upd = { $set { "xp":0 } };
+					var upd = { $set: { "xp":0 } };
 					upd.xp = result.xp + Math.floor(Math.random()*5)+1;
 					dbo.collection("users").updateOne(query, upd, function (err, res){
 						if(err) throw err;
@@ -210,7 +210,7 @@ client.on("message", async message => {
 		dbo.collection("users").findOne(query, function (err, result) {
 			if(err) throw err;
 			if(result !== null){
-				var upd = { $set { "xp":0, "level":0 } };
+				var upd = { $set: { "xp":0, "level":0 } };
 				if(result.xp > Math.floor(result.level * 150)){
 					message.reply(`you've leveled up! Your new level is ${upd.level + 1}.`);
 					upd.xp = result.xp - (result.level * 150);
@@ -275,7 +275,7 @@ async function checkCommand (message, prefix) {
 				dbo.collection("servers").find(query).toArray (function (err, result) {
 					if(err) throw err;
 					if(result[0] != null){
-						var n = { $set { "welcomeRole":null } };
+						var n = { $set: { "welcomeRole":null } };
 						//r = result[0];
 						//r.welcomeRole = null;
 						dbo.collection("servers").updateOne(query, n, function (err, res) {
@@ -296,7 +296,7 @@ async function checkCommand (message, prefix) {
 				dbo.collection("servers").find(query).toArray (function (err, result) {
 					if(err) throw err;
 					if(result[0] != null){
-						var n = { $set { "welcomeChannel":null } }
+						var n = { $set: { "welcomeChannel":null } }
 						//r = result[0];
 						//r.welcomeChannel = null;
 						dbo.collection("servers").updateOne(query, n, function (err, res) {
@@ -353,7 +353,7 @@ async function checkCommand (message, prefix) {
 				if(err) throw err;
 				if(result != null){
 					if(result.daily != d.getDate()+d.getMonth()){
-						var ch = { $set {"money":result[0].money, "daily":null } };
+						var ch = { $set: {"money":result[0].money, "daily":null } };
 						message.reply(`you just gained ${result.level * 200} as your daily pay!`).then(message => {
 							message.delete(3000);
 						});
@@ -963,7 +963,7 @@ V`).then(() => {
 			var query = { "serverID": message.guild.id };
 			dbo.collection("servers").findOne(query, function(err, result ) {
 				if(err) throw err;
-				var t = { $set { "prefix":args[0].toString() } };
+				var t = { $set: { "prefix":args[0].toString() } };
 				//t.prefix = args[0].toString();
 				dbo.collection("servers").updateOne(query, t, function (err, res) {
 					if(err) throw err;
@@ -1257,7 +1257,7 @@ function setupChannel (collected, message, author) {
 			var query = { "serverID": message.guild.id };
 			dbo.collection("servers").findOne(query, function(err, result ) {
 				if(err) throw err;
-				var r = { $set { "welcomeChannel" : c } };
+				var r = { $set: { "welcomeChannel" : c } };
 				//r.welcomeChannel = c;
 				dbo.collection("servers").updateOne(query, r, function (err, res) {
 					if(err) throw err;
@@ -1269,7 +1269,7 @@ function setupChannel (collected, message, author) {
 								var role = c.first().content.toString();
 								//console.log(message.channel.guild.roles.exists("name", role));
 								if(message.channel.guild.roles.exists("name", role)) {
-									var r = { $set { "welcomerole" : role } };
+									var r = { $set: { "welcomerole" : role } };
 									var dbo = db.db("servers");
 									var query = { "serverID": message.guild.id };
 									dbo.collection("servers").updateOne(query, r, function(err, result ) {
