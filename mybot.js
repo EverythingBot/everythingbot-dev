@@ -101,7 +101,7 @@ client.on("guildCreate", guild => {
 	  var dbo = db.db("servers");
 	  var serv = defaultServer;
 	  serv.serverID = guild.id;
-	  dbo.collection("servers").insertOne(serv, function(err, obj) {
+	  dbo.collection("servers").insert(serv, function(err, obj) {
 		  if(err) throw err;
 		  db.close();
 	  });
@@ -167,7 +167,7 @@ client.on("message", async message => {
 					} else {
 						var serv = defaultServer;
 						serv.serverID = message.guild.id;
-						dbo.collection("servers").insertOne(serv, function(err, obj) {
+						dbo.collection("servers").insert(serv, function(err, obj) {
 							if(err) throw err;
 							db.close();
 						});
@@ -191,9 +191,9 @@ client.on("message", async message => {
 			dbo.collection("users").findOne(query, function (err, result) {
 				if(err) throw err;
 				if(result !== null){
-					var upd = { $set: { "xp":0 } };
+					var upd = result;
 					upd.xp = result.xp + Math.floor(Math.random()*5)+1;
-					dbo.collection("users").updateOne(query, upd, function (err, res){
+					dbo.collection("users").update(query, upd, function (err, res){
 						if(err) throw err;
 						db.close();
 					});
@@ -210,12 +210,12 @@ client.on("message", async message => {
 		dbo.collection("users").findOne(query, function (err, result) {
 			if(err) throw err;
 			if(result !== null){
-				var upd = { $set: { "xp":0, "level":0 } };
+				var upd = result;
 				if(result.xp > Math.floor(result.level * 150)){
 					message.reply(`you've leveled up! Your new level is ${upd.level + 1}.`);
-					upd.xp = result.xp - (result.level * 150);
+					upd.xp = result.xp - result.level * 150;
 					upd.level += 1;
-					dbo.collection("users").updateOne(query, upd, function (err, res){
+					dbo.collection("users").update(query, upd, function (err, res){
 						if(err) throw err;
 						db.close();
 					});
@@ -226,7 +226,7 @@ client.on("message", async message => {
 				var user = defaultUser;
 				user.name = message.author.tag;
 				if(message.author.bot===false){
-					dbo.collection("users").insertOne(user, function(err, obj){
+					dbo.collection("users").insert(user, function(err, obj){
 						if(err) throw err;
 						db.close();
 					});
@@ -275,10 +275,9 @@ async function checkCommand (message, prefix) {
 				dbo.collection("servers").find(query).toArray (function (err, result) {
 					if(err) throw err;
 					if(result[0] != null){
-						var n = { $set: { "welcomeRole":null } };
-						//r = result[0];
-						//r.welcomeRole = null;
-						dbo.collection("servers").updateOne(query, n, function (err, res) {
+						r = result[0];
+						r.welcomeRole = null;
+						dbo.collection("servers").update(query, r, function (err, res) {
 							if(err) throw err;
 							message.reply("the default role has been disabled. To re-enable, run the `setup` command again");
 							db.close();
@@ -296,10 +295,9 @@ async function checkCommand (message, prefix) {
 				dbo.collection("servers").find(query).toArray (function (err, result) {
 					if(err) throw err;
 					if(result[0] != null){
-						var n = { $set: { "welcomeChannel":null } }
-						//r = result[0];
-						//r.welcomeChannel = null;
-						dbo.collection("servers").updateOne(query, n, function (err, res) {
+						r = result[0];
+						r.welcomeChannel = null;
+						dbo.collection("servers").update(query, r, function (err, res) {
 							if(err) throw err;
 							message.reply("welcome message has been disabled. To re-enable, run the `setup` command again");
 							db.close();
@@ -353,13 +351,16 @@ async function checkCommand (message, prefix) {
 				if(err) throw err;
 				if(result != null){
 					if(result.daily != d.getDate()+d.getMonth()){
-						var ch = { $set: {"money":result[0].money, "daily":null } };
+						var ch = defaultUser;
 						message.reply(`you just gained ${result.level * 200} as your daily pay!`).then(message => {
 							message.delete(3000);
 						});
+						ch.name = result.name;
+						ch.xp = result.xp;
+						ch.level = result.level;
 						ch.money = result.money + (result.level * 200);
 						ch.daily = d.getDate()+d.getMonth();
-						dbo.collection("users").replaceOne(query, ch, function (err, res) {
+						dbo.collection("users").update(query, ch, function (err, res) {
 							if(err) throw err;
 							db.close();
 						});
@@ -963,9 +964,9 @@ V`).then(() => {
 			var query = { "serverID": message.guild.id };
 			dbo.collection("servers").findOne(query, function(err, result ) {
 				if(err) throw err;
-				var t = { $set: { "prefix":args[0].toString() } };
-				//t.prefix = args[0].toString();
-				dbo.collection("servers").updateOne(query, t, function (err, res) {
+				var t = result;
+				t.prefix = args[0].toString();
+				dbo.collection("servers").update(query, t, function (err, res) {
 					if(err) throw err;
 					message.reply("guild prefix updated to `" + args[0] + "`");
 				});
@@ -1257,9 +1258,9 @@ function setupChannel (collected, message, author) {
 			var query = { "serverID": message.guild.id };
 			dbo.collection("servers").findOne(query, function(err, result ) {
 				if(err) throw err;
-				var r = { $set: { "welcomeChannel" : c } };
-				//r.welcomeChannel = c;
-				dbo.collection("servers").updateOne(query, r, function (err, res) {
+				var r = result;
+				r.welcomeChannel = c;
+				dbo.collection("servers").update(query, r, function (err, res) {
 					if(err) throw err;
 					message.channel.send("Now send the name of the role you want people to get when they join").then(message=> {
 						const filter2 = m => m.author.tag.includes (author);
@@ -1269,10 +1270,10 @@ function setupChannel (collected, message, author) {
 								var role = c.first().content.toString();
 								//console.log(message.channel.guild.roles.exists("name", role));
 								if(message.channel.guild.roles.exists("name", role)) {
-									var r = { $set: { "welcomerole" : role } };
+									r.welcomeRole = role;
 									var dbo = db.db("servers");
 									var query = { "serverID": message.guild.id };
-									dbo.collection("servers").updateOne(query, r, function(err, result ) {
+									dbo.collection("servers").update(query, r,function(err, result ) {
 										if(err) throw err;
 										message.channel.send(`Guild default role set to ${role}`);
 										message.channel.send("Setup complete! (For now)");
