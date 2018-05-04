@@ -463,7 +463,7 @@ async function checkCommand (message, prefix) {
 		//console.log(message.guild.memberCount);
 		let bots = message.guild.members.filter(mem=>{mem.user.bot==true});
 		var botCount = 0;
-		for(int i = 0; i < Object.keys(bots).length; i++) {
+		for(var i = 0; i < Object.keys(bots).length; i++) {
 			botCount++;
 		}
 		message.channel.send({
