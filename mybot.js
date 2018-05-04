@@ -461,36 +461,29 @@ async function checkCommand (message, prefix) {
 		var i = 0;
 		var botCount = 0;
 		console.log(message.guild.memberCount);
-		var members = message.guild.members.toArray();
-		if (i < message.guild.memberCount) {
-			if(members[i].user.bot){
-				botCount += 1;
-			}
-			i++;
-		} else {
-			message.channel.send({
-				"embed": {
-					"color": 65299,
-					"fields": [
-					{
-						"name":"Total members",
-						"value":`${message.guild.memberCount}`,
-						"inline":true
-					},
-					{
-						"name":"Bot count",
-						"value":`${botCount}`,
-						"inline":true
-					},
-					{
-						"name":"Users",
-						"value":`${message.guild.memberCount - botCount}`,
-						"inline":true
-					}
-					]
+		let bots = message.guild.members.filter(mem=>{mem.user.bot==true});
+		message.channel.send({
+			"embed": {
+				"color": 65299,
+				"fields": [
+				{
+					"name":"Total members",
+					"value":`${message.guild.memberCount}`,
+					"inline":true
+				},
+				{
+					"name":"Bot count",
+					"value":`${bots}`,
+					"inline":true
+				},
+				{
+					"name":"Users",
+					"value":`${message.guild.memberCount - bots}`,
+					"inline":true
 				}
-			});
-		}
+				]
+			}
+		});
 	}
 	
 	//This isn't even used anymore, but I'll keep it since it's not public
