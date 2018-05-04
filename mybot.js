@@ -458,21 +458,37 @@ async function checkCommand (message, prefix) {
 	}
 	
 	if(command === "membercount" || command === "mc"){
-		memberCount(message);
-		/*
-		message.channel.send({
-			"embed": {
-				"color": 65299,
-				"fields": [
-				{
-					"name":"Total members",
-					"value":`${message.guild.memberCount}`,
-					"inline":true
-				}
-				]
+		var i = 0;
+		var botCount = 0;
+		if (i < message.guild.length) {
+			if(message.guild.members[i].user.bot){
+				botCount += 1;
 			}
-		});
-		*/
+			i++;
+		} else {
+			message.channel.send({
+				"embed": {
+					"color": 65299,
+					"fields": [
+					{
+						"name":"Total members",
+						"value":`${message.guild.memberCount}`,
+						"inline":true
+					},
+					{
+						"name":"Bot count",
+						"value":`${botCount}`,
+						"inline":true
+					},
+					{
+						"name":"Users",
+						"value":`${message.guild.memberCount - botCount}`,
+						"inline":true
+					}
+					]
+				}
+			});
+		}
 	}
 	
 	//This isn't even used anymore, but I'll keep it since it's not public
@@ -1308,40 +1324,6 @@ function setupChannel (collected, message, author) {
 		message.channel.send(`Guild welcome channel updated to ${x}`);
 	} else {
 		message.channel.send("That's not a channel!");
-	}
-}
-
-function memberCount (message) {
-	var i = 0;
-	var botCount = 0;
-	if (i < message.guild.length) {
-		if(message.guild.members[i].user.bot){
-			botCount += 1;
-		}
-		i++;
-	} else {
-		message.channel.send({
-			"embed": {
-				"color": 65299,
-				"fields": [
-				{
-					"name":"Total members",
-					"value":`${message.guild.memberCount}`,
-					"inline":true
-				},
-				{
-					"name":"Bot count",
-					"value":`${botCount}`,
-					"inline":true
-				},
-				{
-					"name":"Users",
-					"value":`${message.guild.memberCount - botCount}`,
-					"inline":true
-				}
-				]
-			}
-		});
 	}
 }
 
