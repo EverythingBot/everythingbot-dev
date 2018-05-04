@@ -209,7 +209,7 @@ client.on("message", async message => {
 		var query = { "name": message.author.tag };
 		dbo.collection("users").findOne(query, function (err, result) {
 			if(err) throw err;
-			if(result !== null){
+			if(result != null){
 				var upd = result;
 				if(result.xp > Math.floor(result.level * 150)){
 					message.reply(`you've leveled up! Your new level is ${upd.level + 1}.`);
@@ -226,15 +226,23 @@ client.on("message", async message => {
 				var user = defaultUser;
 				user.name = message.author.tag;
 				if(message.author.bot===false){
-					dbo.collection("users").insert(user, function(err, obj){
+					dbo.collection("users").findOne(query, function (err, result) {
 						if(err) throw err;
-						db.close();
+						if(result == null){
+							dbo.collection("users").insertOne(user, function(err, obj){
+								if(err) throw err;
+								db.close();
+							});
+						} else {
+							db.close();
+						}
 					});
 				} else {
 					db.close();
 				}
 			}
 		});
+		
 	});
 });
 
@@ -450,6 +458,8 @@ async function checkCommand (message, prefix) {
 	}
 	
 	if(command === "membercount" || command === "mc"){
+		memberCount(message);
+		/*
 		message.channel.send({
 			"embed": {
 				"color": 65299,
@@ -462,6 +472,7 @@ async function checkCommand (message, prefix) {
 				]
 			}
 		});
+		*/
 	}
 	
 	//This isn't even used anymore, but I'll keep it since it's not public
@@ -1183,7 +1194,7 @@ function flipFunction (message, im) {
 function blurFunction (message, amount, im) {
 	message.channel.startTyping(1);
 	var a = Math.abs(parseInt (amount));
-	if(isNan(a)==false){
+	if(isNaN(a)==false){
 		Jimp.read(im, function (err, image) {
 			message.channel.startTyping(1);
 			if(err) {
@@ -1300,6 +1311,39 @@ function setupChannel (collected, message, author) {
 	}
 }
 
+function memberCount (message) {
+	int i = 0;
+	var botCount = 0;
+	if (i < message.guild.length) {
+		if(message.guild.members[i].user.bot){
+			botCount += 1;
+		}
+		i++;
+	} else {
+		message.channel.send({
+			"embed": {
+				"color": 65299,
+				"fields": [
+				{
+					"name":"Total members",
+					"value":`${message.guild.memberCount}`,
+					"inline":true
+				},
+				{
+					"name":"Bot count",
+					"value":`${botCount}`,
+					"inline":true
+				},
+				{
+					"name":"Users",
+					"value":`${message.guild.memberCount - botCount}`,
+					"inline":true
+				}
+				]
+			}
+		});
+	}
+}
 
 client.login(process.env.BOT_TOKEN);
 
