@@ -460,7 +460,7 @@ async function checkCommand (message, prefix) {
 	if(command === "membercount" || command === "mc"){
 		var i = 0;
 		var botCount = 0;
-		if (i < message.guild.length) {
+		if (i < message.guild.members.length) {
 			if(message.guild.members[i].user.bot){
 				botCount += 1;
 			}
