@@ -461,7 +461,7 @@ async function checkCommand (message, prefix) {
 		var i = 0;
 		var botCount = 0;
 		console.log(message.guild.memberCount);
-		let bots = message.guild.members.filter(mem=>{mem.user.bot==true});
+		let bots = message.guild.members.filter(mem=>{mem.user.bot==true}).length;
 		message.channel.send({
 			"embed": {
 				"color": 65299,
