@@ -458,14 +458,12 @@ async function checkCommand (message, prefix) {
 	}
 	
 	if(command === "membercount" || command === "mc"){
+		var async = {};
 		var i = 0;
 		var botCount = 0;
 		//console.log(message.guild.memberCount);
 		let bots = message.guild.members.filter(mem=>{mem.user.bot==true});
-		var botCount = 0;
-		for(var i = 0; i < Object.keys(bots).length; i++) {
-			botCount++;
-		}
+		var botCount = Object.keys().length;
 		message.channel.send({
 			"embed": {
 				"color": 65299,
