@@ -1312,7 +1312,7 @@ function setupChannel (collected, message, author) {
 }
 
 function memberCount (message) {
-	int i = 0;
+	var i = 0;
 	var botCount = 0;
 	if (i < message.guild.length) {
 		if(message.guild.members[i].user.bot){
