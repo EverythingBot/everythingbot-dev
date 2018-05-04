@@ -461,8 +461,9 @@ async function checkCommand (message, prefix) {
 		var i = 0;
 		var botCount = 0;
 		console.log(message.guild.memberCount);
+		var members = message.guild.members.toArray();
 		if (i < message.guild.memberCount) {
-			if(message.guild.members[i].user.bot){
+			if(members[i].user.bot){
 				botCount += 1;
 			}
 			i++;
