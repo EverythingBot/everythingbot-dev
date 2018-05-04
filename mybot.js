@@ -463,7 +463,9 @@ async function checkCommand (message, prefix) {
 		var botCount = 0;
 		//console.log(message.guild.memberCount);
 		let bots = message.guild.members.filter(mem=>{mem.user.bot==true});
-		var botCount = Object.keys(bots).length;
+		var botCount = Object.keys(bots);
+		console.log("Keys: " + botCount);
+		console.log("Bot length: " + botCount.length);
 		message.channel.send({
 			"embed": {
 				"color": 65299,
@@ -475,12 +477,12 @@ async function checkCommand (message, prefix) {
 				},
 				{
 					"name":"Bot count",
-					"value":`${botCount}`,
+					"value":`${botCount.length}`,
 					"inline":true
 				},
 				{
 					"name":"Users",
-					"value":`${message.guild.memberCount - botCount}`,
+					"value":`${message.guild.memberCount - botCount.length}`,
 					"inline":true
 				}
 				]
