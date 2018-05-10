@@ -368,9 +368,10 @@ async function checkCommand(message, prefix) {
             }
           });
         }
-      } else if (b.AbstractURL == "" && b.AbstractText == "") {
-        message.channel.send(b.Results.FirstURL);
-        //	message.channel.send(body.Abstract.toString());
+      } else if (b.AbstractURL == "") {
+        message.channel.send(b.AbstractURL);
+      } else {
+        message.channel.send(b.FirstURL)
       } else message.channel.send("No results found.");
     });
   }
