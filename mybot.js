@@ -339,14 +339,14 @@ async function checkCommand(message, prefix) {
   }
 
 	if(command === "search" || command === "s") {
-		requester.request(args.join(" ").toString())
-		.on("data",(data)=> {
-			if(data != null){
-				message.channel.send(data.abstract);
-			} else message.channel.send('No results found for: `'+args.join(" ").toString()+'`');
-		})
-		.on("error",(err)=>{
-			message.channel.send('No results found for: `'+args.join(" ").toString()+'`');
+		requester.request(args.join(" "), (err, response, body)=> {
+			if(err) {
+				message.channel.send("Error with the DuckDuckGo API.");
+				return;
+			}
+			if(body.Abstract!==null){
+				message.channel.send(body.Abstract);
+			} else message.channel.send("No results found.");
 		});
 	}
 
