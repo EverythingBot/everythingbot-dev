@@ -341,7 +341,9 @@ async function checkCommand(message, prefix) {
 	if(command === "search" || command === "s") {
 		requester.request(args.join(" ").toString())
 		.on("data",(data)=> {
-			message.channel.send(data);
+			if(data != null){
+							message.channel.send(data);
+			} else message.channel.send('No results found for: `'+args.join(" ").toString()+'`');
 		})
 		.on("error",(err)=>{
 			message.channel.send('No results found for: `'+args.join(" ").toString()+'`');
