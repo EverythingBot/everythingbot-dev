@@ -346,7 +346,7 @@ async function checkCommand(message, prefix) {
       }
       if (body !== null) {
         b = JSON.parse(body);
-        if (b.Results.FirstURL == undefined && b.AbstractURL != null && b.AbstractText != null) {
+        if (b.Results.FirstURL == undefined && b.AbstractURL != "" && b.AbstractText != "") {
           console.log(b.AbstractURL);
           console.log(b.AbstractText);
           message.channel.send({
@@ -368,7 +368,7 @@ async function checkCommand(message, prefix) {
             }
           });
         }
-      } else if (b.AbstractURL == undefined && b.AbstractText == undefined && b.AbstractURL == null && b.AbstractText == null) {
+      } else if (b.AbstractURL == "" && b.AbstractText == "") {
         message.channel.send(b.Results.FirstURL);
         //	message.channel.send(body.Abstract.toString());
       } else message.channel.send("No results found.");
