@@ -372,7 +372,9 @@ async function checkCommand(message, prefix) {
         message.channel.send(b.AbstractURL);
       } else {
         message.channel.send(b.FirstURL);
-      } else message.channel.send("No results found.");
+      } else {
+        message.channel.send("No results found.");
+      }
     });
   }
 
