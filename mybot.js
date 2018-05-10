@@ -366,7 +366,7 @@ async function checkCommand(message, prefix) {
             }
           });
         }
-      } else if (b.AbstractURL = undefined && b.AbstractText = undefined && b.AbstractURL = null && b.AbstractText = null) {
+      } else if (b.AbstractURL == undefined && b.AbstractText == undefined && b.AbstractURL == null && b.AbstractText == null) {
         message.channel.send(b.Results.FirstURL);
         //	message.channel.send(body.Abstract.toString());
       } else message.channel.send("No results found.");
