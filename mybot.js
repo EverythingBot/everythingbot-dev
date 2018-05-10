@@ -342,7 +342,7 @@ async function checkCommand(message, prefix) {
 		requester.request(args.join(" ").toString())
 		.on("data",(data)=> {
 			if(data != null){
-							message.channel.send(data);
+				message.channel.send(data.abstract);
 			} else message.channel.send('No results found for: `'+args.join(" ").toString()+'`');
 		})
 		.on("error",(err)=>{
