@@ -344,8 +344,8 @@ async function checkCommand(message, prefix) {
 				message.channel.send("Error with the DuckDuckGo API.");
 				return;
 			}
-			if(body.Abstract!==null){
-				console.log(body.Abstract.toString());
+			if(body!==null){
+				console.log(body.toString());
 			//	message.channel.send(body.Abstract.toString());
 			} else message.channel.send("No results found.");
 		});
