@@ -345,7 +345,8 @@ async function checkCommand(message, prefix) {
 	      return;
 	    }
 	    if (body !== null) {
-	      if (body.Abstract.AbstractURL !== undefined) {
+				b = JSON.parse(body);
+	      if (b.AbstractURL !== undefined) {
 	        message.channel.send({
 	          "embed": {
 	            "footer": {
@@ -355,11 +356,11 @@ async function checkCommand(message, prefix) {
 	            "color": 65299,
 	            "fields": [{
 	                "name": "Wikipedia link:",
-	                "value": `${body.Abstract.AbstractURL}`
+	                "value": `${b.AbstractURL}`
 	              },
 	              {
 	                "name": "Summary",
-	                "value": `${body.Abstract.AbstractText}`,
+	                "value": `${b.AbstractText}`,
 	              }
 	            ]
 	          }
