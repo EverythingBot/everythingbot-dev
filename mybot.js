@@ -337,7 +337,7 @@ async function checkCommand(message, prefix) {
       message.reply("you're not allowed to use this command!");
     }
   }
-	
+
 if (command === "search" || command === "s") {
   requester.request(args.join(" "), (err, response, body) => {
     if (err) {
@@ -346,9 +346,8 @@ if (command === "search" || command === "s") {
     }
     if (body !== null) {
       b = JSON.parse(body);
-
-      if (b.Answer !== undefined) {
-        message.channel.send(b.Answer);
+      if (b.Results.FirstURL !== undefined) {
+        message.channel.send(b.Results.FirstURL);
       } else if (b.AbstractURL !== undefined && b.AbstractText !== undefined && b.AbstractURL !== null && b.AbstractText !== null) {
         message.channel.send({
           "embed": {
