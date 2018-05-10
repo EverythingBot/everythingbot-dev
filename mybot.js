@@ -345,7 +345,8 @@ async function checkCommand(message, prefix) {
 				return;
 			}
 			if(body.Abstract!==null){
-				message.channel.send("I guess it worked");
+				console.log(body.Abstract.toString());
+			//	message.channel.send(body.Abstract.toString());
 			} else message.channel.send("No results found.");
 		});
 	}
