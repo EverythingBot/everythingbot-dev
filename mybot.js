@@ -337,46 +337,43 @@ async function checkCommand(message, prefix) {
       message.reply("you're not allowed to use this command!");
     }
   }
-
-  if (command === "search" || command === "s") {
-    requester.request(args.join(" "), (err, response, body) => {
-      if (err) {
-        message.channel.send("Error with the DuckDuckGo API.");
-        return;
-      }
-      if (body !== null) {
-        b = JSON.parse(body);
-        if (b.Results.FirstURL == undefined && b.AbstractURL != "" && b.AbstractText != "") {
-          console.log(b.AbstractURL);
-          console.log(b.AbstractText);
-          message.channel.send({
-            "embed": {
-              "footer": {
-                "icon_url": "http://is5.mzstatic.com/image/thumb/Purple19/v4/84/83/19/84831944-646f-11bc-ccb2-6f158e6c6042/source/1200x630bb.jpg",
-                "text": "Results from DuckDuckGo"
+if (command === "search" || command === "s") {
+  requester.request(args.join(" "), (err, response, body) => {
+    if (err) {
+      message.channel.send("Error with the DuckDuckGo API.");
+      return;
+    }
+    if (body !== null) {
+      b = JSON.parse(body);
+      if (b.Results.FirstURL == undefined && b.AbstractURL != "" && b.AbstractText != "") {
+        console.log(b.AbstractURL);
+        console.log(b.AbstractText);
+        message.channel.send({
+          "embed": {
+            "footer": {
+              "icon_url": "http://is5.mzstatic.com/image/thumb/Purple19/v4/84/83/19/84831944-646f-11bc-ccb2-6f158e6c6042/source/1200x630bb.jpg",
+              "text": "Results from DuckDuckGo"
+            },
+            "color": 65299,
+            "fields": [{
+                "name": "Wikipedia link:",
+                "value": `${b.AbstractURL}`
               },
-              "color": 65299,
-              "fields": [{
-                  "name": "Wikipedia link:",
-                  "value": `${b.AbstractURL}`
-                },
-                {
-                  "name": "Summary",
-                  "value": `${b.AbstractText}`,
-                }
-              ]
-            }
-          });
-        }
+              {
+                "name": "Summary",
+                "value": `${b.AbstractText}`,
+              }
+            ]
+          }
+        });
       } else if (b.AbstractURL == "") {
         message.channel.send(b.AbstractURL);
       } else {
         message.channel.send(b.FirstURL);
-      } else {
-        message.channel.send("No results found.");
       }
-    });
-  }
+    }
+  });
+}
 
   if (command === "leaderboard" || command === "l") {
     if (args[0] === "money" || args[0] === "m") {
