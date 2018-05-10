@@ -338,17 +338,36 @@ async function checkCommand(message, prefix) {
     }
   }
 
-	if(command === "search" || command === "s") {
-		requester.request(args.join(" "), (err, response, body)=> {
-			if(err) {
-				message.channel.send("Error with the DuckDuckGo API.");
-				return;
-			}
-			if(body!==null){
-				console.log(body.toString());
-			//	message.channel.send(body.Abstract.toString());
-			} else message.channel.send("No results found.");
-		});
+	if (command === "search" || command === "s") {
+	  requester.request(args.join(" "), (err, response, body) => {
+	    if (err) {
+	      message.channel.send("Error with the DuckDuckGo API.");
+	      return;
+	    }
+	    if (body !== null) {
+	      if (body.AbstractURL.toString() !== null) {
+	        message.channel.send({
+	          "embed": {
+	            "footer": {
+	              "icon_url": "http://is5.mzstatic.com/image/thumb/Purple19/v4/84/83/19/84831944-646f-11bc-ccb2-6f158e6c6042/source/1200x630bb.jpg",
+	              "text": "Results from DuckDuckGo"
+	            },
+	            "color": 65299,
+	            "fields": [{
+	                "name": "Wikipedia link:",
+	                "value": `${body.AbstractURL}`
+	              },
+	              {
+	                "name": "Summary",
+	                "value": `${body.AbstractText}`,
+	              }
+	            ]
+	          }
+	        });
+	      }
+	      //	message.channel.send(body.Abstract.toString());
+	    } else message.channel.send("No results found.");
+	  });
 	}
 
   if (command === "leaderboard" || command === "l") {
