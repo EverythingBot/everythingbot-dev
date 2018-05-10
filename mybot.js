@@ -346,7 +346,7 @@ async function checkCommand(message, prefix) {
 	    }
 	    if (body !== null) {
 				b = JSON.parse(body);
-	      if (b.AbstractURL !== undefined) {
+	      if (b.AbstractURL !== undefined && b.AbstractText!==undefined) {
 	        message.channel.send({
 	          "embed": {
 	            "footer": {
@@ -365,7 +365,11 @@ async function checkCommand(message, prefix) {
 	            ]
 	          }
 	        });
-	      }
+	      } else {
+					if(b.Answer !== undefined){
+						message.channel.send(b.Answer);
+					}
+				}
 	      //	message.channel.send(body.Abstract.toString());
 	    } else message.channel.send("No results found.");
 	  });
