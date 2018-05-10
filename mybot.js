@@ -345,7 +345,7 @@ async function checkCommand(message, prefix) {
 	      return;
 	    }
 	    if (body !== null) {
-	      if (body.AbstractURL.toString() !== null) {
+	      if (body.AbstractURL !== null) {
 	        message.channel.send({
 	          "embed": {
 	            "footer": {
