@@ -346,7 +346,9 @@ async function checkCommand(message, prefix) {
       }
       if (body !== null) {
         b = JSON.parse(body);
-        if (b.Results.FirstURL == undefined) {
+        if (b.Results.FirstURL == undefined && b.AbstractURL != null && b.AbstractText != null) {
+          console.log(b.AbstractURL);
+          console.log(b.AbstractText);
           message.channel.send({
             "embed": {
               "footer": {
