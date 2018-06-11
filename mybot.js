@@ -1014,57 +1014,13 @@ if (command === "help") {
 
 function sendEmbed(m, result, money) {
   if (money == true) {
-    m.channel.send({
-      embed: {
-        color: 261888,
-        "author": {
-          "name": "Money leaderboard"
-        },
-        fields: [{
-          name: `1. ${result[0].name}`,
-          value: `$${result[0].money}`
-        },
-        {
-          name: `2. ${result[1].name}`,
-          value: `$${result[1].money}`
-        },
-        {
-          name: `3. ${result[2].name}`,
-          value: `$${result[2].money}`
-        },
-        {
-          name: `4. ${result[3].name}`,
-          value: `$${result[3].money}`
-        },
-        {
-          name: `5. ${result[4].name}`,
-          value: `$${result[4].money}`
-        }
-        ,
-        {
-          name: `6. ${result[5].name}`,
-          value: `$${result[5].money}`
-        },
-        {
-          name: `7. ${result[6].name}`,
-          value: `$${result[6].money}`
-        },
-        {
-          name: `8. ${result[7].name}`,
-          value: `$${result[7].money}`
-        },
-        {
-          name: `9. ${result[8].name}`,
-          value: `$${result[8].money}`
-        }
-        ,
-        {
-          name: `10. ${result[9].name}`,
-          value: `$${result[9].money}`
-        }
-      ]
+    var embed = new Discord.RichEmbed()
+     .setTitle("Money Leaderboard");
+    for(var i = 0; i < 10; i++){
+      var num = i+1;
+          embed.AddField(num +`. ${result[i].name}`, `$${result[i].money}`);
     }
-  });
+    m.channel.send(embed);
 } else {
   m.channel.send({
     embed: {
