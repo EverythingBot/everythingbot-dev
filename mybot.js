@@ -1016,6 +1016,7 @@ function sendEmbed(m, result, money) {
   if (money == true) {
     const embed = new Discord.RichEmbed()
       .setTitle("Money Leaderboard")
+      .setColor("#0aaa1c")
       .addField(`1. ${result[0].name}`, `$${result[0].money}`)
       .addField(`2. ${result[1].name}`, `$${result[1].money}`)
       .addField(`3. ${result[2].name}`, `$${result[2].money}`)
@@ -1030,6 +1031,7 @@ function sendEmbed(m, result, money) {
   } else {
     const embed = new Discord.RichEmbed()
       .setTitle("Level Leaderboard")
+      .setColor("#790084")
       .addField(`1. ${result[0].name}`, `Level: ${result[0].level}`)
       .addField(`2. ${result[1].name}`, `Level: ${result[1].level}`)
       .addField(`3. ${result[2].name}`, `Level: ${result[2].level}`)
