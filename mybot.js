@@ -1022,13 +1022,15 @@ function sendEmbed(m, result, money) {
     }
     m.channel.send(embed);
   } else {
-    var embed = new Discord.RichEmbed()
-      .setTitle("Money Leaderboard");
     for (var i = 0; i < 10; i++) {
       var num = i + 1;
-      embed.AddField(num + `. ${result[i].name}`, `Level: ${result[i].level}`);
+      var embed = new Discord.RichEmbed()
+        .setTitle("Money Leaderboard")
+        .AddField(num + `. ${result[i].name}`, `Level: ${result[i].level}`);
+
+        if(i>= 9)
+            m.channel.send(embed);
     }
-    m.channel.send(embed);
   }
 }
 
