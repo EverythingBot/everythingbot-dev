@@ -1016,30 +1016,30 @@ function sendEmbed(m, result, money) {
   if (money == true) {
     const embed = new Discord.RichEmbed()
       .setTitle("Money Leaderboard")
-      .AddField(`1. ${result[0].name}`, `$${result[0].money}`)
-      .AddField(`2. ${result[1].name}`, `$${result[1].money}`)
-      .AddField(`3. ${result[2].name}`, `$${result[2].money}`)
-      .AddField(`4. ${result[3].name}`, `$${result[3].money}`)
-      .AddField(`5. ${result[4].name}`, `$${result[4].money}`)
-      .AddField(`6. ${result[5].name}`, `$${result[5].money}`)
-      .AddField(`7. ${result[6].name}`, `$${result[6].money}`)
-      .AddField(`8. ${result[7].name}`, `$${result[7].money}`)
-      .AddField(`9. ${result[8].name}`, `$${result[8].money}`)
-      .AddField(`10. ${result[9].name}`, `$${result[9].money}`);
+      .addField(`1. ${result[0].name}`, `$${result[0].money}`)
+      .addField(`2. ${result[1].name}`, `$${result[1].money}`)
+      .addField(`3. ${result[2].name}`, `$${result[2].money}`)
+      .addField(`4. ${result[3].name}`, `$${result[3].money}`)
+      .addField(`5. ${result[4].name}`, `$${result[4].money}`)
+      .addField(`6. ${result[5].name}`, `$${result[5].money}`)
+      .addField(`7. ${result[6].name}`, `$${result[6].money}`)
+      .addField(`8. ${result[7].name}`, `$${result[7].money}`)
+      .addField(`9. ${result[8].name}`, `$${result[8].money}`)
+      .addField(`10. ${result[9].name}`, `$${result[9].money}`);
       m.channel.send({embed});
   } else {
     const embed = new Discord.RichEmbed()
       .setTitle("Level Leaderboard")
-      .AddField(`1. ${result[0].name}`, `Level: ${result[0].level}`)
-      .AddField(`2. ${result[1].name}`, `Level: ${result[1].level}`)
-      .AddField(`3. ${result[2].name}`, `Level: ${result[2].level}`)
-      .AddField(`4. ${result[3].name}`, `Level: ${result[3].level}`)
-      .AddField(`5. ${result[4].name}`, `Level: ${result[4].level}`)
-      .AddField(`6. ${result[5].name}`, `Level: ${result[5].level}`)
-      .AddField(`7. ${result[6].name}`, `Level: ${result[6].level}`)
-      .AddField(`8. ${result[7].name}`, `Level: ${result[7].level}`)
-      .AddField(`9. ${result[8].name}`, `Level: ${result[8].level}`)
-      .AddField(`10. ${result[9].name}`, `Level: ${result[9].level}`);
+      .addField(`1. ${result[0].name}`, `Level: ${result[0].level}`)
+      .addField(`2. ${result[1].name}`, `Level: ${result[1].level}`)
+      .addField(`3. ${result[2].name}`, `Level: ${result[2].level}`)
+      .addField(`4. ${result[3].name}`, `Level: ${result[3].level}`)
+      .addField(`5. ${result[4].name}`, `Level: ${result[4].level}`)
+      .addField(`6. ${result[5].name}`, `Level: ${result[5].level}`)
+      .addField(`7. ${result[6].name}`, `Level: ${result[6].level}`)
+      .addField(`8. ${result[7].name}`, `Level: ${result[7].level}`)
+      .addField(`9. ${result[8].name}`, `Level: ${result[8].level}`)
+      .addField(`10. ${result[9].name}`, `Level: ${result[9].level}`);
       m.channel.send({embed});
   }
 }
