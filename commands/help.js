@@ -28,10 +28,7 @@ exports.run = (client, message, args, mongo) => {
           name: ":thinking: Etc commands",
           value: "credits, membercount"
         }
-      ],
-      footer: {
-        text: `This guild's prefix is: ${prefix}`
-      }
+      ]
     }
   };
   message.channel.send(helpMenu);
