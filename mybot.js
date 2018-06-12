@@ -274,6 +274,8 @@ async function checkCommand(message, prefix) {
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     let file = require(`./commands/${command}.js`);
     file.run(client, message, args);
+  } catch (err){
+    console.log(err);
   }
 
   const args = message.content.slice(prefix.length).trim().split(/ +/g);
