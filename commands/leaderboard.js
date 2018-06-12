@@ -1,4 +1,6 @@
 exports.run = (client, message, args, mongo) => {
+  var UserURL = process.env.USER;
+
   if (args[0] === "money" || args[0] === "m") {
     mongo.connect(UserURL, function(err, db) {
       if (err) message.reply("error connecting to server!");
