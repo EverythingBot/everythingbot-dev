@@ -188,8 +188,6 @@ client.on("message", async message => {
 });
 
 client.on("message", async message => {
-  var ran = Math.floor(Math.random() * 100);
-  if (ran > 75) {
     mongo.connect(UserURL, function(err, db) {
       var dbo = db.db("users");
       var query = {
@@ -199,7 +197,7 @@ client.on("message", async message => {
         if (err) throw err;
         if (result !== null) {
           var upd = result;
-          upd.xp = result.xp + Math.floor(Math.random() * 5) + 1;
+          upd.xp = result.xp + Math.floor(Math.random() * 2) + 1;
           dbo.collection("users").update(query, upd, function(err, res) {
             if (err) throw err;
             db.close();
@@ -209,7 +207,6 @@ client.on("message", async message => {
         }
       });
     });
-  }
 
   mongo.connect(UserURL, function(err, db) {
     var dbo = db.db("users");
