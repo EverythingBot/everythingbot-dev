@@ -18,41 +18,6 @@ var pic = "/app/balPic.png"
 var fon = ".fonts/bahnschrift.fnt";
 var fonTwo = ".fonts/FranklinGothicMedium.fnt";
 
-var helpMenu = {
-  embed: {
-    color: 3447003,
-    description: "EverythingBot, does literally everything (Still in production, currently doesn't do much). Here's the list of commands",
-    fields: [{
-        name: ":straight_ruler:  Admin/Mod",
-        value: "clear, kick, ban, unban, mute, unmute, setprefix, setup, disable"
-      },
-      {
-        name: ":camera:  Image commands",
-        value: "poster, sepia, greyscale, invert, flip, mirror, blur, rotate"
-      },
-      {
-        name: ":laughing: Fun commands",
-        value: "meme, pickup, insult, mock, kill"
-      },
-      {
-        name: ":briefcase: User commands",
-        value: "bal, daily, leaderboard"
-      },
-      {
-        name: ":regional_indicator_t: :regional_indicator_e: :regional_indicator_x: :regional_indicator_t:  commands",
-        value: "ping, bigtext, invite, server"
-      },
-      {
-        name: ":thinking: Etc commands",
-        value: "credits, membercount"
-      }
-    ],
-    footer: {
-      text: `This guild's prefix is: ${prefix}`
-    }
-  }
-}
-
 var defaultServer = {
   "serverID": null,
   "prefix": 'e!',
@@ -79,6 +44,8 @@ function isKick(member) {
 function isBan(member) {
   return member.hasPermission("BAN_MEMBERS");
 }
+
+var helpMenu = fs.readFileSync('helpmenu.txt', 'utf8');
 
 client.on("ready", () => {
   console.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`);
@@ -283,33 +250,6 @@ async function checkCommand(message, prefix) {
   const command = args.shift().toLowerCase();
   var col = null;
 
-  if (command === "setup") {
-    if (message.member.hasPermission("ADMINISTRATOR")) {
-      setup(message, message.author.tag);
-    } else {
-      message.reply("you're not allowed to use this command!");
-    }
-  }
-
-  if (command === "ping") {
-    const m = await message.channel.send("Ping?");
-    m.edit({
-      embed: {
-        color: 3447003,
-        description: "Pong!",
-        fields: [{
-            name: "Ping",
-            value: `${m.createdTimestamp - message.createdTimestamp}ms`
-          },
-          {
-            name: "API Ping",
-            value: `${Math.round(client.ping)}ms`
-          }
-        ]
-      }
-    });
-  }
-
   if (command === "server") {
     message.channel.send(`https://discord.gg/yuSHrjr`);
   }
@@ -372,163 +312,6 @@ async function checkCommand(message, prefix) {
 
   if (command === "invite") {
     message.channel.send(`You can invite me with this link: https://discordapp.com/api/oauth2/authorize?client_id=440524747353227275&permissions=8&scope=bot`);
-  }
-
-  if (command === "kill" || command === "die") {
-    var listOfRoasts = [
-      "You died of dysentery",
-      "no u",
-      "no u",
-      "no u"
-    ];
-    let member = message.mentions.members.first();
-    if (!member) return message.reply("I can't kill someone that isn't a person, **smh.**");
-    let rand = Math.floor((Math.random() * (listOfRoasts.length - 1)) + 1);
-    if (listOfRoasts[rand] == "no u") {
-      message.channel.send(listOfRoasts[rand]);
-    } else {
-      message.channel.send(member.toString() + " " + listOfRoasts[rand]);
-    }
-  }
-
-  if (command === "roast" || command === "insult") {
-    var listOfRoasts = [
-      "shut up, you'll never be the man your mother is.",
-      "you're a failed abortion whose birth certificate is an apology from the condom factory.",
-      "you must have been born on a highway, because that's where most accidents happen.",
-      "your family tree is a cactus, because everybody on it is a prick.",
-      "you're so ugly Hello Kitty said goodbye to you.",
-      "you are so ugly that when your mama dropped you off at school she got a fine for littering.",
-      "it looks like your face caught on fire and someone tried to put it out with a fork.",
-      "do you have to leave so soon? I was just about to poison the tea.",
-      "your so ugly when you popped out the doctor said aww what a treasure and your mom said yeah lets bury it",
-      "we all sprang from apes, but you didn't spring far enough.",
-      ", you are the equivalent of a gential piercing",
-      "when I think of you, I think of world hunger, children dying, and paralyzed soldiers",
-      "tried to donate his hair to children with cancer. They said \“don’t we got enough problems now you want us to look like fags\”",
-      "you remind me of a middle aged man who just got a divorce. You sit in your room playing on your computer noodling around with these bots when all you’re doing is reminding yourself of how much a complete and utter failure you are.",
-      "why are you hanging out with teenagers? Shouldn’t you be at the nursing home playing shuffleboard with your 80 year old girlfriend?",
-      "your life is like a steak at a vegan resteraunt. It doesn’t cross the place",
-      "what’s the difference between you and a brain tumor? You can get a brain tumor removed.",
-      "is so ugly their face was shut down by the health department.",
-      "is so ugly that when she met the Kardashians they thought she was a fourth grader with cancer.",
-      "is so poor she waves around a popsicle and calls it air conditioning.",
-      "you're an example of why animals eat their young.",
-      "I would shoot you, but that would be disrespectful to the bullet",
-      "you’re so fat that when you step on a scale it says: \“I need your weight not your phone number\”"
-    ];
-    let member = message.mentions.members.first();
-    if (!member) return message.reply("I can't roast someone that isn't a person smh.");
-    let rand = Math.floor((Math.random() * (listOfRoasts.length - 1)) + 1);
-    if (listOfRoasts[rand] == "no u") {
-      message.channel.send(listOfRoasts[rand]);
-    } else {
-      message.channel.send(member.toString() + " " + listOfRoasts[rand]);
-    }
-  }
-
-  if (command === "pickup") {
-    var listOfRoasts = [
-      "8 Planets, 1 Universe, 1.735 billion people, and I end up with you",
-      "I’m going to have to ask you to leave. You’re making the other girls look bad.",
-      ", do you have 11 protons? Because you’re sodium fine!",
-      ", you know what’s on the menu? ME-N-U.",
-      "are you an omelette? Because you’re making me **egg**cited.",
-      "are you a bank loan? Because you've got my interest.",
-      "are you the square root of -1, because you can’t be real.",
-      "are you from mexico, because I think you’re the Juan for me!",
-      "are you a sea lion? Because I want to sea u lion in my bed later!",
-      ", is your face McDonald's? 'Cause I'm lovin it!",
-      "you like maths? 'Cause I want to **ADD** to you my life, **SUBTRACT** your clothes, **DIVIDE** your legs and **MULTIPLY** ourselves.",
-      "are you Harambe's enclosure? Cause I’ll drop a kid inside of you!",
-      "is your name Daniel? Cause DAMN!",
-      "is your dad retarded? Because you’re special",
-      "if Internet Explorer is brave enough to ask you to be your default browser, I’m brave enough to ask you out!"
-    ];
-    let member = message.mentions.members.first();
-    if (!member) return message.reply("I can't pick up no-one?");
-    let rand = Math.floor((Math.random() * (listOfRoasts.length - 1)) + 1);
-    message.channel.send(member.toString() + " " + listOfRoasts[rand]);
-  }
-}
-
-function setup(message, author) {
-  message.reply("please reply with your welcome channel").then(message => {
-    const filter = m => m.author.tag.includes(author);
-    message.channel.awaitMessages(filter, {
-        max: 1,
-        time: 60000,
-        errors: ['time']
-      })
-      .then(collected => {
-        setupChannel(collected, message, author);
-      })
-      .catch(collected => {
-        if (collected.size < 1)
-          message.channel.send("Setup cancelled, you took longer than 1 minute!");
-      });
-  });
-}
-
-function setupChannel(collected, message, author) {
-  var query = {
-    "content": -1
-  };
-  var c = collected.first().content.toString().replace(/[<#>]/g, '');
-  var x = collected.first().content;
-  if (client.channels.get(c)) {
-    mongo.connect(ServerURL, function(err, db) {
-      var dbo = db.db("servers");
-      var query = {
-        "serverID": message.guild.id
-      };
-      dbo.collection("servers").findOne(query, function(err, result) {
-        if (err) throw err;
-        var r = result;
-        r.welcomeChannel = c;
-        dbo.collection("servers").update(query, r, function(err, res) {
-          if (err) throw err;
-          message.channel.send("Now send the name of the role you want people to get when they join").then(message => {
-            const filter2 = m => m.author.tag.includes(author);
-            message.channel.awaitMessages(filter2, {
-                max: 1,
-                time: 60000,
-                errors: ['time']
-              })
-              .then(c => {
-                //console.log(c.first().content);
-                var role = c.first().content.toString();
-                //console.log(message.channel.guild.roles.exists("name", role));
-                if (message.channel.guild.roles.exists("name", role)) {
-                  r.welcomeRole = role;
-                  var dbo = db.db("servers");
-                  var query = {
-                    "serverID": message.guild.id
-                  };
-                  dbo.collection("servers").update(query, r, function(err, result) {
-                    if (err) throw err;
-                    message.channel.send(`Guild default role set to ${role}`);
-                    message.channel.send("Setup complete! (For now)");
-                    db.close();
-                  });
-                } else {
-                  message.channel.send("That's not a valid role!");
-                  db.close();
-                }
-              })
-              .catch(c => {
-                if (c.size < 1) {
-                  message.channel.send("Setup cancelled, you took longer than 1 minute!");
-                  db.close();
-                }
-              });
-          });
-        });
-      });
-    });
-    message.channel.send(`Guild welcome channel updated to ${x}`);
-  } else {
-    message.channel.send("That's not a channel!");
   }
 }
 
