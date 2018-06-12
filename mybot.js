@@ -45,7 +45,40 @@ function isBan(member) {
   return member.hasPermission("BAN_MEMBERS");
 }
 
-var helpMenu = fs.readFileSync('helpmenu.txt', 'utf8');
+var helpMenu = {
+  embed: {
+    color: 3447003,
+    description: "EverythingBot, does literally everything (Still in production, currently doesn't do much). Here's the list of commands",
+    fields: [{
+        name: ":straight_ruler:  Admin/Mod",
+        value: "clear, kick, ban, unban, mute, unmute, setprefix, setup, disable"
+      },
+      {
+        name: ":camera:  Image commands",
+        value: "poster, sepia, greyscale, invert, flip, mirror, blur, rotate"
+      },
+      {
+        name: ":laughing: Fun commands",
+        value: "meme, pickup, insult, mock, kill"
+      },
+      {
+        name: ":briefcase: User commands",
+        value: "bal, daily, leaderboard"
+      },
+      {
+        name: ":regional_indicator_t: :regional_indicator_e: :regional_indicator_x: :regional_indicator_t:  commands",
+        value: "ping, bigtext, invite, server"
+      },
+      {
+        name: ":thinking: Etc commands",
+        value: "credits, membercount"
+      }
+    ],
+    footer: {
+      text: `This guild's prefix is: ${prefix}`
+    }
+  }
+};
 
 client.on("ready", () => {
   console.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`);
@@ -227,7 +260,6 @@ async function mentionCommand(message, p) {
   const command = args.shift().toLowerCase();
 
   if (args[0] === "help") {
-    helpMenu = fs.readFileSync('helpmenu.txt');
     message.channel.send(helpMenu);
   }
 }
