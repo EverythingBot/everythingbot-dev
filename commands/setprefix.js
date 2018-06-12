@@ -1,5 +1,4 @@
 exports.run = (client, message, args) => {
-  if (command === "setprefix") {
     if (!message.member.hasPermission("ADMINISTRATOR"))
       return message.reply("sorry, you don't have permissions to use this.");
 
@@ -22,5 +21,4 @@ exports.run = (client, message, args) => {
         });
       });
     }
-  }
 }
