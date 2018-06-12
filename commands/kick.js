@@ -1,4 +1,4 @@
-exports.run = (client, message, args, mongo) => {
+exports.run = async function (client, message, args, mongo) {
   if (!message.member.hasPermission("KICK_MEMBERS")) {
     return message.reply("sorry, you don't have permissions to use this.");
   }
