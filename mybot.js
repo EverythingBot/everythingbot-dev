@@ -227,6 +227,7 @@ async function mentionCommand(message, p) {
   const command = args.shift().toLowerCase();
 
   if (args[0] === "help") {
+    helpMenu = fs.readFileSync('helpmenu.txt', 'utf8');
     message.channel.send({embed:helpMenu});
   }
 }
