@@ -227,7 +227,7 @@ async function mentionCommand(message, p) {
   const command = args.shift().toLowerCase();
 
   if (args[0] === "help") {
-    message.channel.send({embed:{helpMenu}});
+    message.channel.send({embed:helpMenu});
   }
 }
 
