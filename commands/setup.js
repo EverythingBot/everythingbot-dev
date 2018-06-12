@@ -1,4 +1,4 @@
-exports.run = (client, message, args, mongo) => {
+exports.run = async function (client, message, args, mongo) {
 
   if (message.member.hasPermission("ADMINISTRATOR")) {
     setup(message, message.author.tag);
