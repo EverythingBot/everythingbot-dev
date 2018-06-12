@@ -1,4 +1,4 @@
-exports.run = async function (client, message, args, mongo) => {
+exports.run = async function (client, message, args, mongo) {
   const m = await message.channel.send("Ping?");
   m.edit({
     embed: {
