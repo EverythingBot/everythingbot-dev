@@ -1,4 +1,4 @@
-exports.run = (client, message, args[]) {
+exports.run = (client, message, args) {
 
   if (command === "setprefix") {
     if (!message.member.hasPermission("ADMINISTRATOR"))
