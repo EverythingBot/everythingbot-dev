@@ -270,6 +270,14 @@ async function checkCommand(message, prefix) {
 
   if (message.content.indexOf(prefix) !== 0) return;
 
+  try{
+    const args = message.content.slice(prefix.length).trim().split(/ +/g);
+    let file = require(`./commands/${command}.js`);
+    file.run(client, message, args);
+  } catch(err){
+    console.console.error(err);
+  }
+
   const args = message.content.slice(prefix.length).trim().split(/ +/g);
   const command = args.shift().toLowerCase();
   var col = null;
@@ -380,9 +388,7 @@ async function checkCommand(message, prefix) {
         if (result != null) {
           if (result.daily != d.getDate() + d.getMonth()) {
             var ch = defaultUser;
-            message.reply(`you just gained ${result.level * 200} as your daily pay!`).then(message => {
-              message.delete(3000);
-            });
+            message.reply(`you just gained ${result.level * 200} as your daily pay!`);
             ch.name = result.name;
             ch.xp = result.xp;
             ch.level = result.level;
@@ -895,7 +901,7 @@ async function checkCommand(message, prefix) {
       "why are you hanging out with teenagers? Shouldn’t you be at the nursing home playing shuffleboard with your 80 year old girlfriend?",
       "your life is like a steak at a vegan resteraunt. It doesn’t cross the place",
       "what’s the difference between you and a brain tumor? You can get a brain tumor removed.",
-      "is so ugly her face was shut down by the health department.",
+      "is so ugly their face was shut down by the health department.",
       "is so ugly that when she met the Kardashians they thought she was a fourth grader with cancer.",
       "is so poor she waves around a popsicle and calls it air conditioning.",
       "you're an example of why animals eat their young.",
@@ -979,33 +985,6 @@ async function checkCommand(message, prefix) {
       });
     });
   }
-
-  if (command === "setprefix") {
-    if (!message.member.hasPermission("ADMINISTRATOR"))
-      return message.reply("sorry, you don't have permissions to use this.");
-
-    if (args[0].length > 10) {
-      message.reply("guild prefix can't be longer than 10 characters");
-    } else {
-      mongo.connect(ServerURL, function(err, db) {
-        var dbo = db.db("servers");
-        var query = {
-          "serverID": message.guild.id
-        };
-        dbo.collection("servers").findOne(query, function(err, result) {
-          if (err) throw err;
-          var t = result;
-          t.prefix = args[0].toString();
-          dbo.collection("servers").update(query, t, function(err, res) {
-            if (err) throw err;
-            message.reply("guild prefix updated to `" + args[0] + "`");
-          });
-        });
-      });
-    }
-
-  }
-
   if (command === "help") {
     message.channel.send(helpMenu);
   }
