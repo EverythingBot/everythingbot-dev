@@ -1,6 +1,6 @@
 exports.run = (client, message, args, mongo) => {
 
-  var Jimp = require("jimp"
+  var Jimp = require("jimp");
 
   if (message.mentions.members.first()) {
     sepiaFunction(message, message.mentions.members.first().user.avatarURL);
