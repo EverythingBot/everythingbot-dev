@@ -1,4 +1,4 @@
-embed: {
+
     color: 3447003,
     description: "EverythingBot, does literally everything (Still in production, currently doesn't do much). Here's the list of commands",
     fields: [{
@@ -29,4 +29,3 @@ embed: {
     footer: {
       text: `This guild's prefix is: ${prefix}`
     }
-  }
