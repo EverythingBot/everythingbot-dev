@@ -1,5 +1,6 @@
 exports.run = (client, message, args, mongo) => {
   var UserURL = process.env.USER;
+  const Discord = require("discord.js");
 
   if (args[0] === "money" || args[0] === "m") {
     mongo.connect(UserURL, function(err, db) {
