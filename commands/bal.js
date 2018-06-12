@@ -1,5 +1,6 @@
 exports.run = (client, message, args, mongo) => {
 
+  var pic = "/app/balPic.png"
   var UserURL = process.env.USER;
   var Jimp = require("jimp");
 
