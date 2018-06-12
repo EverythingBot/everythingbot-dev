@@ -1,4 +1,7 @@
 exports.run = (client, message, args, mongo) => {
+
+  var UserURL = process.env.USER;
+
   mongo.connect(UserURL, function(err, db) {
     var dbo = db.db("users");
     var query = {
