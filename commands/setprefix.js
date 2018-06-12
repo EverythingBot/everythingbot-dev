@@ -1,4 +1,7 @@
 exports.run = (client, message, args, mongo) => {
+
+    var ServerURL = process.env.SERVER;
+
     if (!message.member.hasPermission("ADMINISTRATOR"))
       return message.reply("sorry, you don't have permissions to use this.");
 
