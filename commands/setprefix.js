@@ -1,4 +1,4 @@
-exports.run = (client, message, args) => {
+exports.run = (client, message, args, mongo) => {
     if (!message.member.hasPermission("ADMINISTRATOR"))
       return message.reply("sorry, you don't have permissions to use this.");
 
