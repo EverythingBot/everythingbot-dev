@@ -4,7 +4,7 @@ var Jimp = require("jimp");
 var ms = require("ms");
 var mongo = require("mongodb").MongoClient;
 //var welcomerole = false;
-
+var fs = require('fs');
 //MongoDB URL
 var UserURL = process.env.USER;
 var ServerURL = process.env.SERVER;
