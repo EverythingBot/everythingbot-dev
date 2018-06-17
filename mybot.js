@@ -160,12 +160,13 @@ client.on("message", async message => {
         return;
 
       if (!message.guild.roles.find("name", "eBot Mute")) {
-        message.guild.createRole ({
-          data:{
-            name: 'eBot Mute'
-          },
-          reason: 'Required for EverythingBot',
-        });
+        message.member.guild.createRole ({
+          name: 'eBot Mute',
+          hoist: false,
+          mentionable: false,
+          permission: ["READ_MESSAGE_HISTORY"]
+        }
+        );
       }
 
   mongo.connect(ServerURL, function(err, db) {
