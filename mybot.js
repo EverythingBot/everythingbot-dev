@@ -164,9 +164,9 @@ client.on("message", async message => {
           name: 'eBot Mute',
           hoist: false,
           mentionable: false,
-          permission: ["READ_MESSAGE_HISTORY"]
+          permissions: ["READ_MESSAGE_HISTORY"]
         }
-        );
+      );
       }
 
   mongo.connect(ServerURL, function(err, db) {
