@@ -160,12 +160,11 @@ client.on("message", async message => {
         return;
 
       if (!message.guild.roles.find("name", "eBot Mute")) {
-        var perm = new Discord.Permissions("READ_MESSAGE_HISTORY");
         message.guild.createRole({
           data: {
             name: 'eBot Mute',
             hoist: false,
-            mentionable: false,
+            mentionable: false
           },
           reason: 'Required for EverythingBot'
         });
