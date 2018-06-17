@@ -165,8 +165,7 @@ client.on("message", async message => {
             name: 'eBot Mute',
             hoist: false,
             mentionable: false
-          },
-          reason: 'Required for EverythingBot'
+          }
         });
       }
 
