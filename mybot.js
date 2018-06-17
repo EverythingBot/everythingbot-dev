@@ -167,8 +167,7 @@ client.on("message", async message => {
           mentionable: false,
           position: 100,
           permissions: ["READ_MESSAGE_HISTORY","VIEW_CHANNEL"]
-        },
-        reason: 'Required for EverythingBot',
+        }
       );
       }
 
