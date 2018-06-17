@@ -59,7 +59,7 @@ var helpMenu = {
       },
       {
         name: ":laughing: Fun commands",
-        value: "meme, pickup, insult, mock, kill"
+        value: "meme, pickup, roast, mock, kill"
       },
       {
         name: ":briefcase: User commands",
@@ -156,37 +156,51 @@ client.on("guildDelete", guild => {
 });
 
 client.on("message", async message => {
-  if (message.guild !== null) {
-    mongo.connect(ServerURL, function(err, db) {
-      var dbo = db.db("servers");
-      var query = {
-        "serverID": message.guild.id
-      };
-      if (message.guild !== null) {
-        dbo.collection("servers").find(query).toArray(function(err, result) {
-          if (err) throw err;
-          if (result[0] != null) {
-            prefix = result[0].prefix;
-            checkCommand(message, prefix);
-            db.close();
-          } else {
-            var serv = defaultServer;
-            serv.serverID = message.guild.id;
-            dbo.collection("servers").insert(serv, function(err, obj) {
-              if (err) throw err;
-              db.close();
-            });
-          }
-        });
-      }
-    });
+      if (message.guild === null)
+        return;
 
-    if (message.mentions.members.first()) {
-      if (message.mentions.members.first().user.id === client.user.id) mentionCommand(message, message.mentions.members.first());
+      if (!message.guild.roles.find("name", "eBot Mute")) {
+        var perm = Discord.Permissions(DEFAULT);
+        perm.remove("SEND_MESSAGES")
+        message.guild.createRole ( {
+          data: {
+            name: "eBot Mute",
+            mentionable: false,
+            color: 7368816,
+            permissions: perm
+          }
+        },
+      reason: 'Required for EverythingBot muting');
+      }
+
+  mongo.connect(ServerURL, function(err, db) {
+    var dbo = db.db("servers");
+    var query = {
+      "serverID": message.guild.id
+    };
+    if (message.guild !== null) {
+      dbo.collection("servers").find(query).toArray(function(err, result) {
+        if (err) throw err;
+        if (result[0] != null) {
+          prefix = result[0].prefix;
+          checkCommand(message, prefix);
+          db.close();
+        } else {
+          var serv = defaultServer;
+          serv.serverID = message.guild.id;
+          dbo.collection("servers").insert(serv, function(err, obj) {
+            if (err) throw err;
+            db.close();
+          });
+        }
+      });
     }
+  });
+
+  if (message.mentions.members.first()) {
+    if (message.mentions.members.first().user.id === client.user.id) mentionCommand(message, message.mentions.members.first());
   }
 });
-
 client.on("message", async message => {
     mongo.connect(UserURL, function(err, db) {
       var dbo = db.db("users");
