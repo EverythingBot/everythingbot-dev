@@ -164,7 +164,7 @@ client.on("message", async message => {
           data: {
             name: 'eBot Mute',
             hoist: false,
-            mentionable: false
+            mentionable: true
           }
         });
       }
