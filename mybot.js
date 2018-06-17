@@ -161,7 +161,7 @@ client.on("message", async message => {
 
       if (!message.guild.roles.find("name", "eBot Mute")) {
         var perm = Discord.Permissions.DEFAULT;
-        perm.remove("SEND_MESSAGES")
+        perm.Permissions.remove("SEND_MESSAGES");
         message.guild.createRole ( {
           data: {
             name: "eBot Mute",
