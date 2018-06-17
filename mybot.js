@@ -162,9 +162,10 @@ client.on("message", async message => {
       if (!message.guild.roles.find("name", "eBot Mute")) {
         message.member.guild.createRole ({
           name: 'eBot Mute',
+          color: 1,
           hoist: false,
           mentionable: false,
-          permissions: ["READ_MESSAGE_HISTORY"]
+          permissions: ["READ_MESSAGE_HISTORY","VIEW_CHANNEL"]
         }
       );
       }
