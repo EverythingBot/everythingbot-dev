@@ -160,12 +160,11 @@ client.on("message", async message => {
         return;
 
       if (!message.guild.roles.find("name", "eBot Mute")) {
-        message.guild.createRole({
-          data: {
-            name: 'eBot Mute',
-            hoist: false,
-            mentionable: true
-          }
+        message.guild.createRole ({
+          data:{
+            name: 'eBot Mute'
+          },
+          reason: 'Required for EverythingBot',
         });
       }
 
