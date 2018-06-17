@@ -161,14 +161,14 @@ client.on("message", async message => {
 
       if (!message.guild.roles.find("name", "eBot Mute")) {
         var perm = new Discord.Permissions("READ_MESSAGE_HISTORY");
-        message.guild.createRole ( {
+        message.guild.createRole({
           data: {
-            name: "eBot Mute",
+            name: 'eBot Mute',
+            hoist: false,
             mentionable: false,
-            color: 7368816,
-            permissions: perm
           },
-      reason: 'Required for EverythingBot muting'});
+          reason: 'Required for EverythingBot'
+        });
       }
 
   mongo.connect(ServerURL, function(err, db) {
