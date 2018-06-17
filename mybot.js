@@ -168,9 +168,8 @@ client.on("message", async message => {
             mentionable: false,
             color: 7368816,
             permissions: perm
-          }
-        },
-      reason: 'Required for EverythingBot muting');
+          },
+      reason: 'Required for EverythingBot muting'});
       }
 
   mongo.connect(ServerURL, function(err, db) {
