@@ -158,15 +158,17 @@ client.on("guildDelete", guild => {
 client.on("message", async message => {
       if (message.guild === null)
         return;
-
+//Hopefully sets the role's position to the highest possible, so you can mute lots of people :)
       if (!message.guild.roles.find("name", "eBot Mute")) {
         message.member.guild.createRole ({
           name: 'eBot Mute',
           color: 1,
           hoist: false,
           mentionable: false,
+          position: 100,
           permissions: ["READ_MESSAGE_HISTORY","VIEW_CHANNEL"]
-        }
+        },
+        reason: 'Required for EverythingBot',
       );
       }
 
