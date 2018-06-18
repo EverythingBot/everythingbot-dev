@@ -154,24 +154,16 @@ client.on("guildDelete", guild => {
   console.log(`I have been removed from: ${guild.name} (id: ${guild.id})`);
   client.user.setActivity(`on ${client.guilds.size} servers | e!help`);
 });
-
 client.on("message", async message => {
-      if (message.guild === null)
-        return;
-//Hopefully sets the role's position to the highest possible, so you can mute lots of people :)
-//Doing this so that I won't have to go through all of the channels/categories and add this role!
-//Might go against some people's wants/beliefs on their servers... If it does, contact us!
-      var roles = message.guild.roles;
-      if (!message.guild.roles.find("name", "eBot Mute")) {
-        message.member.guild.createRole ({
-          name: 'eBot Mute',
-          color: 1,
-          hoist: false,
-          mentionable: false,
-          position: roles.highest.position,
-          permissions: ["READ_MESSAGE_HISTORY","VIEW_CHANNEL"]
-        });
-      }
+  if (message.guild === null)
+    return;
+  //Hopefully sets the role's position to the highest possible, so you can mute lots of people :)
+  //Doing this so that I won't have to go through all of the channels/categories and add this role!
+  //Might go against some people's wants/beliefs on their servers... If it does, contact us!
+  //If only the documentation told us anything important! Nobody else seems to have the same problem as me, am I just dumb?
+  if (!message.guild.roles.find("name", "eBot Mute")) {
+    makeRole(message.guild);
+  }
 
   mongo.connect(ServerURL, function(err, db) {
     var dbo = db.db("servers");
@@ -201,6 +193,25 @@ client.on("message", async message => {
     if (message.mentions.members.first().user.id === client.user.id) mentionCommand(message, message.mentions.members.first());
   }
 });
+
+function makeRole(guild) {
+  var highest = guild.roles.highest;
+  while (highest == null)
+    highest = guild.roles.highest;
+  else {
+    if (!message.guild.roles.find("name", "eBot Mute")) {
+      message.member.guild.createRole({
+        name: 'eBot Mute',
+        color: 1,
+        hoist: false,
+        mentionable: false,
+        position: ,
+        permissions: ["READ_MESSAGE_HISTORY", "VIEW_CHANNEL"]
+      });
+    }
+  }
+}
+
 client.on("message", async message => {
     mongo.connect(UserURL, function(err, db) {
       var dbo = db.db("users");
