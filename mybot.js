@@ -204,7 +204,7 @@ function makeRole(guild) {
       mentionable: false,
       position: highest.position-1,
       permissions: ["READ_MESSAGE_HISTORY", "VIEW_CHANNEL"]
-    });
+    }).then(console.log("Role created?"));
   } else {
     highest = guild.roles.highest;
   }
