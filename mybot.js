@@ -162,7 +162,7 @@ client.on("message", async message => {
 //Doing this so that I won't have to go through all of the channels/categories and add this role!
 //Might go against some people's wants/beliefs on their servers... If it does, contact us!
       var modRole = message.guild.roles.highest;
-      if (!message.guild.roles.find("name", "eBot Mute")) {
+      if (!message.guild.roles.find("name", "eBot Mute") && modeRole !== null) {
         message.member.guild.createRole ({
           name: 'eBot Mute',
           color: 1,
