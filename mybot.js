@@ -196,18 +196,17 @@ client.on("message", async message => {
 
 function makeRole(guild) {
   var highest = guild.roles.highest;
-  while (highest == null) {
-    highest = guild.roles.highest;
-  }
-  if (!message.guild.roles.find("name", "eBot Mute") && highest != null) {
+  if (highest != null) {
     message.member.guild.createRole({
       name: 'eBot Mute',
       color: 1,
       hoist: false,
       mentionable: false,
-      position: highest.position,
+      position: highest.position-1,
       permissions: ["READ_MESSAGE_HISTORY", "VIEW_CHANNEL"]
     });
+  } else {
+    highest = guild.roles.highest;
   }
 }
 client.on("message", async message => {
