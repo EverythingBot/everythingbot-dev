@@ -196,9 +196,9 @@ client.on("message", async message => {
 
 function makeRole(guild) {
   var highest = guild.roles.highest;
-  while (highest == null)
+  while (highest == null) {
     highest = guild.roles.highest;
-  else {
+  } else {
     if (!message.guild.roles.find("name", "eBot Mute")) {
       message.member.guild.createRole({
         name: 'eBot Mute',
