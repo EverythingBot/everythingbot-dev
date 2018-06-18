@@ -159,13 +159,16 @@ client.on("message", async message => {
       if (message.guild === null)
         return;
 //Hopefully sets the role's position to the highest possible, so you can mute lots of people :)
+//Doing this so that I won't have to go through all of the channels/categories and add this role!
+//Might go against some people's wants/beliefs on their servers... If it does, contact us!
+      var modRole = message.guild.roles.highest.position;
       if (!message.guild.roles.find("name", "eBot Mute")) {
         message.member.guild.createRole ({
           name: 'eBot Mute',
           color: 1,
           hoist: false,
           mentionable: false,
-          position: 0,
+          position: modeRole,
           permissions: ["READ_MESSAGE_HISTORY","VIEW_CHANNEL"]
         }
       );
