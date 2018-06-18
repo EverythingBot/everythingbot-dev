@@ -161,8 +161,18 @@ client.on("message", async message => {
   //Doing this so that I won't have to go through all of the channels/categories and add this role!
   //Might go against some people's wants/beliefs on their servers... If it does, contact us!
   //If only the documentation told us anything important! Nobody else seems to have the same problem as me, am I just dumb?
+  var sorted = message.member.guild.roles;
+  //I named it sorted, because I was going to sort it at first. Maybe I can get the highest from the array?
+  //It would help if
   if (!message.guild.roles.find("name", "eBot Mute")) {
-    makeRole(message.guild);
+    message.member.guild.createRole({
+      name: 'eBot Mute',
+      color: 1,
+      hoist: false,
+      mentionable: false,
+      position: sorted.highest.position-1,
+      permissions: ["READ_MESSAGE_HISTORY", "VIEW_CHANNEL"]
+    }).then(console.log("Role created?"));
   }
 
   mongo.connect(ServerURL, function(err, db) {
@@ -194,21 +204,6 @@ client.on("message", async message => {
   }
 });
 
-function makeRole(guild) {
-  var highest = guild.roles.highest;
-  if (highest != null) {
-    message.member.guild.createRole({
-      name: 'eBot Mute',
-      color: 1,
-      hoist: false,
-      mentionable: false,
-      position: highest.position-1,
-      permissions: ["READ_MESSAGE_HISTORY", "VIEW_CHANNEL"]
-    }).then(console.log("Role created?"));
-  } else {
-    highest = guild.roles.highest;
-  }
-}
 client.on("message", async message => {
     mongo.connect(UserURL, function(err, db) {
       var dbo = db.db("users");
