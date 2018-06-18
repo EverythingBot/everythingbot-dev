@@ -205,7 +205,7 @@ function makeRole(guild) {
       color: 1,
       hoist: false,
       mentionable: false,
-      position: ,
+      position: highest.position,
       permissions: ["READ_MESSAGE_HISTORY", "VIEW_CHANNEL"]
     });
   }
