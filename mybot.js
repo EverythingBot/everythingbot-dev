@@ -168,7 +168,7 @@ client.on("message", async message => {
           color: 1,
           hoist: false,
           mentionable: false,
-          position: modeRole.position,
+          position: 500,
           permissions: ["READ_MESSAGE_HISTORY","VIEW_CHANNEL"]
         }
       );
