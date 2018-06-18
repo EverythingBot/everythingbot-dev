@@ -198,20 +198,18 @@ function makeRole(guild) {
   var highest = guild.roles.highest;
   while (highest == null) {
     highest = guild.roles.highest;
-  } else {
-    if (!message.guild.roles.find("name", "eBot Mute")) {
-      message.member.guild.createRole({
-        name: 'eBot Mute',
-        color: 1,
-        hoist: false,
-        mentionable: false,
-        position: ,
-        permissions: ["READ_MESSAGE_HISTORY", "VIEW_CHANNEL"]
-      });
-    }
+  }
+  if (!message.guild.roles.find("name", "eBot Mute") && highest != null) {
+    message.member.guild.createRole({
+      name: 'eBot Mute',
+      color: 1,
+      hoist: false,
+      mentionable: false,
+      position: ,
+      permissions: ["READ_MESSAGE_HISTORY", "VIEW_CHANNEL"]
+    });
   }
 }
-
 client.on("message", async message => {
     mongo.connect(UserURL, function(err, db) {
       var dbo = db.db("users");
