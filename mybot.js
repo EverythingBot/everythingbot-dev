@@ -172,12 +172,12 @@ client.on("message", async message => {
       } else {
         let ebot = message.guild.roles.find("name", "eBot Mute");
         var chann = message.guild.channels.array();
-        //console.log(chann);
+        console.log(ebot);
         for (var i = 0; i < chann.length; i++) {
           if (chann[i].type == "text") {
             chann[i].overwritePermissions({
               overwrites: [{
-                id: message.guild.roles.find("name", "eBot Mute").id,
+                id: ebot.id,
                 denied: ['SEND_MESSAGE'],
               }, ],
               reason: 'Required for EverythingBot muting'
