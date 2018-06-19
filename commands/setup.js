@@ -46,6 +46,7 @@ exports.run = async function(client, message, args, mongo) {
                         message.channel.send(`Guild welcome channel set to ${x}`);
                         message.channel.send("Setup complete! (For now)");
                         mongo.connect(ServerURL, function(err, db) {
+                          var dbo = db.db("servers");
                           dbo.collection("servers").updateOne(query, ser, function(err, result) {
                             if (err)
                               console.log(err);
