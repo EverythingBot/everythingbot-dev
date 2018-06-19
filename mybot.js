@@ -50,34 +50,34 @@ var helpMenu = {
     color: 3447003,
     description: "EverythingBot, does literally everything (Still in production, currently doesn't do much). Here's the list of commands",
     fields: [{
-        name: ":straight_ruler:  Admin/Mod",
-        value: "clear, kick, ban, unban, mute, unmute, setprefix, setup, disable"
-      },
-      {
-        name: ":camera:  Image commands",
-        value: "poster, sepia, greyscale, invert, flip, mirror, blur, rotate"
-      },
-      {
-        name: ":laughing: Fun commands",
-        value: "meme, pickup, roast, mock, kill"
-      },
-      {
-        name: ":briefcase: User commands",
-        value: "bal, daily, leaderboard"
-      },
-      {
-        name: ":regional_indicator_t: :regional_indicator_e: :regional_indicator_x: :regional_indicator_t:  commands",
-        value: "ping, bigtext, invite, server"
-      },
-      {
-        name: ":thinking: Etc commands",
-        value: "credits, membercount"
-      }
-    ],
-    footer: {
-      text: `This guild's prefix is: ${prefix}`
+      name: ":straight_ruler:  Admin/Mod",
+      value: "clear, kick, ban, unban, mute, unmute, setprefix, setup, disable"
+    },
+    {
+      name: ":camera:  Image commands",
+      value: "poster, sepia, greyscale, invert, flip, mirror, blur, rotate"
+    },
+    {
+      name: ":laughing: Fun commands",
+      value: "meme, pickup, roast, mock, kill"
+    },
+    {
+      name: ":briefcase: User commands",
+      value: "bal, daily, leaderboard"
+    },
+    {
+      name: ":regional_indicator_t: :regional_indicator_e: :regional_indicator_x: :regional_indicator_t:  commands",
+      value: "ping, bigtext, invite, server"
+    },
+    {
+      name: ":thinking: Etc commands",
+      value: "credits, membercount"
     }
+  ],
+  footer: {
+    text: `This guild's prefix is: ${prefix}`
   }
+}
 };
 
 client.on("ready", () => {
@@ -100,10 +100,11 @@ client.on("guildCreate", guild => {
     var dbo = db.db("servers");
     var serv = defaultServer;
     serv.serverID = guild.id;
-    dbo.collection("servers").insert(serv, function(err, obj) {
-      if (err) throw err;
-      db.close();
-    });
+    try {
+      dbo.collection("servers").insertOne(serv);
+    } catch (err) {
+      console.log(err);
+    }
   });
   console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
   client.user.setActivity(`on ${client.guilds.size} servers | e!help`);
@@ -124,7 +125,7 @@ client.on("guildMemberAdd", guild => {
       if (result[0].welcomeRole !== null) {
         let r = guild.guild.roles.find("name", result[0].welcomeRole);
         guild.addRole(r)
-          .catch(console.error);
+        .catch(console.error);
       }
       db.close();
     });
@@ -154,69 +155,102 @@ client.on("guildDelete", guild => {
   console.log(`I have been removed from: ${guild.name} (id: ${guild.id})`);
   client.user.setActivity(`on ${client.guilds.size} servers | e!help`);
 });
+
 client.on("message", async message => {
-  if (message.guild === null)
-    return;
-  //Hopefully sets the role's position to the highest possible, so you can mute lots of people :)
-  //Doing this so that I won't have to go through all of the channels/categories and add this role!
-  //Might go against some people's wants/beliefs on their servers... If it does, contact us!
-  //If only the documentation told us anything important! Nobody else seems to have the same problem as me, am I just dumb?
-  var sorted = message.member.guild.roles;
-  //I named it sorted, because I was going to sort it at first. Maybe I can get the highest from the array?
-  //It would help if
-  if (!message.guild.roles.find("name", "eBot Mute")) {
-    /*
-    message.member.guild.createRole({
-      name: 'eBot Mute',
-      color: 1,
-      hoist: false,
-      mentionable: false,
-      position: sorted.highest.position-1,
-      permissions: ["READ_MESSAGE_HISTORY", "VIEW_CHANNEL"]
-    }).then(console.log("Role created?"));
-    */
-  }
+      if (message.guild === null)
+        return;
 
-  mongo.connect(ServerURL, function(err, db) {
-    var dbo = db.db("servers");
-    var query = {
-      "serverID": message.guild.id
-    };
-    if (message.guild !== null) {
-      dbo.collection("servers").find(query).toArray(function(err, result) {
-        if (err) throw err;
-        if (result[0] != null) {
-          prefix = result[0].prefix;
-          checkCommand(message, prefix);
-          db.close();
-        } else {
-          var serv = defaultServer;
-          serv.serverID = message.guild.id;
-          dbo.collection("servers").insert(serv, function(err, obj) {
-            if (err) throw err;
-            db.close();
-          });
+//Creating a muted role, for muting... Also going through every text channel and making sure eBot Mute can't talk!
+      if (!message.guild.roles.find("name", "eBot Mute")) {
+        message.member.guild.createRole({
+          name: 'eBot Mute',
+          color: 1,
+          hoist: false,
+          mentionable: false,
+          permissions: ["READ_MESSAGE_HISTORY", "VIEW_CHANNEL"]
+        }).then(console.log("Role created?"));
+
+        if (message.guild.roles.find("name", "eBot Mute")) {
+          let ebot = message.guild.roles.find("name", "eBot Mute");
+          var chann = message.guild.channels;
+          for (var i = 0; i < chann.length; i++) {
+            if (chann[i].type == "text") {
+              chann[i].overwritePermissions({
+                overwrites: [{
+                  id: ebot.id,
+                  denied: ['SEND_MESSAGES'],
+                }, ],
+                reason: 'Required for EverythingBot muting'
+              });
+            }
+          }
         }
-      });
-    }
-  });
+      }
 
-  if (message.mentions.members.first()) {
-    if (message.mentions.members.first().user.id === client.user.id) mentionCommand(message, message.mentions.members.first());
+mongo.connect(ServerURL, function(err, db) {
+  var dbo = db.db("servers");
+  var query = {
+    "serverID": message.guild.id
+  };
+  if (message.guild !== null) {
+    dbo.collection("servers").find(query).toArray(function(err, result) {
+      if (err) throw err;
+      if (result[0] != null) {
+        prefix = result[0].prefix;
+        checkCommand(message, prefix);
+        db.close();
+      } else {
+        var serv = defaultServer;
+        serv.serverID = message.guild.id;
+        try {
+          dbo.collection("servers").insertOne(serv);
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    });
   }
 });
 
+if (message.mentions.members.first()) {
+  if (message.mentions.members.first().user.id === client.user.id) mentionCommand(message, message.mentions.members.first());
+}
+});
+
 client.on("message", async message => {
-    mongo.connect(UserURL, function(err, db) {
-      var dbo = db.db("users");
-      var query = {
-        "name": message.author.tag
-      };
-      dbo.collection("users").findOne(query, function(err, result) {
-        if (err) throw err;
-        if (result !== null) {
-          var upd = result;
-          upd.xp = result.xp + Math.floor(Math.random() * 2) + 1;
+  mongo.connect(UserURL, function(err, db) {
+    var dbo = db.db("users");
+    var query = {
+      "name": message.author.tag
+    };
+    dbo.collection("users").findOne(query, function(err, result) {
+      if (err) throw err;
+      if (result !== null) {
+        var upd = result;
+        upd.xp = result.xp + Math.floor(Math.random() * 2) + 1;
+        dbo.collection("users").update(query, upd, function(err, res) {
+          if (err) throw err;
+          db.close();
+        });
+      } else {
+        db.close();
+      }
+    });
+  });
+
+  mongo.connect(UserURL, function(err, db) {
+    var dbo = db.db("users");
+    var query = {
+      "name": message.author.tag
+    };
+    dbo.collection("users").findOne(query, function(err, result) {
+      if (err) throw err;
+      if (result != null) {
+        var upd = result;
+        if (result.xp > Math.floor(result.level * 150)) {
+          message.reply(`you've leveled up! Your new level is ${upd.level + 1}.`);
+          upd.xp = result.xp - result.level * 150;
+          upd.level += 1;
           dbo.collection("users").update(query, upd, function(err, res) {
             if (err) throw err;
             db.close();
@@ -224,49 +258,25 @@ client.on("message", async message => {
         } else {
           db.close();
         }
-      });
-    });
-
-  mongo.connect(UserURL, function(err, db) {
-        var dbo = db.db("users");
-        var query = {
-          "name": message.author.tag
-        };
-        dbo.collection("users").findOne(query, function(err, result) {
-          if (err) throw err;
-          if (result != null) {
-            var upd = result;
-            if (result.xp > Math.floor(result.level * 150)) {
-              message.reply(`you've leveled up! Your new level is ${upd.level + 1}.`);
-              upd.xp = result.xp - result.level * 150;
-              upd.level += 1;
-              dbo.collection("users").update(query, upd, function(err, res) {
-                if (err) throw err;
-                db.close();
-              });
-            } else {
-              db.close();
+      } else {
+        if (message.author.bot === false) {
+          dbo.collection("users").findOne(query, function(err, result) {
+            if (err) throw err;
+            if (result == null) {
+              var user = defaultUser;
+              user.name = message.author.tag;
+              try {
+                dbo.collection("users").insertOne(user);
+              } catch (err) {
+                console.log(err);
+              }
             }
-          } else {
-            if (message.author.bot === false) {
-              dbo.collection("users").findOne(query, function(err, result) {
-                if (err) throw err;
-                if (result == null) {
-                  var user = defaultUser;
-                  user.name = message.author.tag;
-                  try {
-                    dbo.collection("users").insertOne(user);
-                  } catch (err) {
-                    console.log(err);
-                  }
-                }
-                db.close();
-              });
-            } else
-              db.close();
-          }
-        });
-
+            db.close();
+          });
+        } else
+        db.close();
+      }
+    });
   });
 });
 
@@ -308,59 +318,59 @@ async function checkCommand(message, prefix) {
         color: 3447003,
         description: "Welcome to the credits!",
         fields: [{
-            name: "Thanks to Popestar#0545",
-            value: "For most of the insults."
-          },
-          {
-            name: "Thanks to PackersRuleGoPack#2232",
-            value: "Source code, and permission to revive the bot."
-          },
-          {
-            name: "Yer Good Ol' Loli Grandpappy#8486",
-            value: "Revived the bot!"
-          }
-        ],
-        footer: {
-          text: "EverythingBot"
+          name: "Thanks to Popestar#0545",
+          value: "For most of the insults."
+        },
+        {
+          name: "Thanks to PackersRuleGoPack#2232",
+          value: "Source code, and permission to revive the bot."
+        },
+        {
+          name: "Yer Good Ol' Loli Grandpappy#8486",
+          value: "Revived the bot!"
         }
+      ],
+      footer: {
+        text: "EverythingBot"
       }
-    });
-  }
-  /*
-  if (command === "gayray") {
-  message.channel.send();
-  const filter = response => ((response.author.id != "440524747353227275"));
-
-  message.channel.send(`Person below triple hella quadruple gay
-  AND, if they delete their message they are permanently gay, and will be reminded of that.
-  AND, this message can't be deflected.
-  AND, all cards and comebacks are null against this, and it gives you Autism Vaccines®
-  AND, no amount of emojis can block the GayRay®
-  |
-  |
-  V`).then(() => {
-  message.channel.awaitMessages(filter, {
-  maxMatches: 1,
-  time: 30000,
-  errors: ['time']
-  })
-  .then(collected => {
-  console.log(collected.first().author);
-  message.channel.send(`${collected.first().author} has the gay!`)
-  collected.first().member.setNickname('Hella Gay Man')
-  .then(console.log())
-  .catch(console.error);
-  })
-  .catch(collected => {
-  message.channel.send('Looks like no-one is gay. Bye you str8 people.');
+    }
   });
-  });
-  }
-  */
+}
+/*
+if (command === "gayray") {
+message.channel.send();
+const filter = response => ((response.author.id != "440524747353227275"));
 
-  if (command === "invite") {
-    message.channel.send(`You can invite me with this link: https://discordapp.com/api/oauth2/authorize?client_id=440524747353227275&permissions=8&scope=bot`);
-  }
+message.channel.send(`Person below triple hella quadruple gay
+AND, if they delete their message they are permanently gay, and will be reminded of that.
+AND, this message can't be deflected.
+AND, all cards and comebacks are null against this, and it gives you Autism Vaccines®
+AND, no amount of emojis can block the GayRay®
+|
+|
+V`).then(() => {
+message.channel.awaitMessages(filter, {
+maxMatches: 1,
+time: 30000,
+errors: ['time']
+})
+.then(collected => {
+console.log(collected.first().author);
+message.channel.send(`${collected.first().author} has the gay!`)
+collected.first().member.setNickname('Hella Gay Man')
+.then(console.log())
+.catch(console.error);
+})
+.catch(collected => {
+message.channel.send('Looks like no-one is gay. Bye you str8 people.');
+});
+});
+}
+*/
+
+if (command === "invite") {
+  message.channel.send(`You can invite me with this link: https://discordapp.com/api/oauth2/authorize?client_id=440524747353227275&permissions=8&scope=bot`);
+}
 }
 
 client.login(process.env.BOT_TOKEN);
