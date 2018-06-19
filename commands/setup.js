@@ -73,5 +73,5 @@ exports.run = async function(client, message, args, mongo) {
         if (collected.size < 1)
           message.channel.send("Setup cancelled, you took longer than 1 minute!");
       });
-    });
+    }
 }
