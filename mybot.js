@@ -169,9 +169,9 @@ client.on("message", async message => {
         mentionable: false,
         permissions: ["READ_MESSAGE_HISTORY", "VIEW_CHANNEL"]
       },
-      'Required for EverythingBot muting').then(addPermission());
+      'Required for EverythingBot muting').then(addPermission(message));
   } else
-    addPermission();
+    addPermission(message);
 
   mongo.connect(ServerURL, function(err, db) {
     var dbo = db.db("servers");
@@ -203,7 +203,7 @@ client.on("message", async message => {
   }
 });
 
-function addPermission() {
+function addPermission(message) {
   let ebot = message.guild.roles.find("name", "eBot Mute");
   var chann = message.guild.channels.array();
   for (var i = 0; i < chann.length; i++) {
