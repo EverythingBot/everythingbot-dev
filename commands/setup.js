@@ -67,7 +67,7 @@ exports.run = async function(client, message, args, mongo) {
                   });
                 });
               }
-            }
+            });
           })
       .catch(collected => {
         if (collected.size < 1)
