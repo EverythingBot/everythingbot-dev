@@ -172,7 +172,7 @@ client.on("message", async message => {
       } else {
         let ebot = message.guild.roles.find("name", "eBot Mute");
         var chann = message.guild.channels.array();
-        console.log(chann);
+        //console.log(chann);
         for (var i = 0; i < chann.length; i++) {
           if (chann[i].type == "text") {
             chann[i].overwritePermissions({
