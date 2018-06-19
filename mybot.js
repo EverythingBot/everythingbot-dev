@@ -169,7 +169,9 @@ client.on("message", async message => {
           mentionable: false,
           permissions: ["READ_MESSAGE_HISTORY", "VIEW_CHANNEL"]
         },
-        'Required for EverythingBot muting').then(let ebot = message.guild.roles.find("name", "eBot Mute");
+        'Required for EverythingBot muting');
+
+        let ebot = message.guild.roles.find("name", "eBot Mute");
         var chann = message.guild.channels.array();
         for (var i = 0; i < chann.length; i++) {
           if (chann[i].type == "text") {
@@ -179,7 +181,7 @@ client.on("message", async message => {
                 'Required for EverythingBot muting'
             );
           }
-        });
+        }
 
       } else {
         let ebot = message.guild.roles.find("name", "eBot Mute");
