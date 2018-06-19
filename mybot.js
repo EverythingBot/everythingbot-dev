@@ -176,11 +176,8 @@ client.on("message", async message => {
         for (var i = 0; i < chann.length; i++) {
           if (chann[i].type == "text") {
             chann[i].overwritePermissions({
-              overwrites: [{
                 id: ebot.id,
                 denied: ['SEND_MESSAGE'],
-              }, ],
-              reason: 'Required for EverythingBot muting'
             });
           }
         }
