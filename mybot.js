@@ -176,8 +176,8 @@ client.on("message", async message => {
         for (var i = 0; i < chann.length; i++) {
           if (chann[i].type == "text") {
             chann[i].overwritePermissions(
-                id: ebot.id,
-                denied: ['SEND_MESSAGE']
+                ebot.id,
+                {SEND_MESSAGES: false}
             );
           }
         }
