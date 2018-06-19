@@ -26,7 +26,6 @@ exports.run = async function(client, message, args, mongo) {
               var c = collected.first().content.toString().replace(/[<#>]/g, '');
               var x = collected.first().content;
               if (message.guild.channels.get(c)) {
-                var r = result;
                 ser.welcomeChannel = c;
                 message.channel.send("Now send the name of the role you want people to get when they join").then(message => {
                   const filter2 = m => m.author.tag.includes(author);
