@@ -1,5 +1,7 @@
 exports.run = async function(client, message, args, mongo) {
 
+  var ServerURL = process.env.SERVER;
+
   if (message.member.hasPermission("ADMINISTRATOR")) {
     setup(message, message.author.tag);
   } else {
@@ -41,6 +43,7 @@ exports.run = async function(client, message, args, mongo) {
                       if (message.channel.guild.roles.exists("name", role)) {
                         ser.welcomeRole = role;
                         message.channel.send('Guild default role set to `' + role + '`');
+                        message.channel.send(`Guild welcome channel set to ${x}`);
                         message.channel.send("Setup complete! (For now)");
                         mongo.connect(ServerURL, function(err, db) {
                           dbo.collection("servers").updateOne(query, ser, function(err, result) {
@@ -59,7 +62,6 @@ exports.run = async function(client, message, args, mongo) {
                       }
                     });
                 });
-                message.channel.send(`Guild welcome channel updated to ${x}`);
               } else {
                 message.channel.send("That wasn't a channel! Are you sure you said a channel name? (Ex. `#general`)");
               }
