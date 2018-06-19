@@ -18,9 +18,10 @@ exports.run = async function(client, message, args, mongo) {
           })
           .then(collected => {
               var done = false;
-              var ser = {
+              var ser =  { $set: {
                 "welcomeRole": null,
                 "welcomeChannel": null
+                }
               }
               var query = {
                 "serverID": message.guild.id
@@ -47,7 +48,7 @@ exports.run = async function(client, message, args, mongo) {
                         message.channel.send("Setup complete! (For now)");
                         mongo.connect(ServerURL, function(err, db) {
                           var dbo = db.db("servers");
-                          dbo.collection("servers").updateOne(query, ser, function(err, result) {
+                          dbo.collection("servers").update(query, ser, function(err, result) {
                             if (err)
                               console.log(err);
                             db.close();
