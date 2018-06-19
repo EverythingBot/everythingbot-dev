@@ -168,7 +168,7 @@ client.on("message", async message => {
           hoist: false,
           mentionable: false,
           permissions: ["READ_MESSAGE_HISTORY", "VIEW_CHANNEL"]
-        }, ,
+        },
         'Required for EverythingBot muting').then(console.log("Role created?"));
       } else {
         let ebot = message.guild.roles.find("name", "eBot Mute");
