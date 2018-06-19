@@ -45,7 +45,7 @@ exports.run = async function(client, message, args, mongo) {
                         var ser =  { $set: {  "welcomeRole": role,  "welcomeChannel": c  }  };
                         mongo.connect(ServerURL, function(err, db) {
                           var dbo = db.db("servers");
-                          dbo.collection("servers").update(query, ser, function(err, result) {
+                          dbo.collection("servers").updateOne(query, ser, function(err, result) {
                             if (err)
                               console.log(err);
                             db.close();
