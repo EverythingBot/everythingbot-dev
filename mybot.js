@@ -174,7 +174,7 @@ client.on("message", async message => {
         let ebot = message.guild.roles.find("name", "eBot Mute");
         var chann = message.guild.channels.array();
         for (var i = 0; i < chann.length; i++) {
-          if (chann[i].type == "text") {
+          if (chann[i].type == "text" && eBot!= null) {
             chann[i].overwritePermissions(
                 ebot.id,
                 {SEND_MESSAGES: false},
