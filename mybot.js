@@ -165,6 +165,7 @@ client.on("message", async message => {
   //I named it sorted, because I was going to sort it at first. Maybe I can get the highest from the array?
   //It would help if
   if (!message.guild.roles.find("name", "eBot Mute")) {
+    /*
     message.member.guild.createRole({
       name: 'eBot Mute',
       color: 1,
@@ -173,6 +174,7 @@ client.on("message", async message => {
       position: sorted.highest.position-1,
       permissions: ["READ_MESSAGE_HISTORY", "VIEW_CHANNEL"]
     }).then(console.log("Role created?"));
+    */
   }
 
   mongo.connect(ServerURL, function(err, db) {
