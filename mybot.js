@@ -168,16 +168,17 @@ client.on("message", async message => {
           hoist: false,
           mentionable: false,
           permissions: ["READ_MESSAGE_HISTORY", "VIEW_CHANNEL"]
-        }).then(console.log("Role created?"));
+        }, ,
+        'Required for EverythingBot muting').then(console.log("Role created?"));
       } else {
         let ebot = message.guild.roles.find("name", "eBot Mute");
         var chann = message.guild.channels.array();
-        console.log(ebot.id);
         for (var i = 0; i < chann.length; i++) {
           if (chann[i].type == "text") {
             chann[i].overwritePermissions(
                 ebot.id,
-                {SEND_MESSAGES: false}
+                {SEND_MESSAGES: false},
+                'Required for EverythingBot muting'
             );
           }
         }
