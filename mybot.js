@@ -169,7 +169,8 @@ client.on("message", async message => {
         mentionable: false,
         permissions: ["READ_MESSAGE_HISTORY", "VIEW_CHANNEL"]
       },
-      'Required for EverythingBot muting').then(addPermission(message));
+      'Required for EverythingBot muting');
+      addPermission(message);
   } else
     addPermission(message);
 
