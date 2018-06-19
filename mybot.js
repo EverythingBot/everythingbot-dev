@@ -175,10 +175,10 @@ client.on("message", async message => {
         console.log(ebot.id);
         for (var i = 0; i < chann.length; i++) {
           if (chann[i].type == "text") {
-            chann[i].overwritePermissions({
+            chann[i].overwritePermissions(
                 id: ebot.id,
-                denied: ['SEND_MESSAGE'],
-            });
+                denied: ['SEND_MESSAGE']
+            );
           }
         }
       }
