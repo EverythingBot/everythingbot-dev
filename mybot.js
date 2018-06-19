@@ -209,7 +209,7 @@ function addPermission(message) {
   for (var i = 0; i < chann.length; i++) {
     if (chann[i].type == "text") {
       //Check if that channel allows eBot Mute to talk, if it can, DISABLE IT!
-      if (chann[i].permissionsFor(ebot.id).has("SEND_MESSAGES"))
+      if (!chann[i].permissionsFor(ebot.id))
         chann[i].overwritePermissions(
           ebot.id, {
             SEND_MESSAGES: false
