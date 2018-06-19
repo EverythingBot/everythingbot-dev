@@ -18,18 +18,14 @@ exports.run = async function(client, message, args, mongo) {
           })
           .then(collected => {
               var done = false;
-              var ser =  { $set: {
-                "welcomeRole": null,
-                "welcomeChannel": null
-                }
-              }
+
               var query = {
                 "serverID": message.guild.id
               };
               var c = collected.first().content.toString().replace(/[<#>]/g, '');
               var x = collected.first().content;
               if (message.guild.channels.get(c)) {
-                ser.welcomeChannel = c;
+                //ser.welcomeChannel = c;
                 message.channel.send("Now send the name of the role you want people to get when they join").then(message => {
                   const filter2 = m => m.author.tag.includes(author);
                   message.channel.awaitMessages(filter2, {
@@ -42,10 +38,11 @@ exports.run = async function(client, message, args, mongo) {
                       var role = c.first().content.toString();
                       //console.log(message.channel.guild.roles.exists("name", role));
                       if (message.channel.guild.roles.exists("name", role)) {
-                        ser.welcomeRole = role;
+                      //  ser.welcomeRole = role;
                         message.channel.send('Guild default role set to `' + role + '`');
                         message.channel.send(`Guild welcome channel set to ${x}`);
                         message.channel.send("Setup complete! (For now)");
+                        var ser =  { $set: {  "welcomeRole": role,  "welcomeChannel": c  }  };
                         mongo.connect(ServerURL, function(err, db) {
                           var dbo = db.db("servers");
                           dbo.collection("servers").update(query, ser, function(err, result) {
