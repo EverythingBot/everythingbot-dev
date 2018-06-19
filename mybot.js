@@ -181,7 +181,7 @@ client.on("message", async message => {
                   denied: ['SEND_MESSAGES'],
                 }, ],
                 reason: 'Required for EverythingBot muting'
-              });
+              }).then(console.log(chann[i].name));
             }
           }
         }
