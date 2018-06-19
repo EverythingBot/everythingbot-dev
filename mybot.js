@@ -169,20 +169,18 @@ client.on("message", async message => {
           mentionable: false,
           permissions: ["READ_MESSAGE_HISTORY", "VIEW_CHANNEL"]
         }).then(console.log("Role created?"));
-
-        if (message.guild.roles.find("name", "eBot Mute")) {
-          let ebot = message.guild.roles.find("name", "eBot Mute");
-          var chann = message.guild.channels;
-          for (var i = 0; i < chann.length; i++) {
-            if (chann[i].type == "text") {
-              chann[i].overwritePermissions({
-                overwrites: [{
-                  id: ebot.id,
-                  denied: ['SEND_MESSAGES'],
-                }, ],
-                reason: 'Required for EverythingBot muting'
-              }).then(console.log(chann[i].name));
-            }
+      } else {
+        let ebot = message.guild.roles.find("name", "eBot Mute");
+        var chann = message.guild.channels;
+        for (var i = 0; i < chann.length; i++) {
+          if (chann[i].type == "text") {
+            chann[i].overwritePermissions({
+              overwrites: [{
+                id: ebot.id,
+                denied: ['SEND_MESSAGES'],
+              }, ],
+              reason: 'Required for EverythingBot muting'
+            }).then(console.log(chann[i].name));
           }
         }
       }
