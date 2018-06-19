@@ -162,7 +162,6 @@ client.on("message", async message => {
 
       //Creating a muted role, for muting... Also going through every text channel and making sure eBot Mute can't talk!
       if (!message.guild.roles.find("name", "eBot Mute")) {
-        let ebot = null;
         message.member.guild.createRole({
             name: 'eBot Mute',
             color: 1,
@@ -170,19 +169,7 @@ client.on("message", async message => {
             mentionable: false,
             permissions: ["READ_MESSAGE_HISTORY", "VIEW_CHANNEL"]
           },
-          'Required for EverythingBot muting').then(
-          ebot = message.guild.roles.find("name", "eBot Mute");
-          var chann = message.guild.channels.array();
-          for (var i = 0; i < chann.length; i++) {
-            if (chann[i].type == "text" && ebot != null) {
-              chann[i].overwritePermissions(
-                ebot.id, {
-                  SEND_MESSAGES: false
-                },
-                'Required for EverythingBot muting'
-              );
-            }
-          });
+          'Required for EverythingBot muting');
       } else {
         let ebot = message.guild.roles.find("name", "eBot Mute");
         var chann = message.guild.channels.array();
