@@ -29,11 +29,11 @@ var a = message.author.username;
         .then(c => {
           //console.log(c.first().content);
           if(tag == a && c.toLowerCase() == "yes"){
-            message.channel.send ("Good job!" {files:[happy]});
+            message.channel.send ("Good job!", {files:[happy]});
           } else if(tag != a && c.toLowerCase() == "no"){
-            message.channel.send ("Good job!" {files:[happy]});
+            message.channel.send ("Good job!", {files:[happy]});
           } else {
-            message.channel.send ("Wow... That's wrong." {files:[dissapoint]});
+            message.channel.send ("Wow... That's wrong.", {files:[dissapoint]});
           }
           //console.log(message.channel.guild.roles.exists("name", role));
 
