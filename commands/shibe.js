@@ -13,6 +13,8 @@ var questIndex;
 var author = message.author.tag;
 var a = message.author.username;
 
+var UserURL = process.env.USER;
+
   message.channel.send("Hey! I'm the 𝕊𝕙𝕚𝕓𝕒 𝕀𝕟𝕦 𝕠𝕗 𝕎𝕚𝕤𝕕𝕠𝕞! I'm just gonna ask you a question, please answer with `yes` or `no`", {files:['https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12224408/Shiba-Inu-On-White-03.jpg']}).then (msg => {
     //questIndex = Math.floor(Math.random() * questions.length);
     tag = users[Math.floor(Math.random() * users.length)].user.username;
@@ -29,11 +31,14 @@ var a = message.author.username;
           console.log(c.first().content);
           if(tag == a && c.first().content.toLowerCase() == "yes"){
             msg.channel.send ("Good job!", {files:[happy]});
+            shibeMoney(5);
           } else if(tag != a && c.first().content.toLowerCase() == "no"){
             msg.channel.send ("Good job!", {files:[happy]});
+            shibeMoney(5);
           } else {
             msg.channel.send ("Wow... That's wrong.", {files:[dissapoint]}).then(m=>{
               m.channel.send("Just because of that, I'm gonna take 10 dollars from you.");
+              shibeMoney(-10);
               //take 10 dollars xd
             });
           }
@@ -48,5 +53,22 @@ var a = message.author.username;
       });
     }
   });
+
+function shibeMoney(amount) {
+  mongo.connect(UserURL, function(err, db) {
+    query = { name: author };
+    var dbo = db.db("users");
+    dbo.collection("users").findOne(query, function(err, result) {
+      if (err) throw err;
+      var cha = result;
+      var up = { $set: { "money": result + amount } };
+      dbo.collection("users").updateOne(query, up, function(err, result) {
+        if (err)
+          console.log(err);
+        db.close();
+      });
+    });
+  });
+}
 
 }
