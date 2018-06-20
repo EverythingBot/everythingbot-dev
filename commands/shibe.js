@@ -29,10 +29,7 @@ var a = message.author.username;
           console.log(c.first().content);
           if(tag == a && c.first().content.toLowerCase() == "yes"){
             msg.channel.send ("Good job!", {files:[happy]});
-          }  else {
-            msg.channel.send ("Wow... That's wrong.", {files:[dissapoint]});
-          }
-           if(tag != a && c.first().content.toLowerCase() == "no"){
+          } else if(tag != a && c.first().content.toLowerCase() == "no"){
             msg.channel.send ("Good job!", {files:[happy]});
           } else {
             msg.channel.send ("Wow... That's wrong.", {files:[dissapoint]});
