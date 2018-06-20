@@ -16,6 +16,6 @@ var questIndex;
     tag = users[Math.floor(Math.random() * users.length)].user.username;
     questIndex=0;
     if(questIndex == 0)
-      msg.channel.send("First question:\r\n" + questions[0] + tag);
+      msg.channel.send("First question:\r\n `" + questions[0] + tag + "`?");
   });
 }
