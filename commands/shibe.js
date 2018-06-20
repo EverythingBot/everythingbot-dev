@@ -13,13 +13,13 @@ var questIndex;
 var author = message.author.tag;
 var a = message.author.username;
 
-  message.channel.send("Hey! I'm the 𝕊𝕙𝕚𝕓𝕒 𝕀𝕟𝕦 𝕠𝕗 𝕎𝕚𝕤𝕕𝕠𝕞! I'm just gonna ask you some questions. Please answer with `Yes` or `No`", {files:['https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12224408/Shiba-Inu-On-White-03.jpg']}).then (msg => {
+  message.channel.send("Hey! I'm the 𝕊𝕙𝕚𝕓𝕒 𝕀𝕟𝕦 𝕠𝕗 𝕎𝕚𝕤𝕕𝕠𝕞! I'm just gonna ask you a question, please answer with `yes` or `no`", {files:['https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12224408/Shiba-Inu-On-White-03.jpg']}).then (msg => {
     //questIndex = Math.floor(Math.random() * questions.length);
     tag = users[Math.floor(Math.random() * users.length)].user.username;
     questIndex=0;
     if(questIndex == 0) {
       const filter = m => m.author.tag.includes(author);
-      message.channel.send("First question:\r\n `" + questions[0] + tag + "?`").then(msg => {
+      message.channel.send("Here's your question:\r\n`" + questions[0] + tag + "?`").then(msg => {
       msg.channel.awaitMessages(filter, {
           max: 1,
           time: 60000,
@@ -32,7 +32,10 @@ var a = message.author.username;
           } else if(tag != a && c.first().content.toLowerCase() == "no"){
             msg.channel.send ("Good job!", {files:[happy]});
           } else {
-            msg.channel.send ("Wow... That's wrong.", {files:[dissapoint]});
+            msg.channel.send ("Wow... That's wrong.", {files:[dissapoint]}).then(m=>{
+              m.channel.send("Just because of that, I'm gonna take 10 dollars from you.");
+              //take 10 dollars xd
+            });
           }
           //console.log(message.channel.guild.roles.exists("name", role));
 
