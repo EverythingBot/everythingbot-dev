@@ -8,7 +8,7 @@ var tag = message.author.tag;
 
   message.channel.send("Hey! I'm the Shiba Inu of Wisdom! I'm just gonna ask you some questions.").then(
     message.channel.send("First question: " + tag);
-  )
+  );
 
 
 }
