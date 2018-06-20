@@ -1,7 +1,7 @@
 exports.run = async function (client, message, args, mongo) {
 var dissapoint = 'http://www.tierversicherung.biz/gallery/images/146091549_ShibaInu1farbkombinat-Fotolia.com.jpg';
 var happy = 'https://myfirstshiba.com/wp-content/uploads/2017/06/kitsu-cheeks_reduced.jpg';
-var half = 'https://vignette.wikia.nocookie.net/doge2048/images/8/8c/Big_Doge.gif/revision/latest?cb=20161105165014';
+var half = 'https://myfirstshiba.com/wp-content/uploads/2016/01/AdobeStock_115842268_white_background-copy.jpg';
 
 var numCorrect;
 var curQuestion;
@@ -20,8 +20,8 @@ var a = message.author.username;
     questIndex=0;
     if(questIndex == 0) {
       const filter = m => m.author.tag.includes(author);
-      msg.channel.send("First question:\r\n `" + questions[0] + tag + "?`");
-      message.channel.awaitMessages(filter, {
+      message.channel.send("First question:\r\n `" + questions[0] + tag + "?`").then(msg => {
+      msg.channel.awaitMessages(filter, {
           max: 1,
           time: 60000,
           errors: ['time']
@@ -29,20 +29,21 @@ var a = message.author.username;
         .then(c => {
           //console.log(c.first().content);
           if(tag == a && c.toLowerCase() == "yes"){
-            message.channel.send ("Good job!", {files:[happy]});
+            msg.channel.send ("Good job!", {files:[happy]});
           } else if(tag != a && c.toLowerCase() == "no"){
-            message.channel.send ("Good job!", {files:[happy]});
+            msg.channel.send ("Good job!", {files:[happy]});
           } else {
-            message.channel.send ("Wow... That's wrong.", {files:[dissapoint]});
+            msg.channel.send ("Wow... That's wrong.", {files:[dissapoint]});
           }
           //console.log(message.channel.guild.roles.exists("name", role));
 
         })
         .catch(c => {
           if (c.size < 1) {
-            message.channel.send("Ok, I guess...", {files:[half]});
+            msg.channel.send("Ok, I guess...", {files:[half]});
           }
         });
+      });
     }
   });
 
