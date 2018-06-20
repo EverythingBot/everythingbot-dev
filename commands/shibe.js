@@ -6,9 +6,7 @@ var half = ['https://vignette.wikia.nocookie.net/doge2048/images/8/8c/Big_Doge.g
 var numCorrect;
 var tag = message.author.tag;
 
-  message.channel.send("Hey! I'm the Shiba Inu of Wisdom! I'm just gonna ask you some questions.").then(
-    message.channel.send("First question: " + tag);
-  );
-
+  message.channel.send("Hey! I'm the Shiba Inu of Wisdom! I'm just gonna ask you some questions.");
+  message.channel.send("First question: " + tag);
 
 }
