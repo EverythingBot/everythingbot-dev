@@ -61,7 +61,7 @@ function shibeMoney(amount) {
     dbo.collection("users").findOne(query, function(err, result) {
       if (err) throw err;
       var cha = result;
-      var up = { $set: { "money": result + amount } };
+      var up = { $set: { "money": result.money + amount } };
       dbo.collection("users").updateOne(query, up, function(err, result) {
         if (err)
           console.log(err);
