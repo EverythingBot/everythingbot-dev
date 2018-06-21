@@ -30,7 +30,7 @@ var UserURL = process.env.USER;
           errors: ['time']
         })
         .then(c => {
-          console.log(c.first().content);
+          //console.log(c.first().content);
           if(tag == a && c.first().content.toLowerCase() == "yes"){
             msg.channel.send ("Nice job, take 5 dollars!");
             shibeMoney(5);
@@ -66,7 +66,7 @@ var UserURL = process.env.USER;
           errors: ['time']
         })
         .then(c => {
-          console.log(c.first().content);
+          //console.log(c.first().content);
           if(x + y == z && c.first().content.toLowerCase() == "yes"){
             msg.channel.send ("Nice job, take 5 dollars!");
             shibeMoney(5);
