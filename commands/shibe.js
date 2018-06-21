@@ -30,10 +30,10 @@ var UserURL = process.env.USER;
         .then(c => {
           console.log(c.first().content);
           if(tag == a && c.first().content.toLowerCase() == "yes"){
-            msg.channel.send ("Good job!", {files:[happy]});
+            msg.channel.send ("Nice job, take 5 dollars!");
             shibeMoney(5);
           } else if(tag != a && c.first().content.toLowerCase() == "no"){
-            msg.channel.send ("Good job!", {files:[happy]});
+            msg.channel.send ("Nice job, take 5 dollars!");
             shibeMoney(5);
           } else {
             msg.channel.send ("Wow... That's wrong.", {files:[dissapoint]}).then(m=>{
