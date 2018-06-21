@@ -59,7 +59,7 @@ var UserURL = process.env.USER;
       y = Math.floor(Math.random() * 10)+1;
       z = Math.floor(Math.random() * 20)+1;
       const filter = m => m.author.tag.includes(author);
-      message.channel.send("Here's your question:\r\n`" + questions[1] + x  + " + " + y + " = " + z + '`').then(msg => {
+      message.channel.send("Here's your question:\r\n`" + questions[1] + x  + " + " + y + " = " + z + '?`').then(msg => {
       msg.channel.awaitMessages(filter, {
           max: 1,
           time: 60000,
