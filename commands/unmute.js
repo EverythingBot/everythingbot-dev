@@ -11,7 +11,7 @@ exports.run = (client, message, args, mongo) => {
 
   if (member.roles.find("name", "eBot Mute")) {
     member.removeRole(muteRole.id);
-    message.channel.send(`${member.user.tag} has been unmuted.`);
+    message.channel.send("`" + member.user.tag + "` has been unmuted.");
   } else
-    message.channel.send(`${member.user.tag} isn't muted!`);
+    message.channel.send("`" + member.user.tag + "` isn't muted!");
 }
