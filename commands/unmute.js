@@ -9,7 +9,7 @@ exports.run = (client, message, args, mongo) => {
   let muteRole = message.guild.roles.find("name", "eBot Mute");
   if (!muteRole) return message.reply("You haven't configured the `eBot Mute` role yet. Please go to roles, and add `eBot Mute` as a role. In `eBot Mute`'s permissions, disable send messages.");
 
-  if (!member.roles.find("name", "eBot Mute")) {
+  if (member.roles.find("name", "eBot Mute")) {
     member.removeRole(muteRole.id);
     message.channel.send(`${member.user.tag} has been unmuted.`);
   } else
