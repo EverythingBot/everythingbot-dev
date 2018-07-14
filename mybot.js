@@ -26,7 +26,7 @@ var defaultServer = {
 }
 
 var defaultUser = {
-  name: null,
+  "name": null,
   "money": 0,
   "xp": 0,
   "level": 1,
