@@ -96,7 +96,7 @@ client.on("guildCreate", guild => {
     }
   });
   defaultChannel.send("Thanks for inviting me to the server! I'm **EverythingBot**. If you need any help, type `e!help`. \r\nIf you have any questions, join the support server https://discord.gg/yuSHrjr");
-  mongo.connect(ServerURL, function(err, db) {
+  mongo.connect(ServerURL, { useNewUrlParser: true }, function(err, db) {
     var dbo = db.db("servers");
     var serv = defaultServer;
     serv.serverID = guild.id;
@@ -174,7 +174,7 @@ client.on("message", async message => {
   } else
     addPermission(message);
 
-  mongo.connect(ServerURL, function(err, db) {
+  mongo.connect(ServerURL, { useNewUrlParser: true }, function(err, db) {
     var dbo = db.db("servers");
     var query = {
       "serverID": message.guild.id
@@ -222,7 +222,7 @@ function addPermission(message) {
 }
 
 client.on("message", async message => {
-  mongo.connect(UserURL, function(err, db) {
+  mongo.connect(UserURL, { useNewUrlParser: true }, function(err, db) {
     var dbo = db.db("users");
     var query = {
       "name": message.author.tag
@@ -242,7 +242,7 @@ client.on("message", async message => {
     });
   });
 
-  mongo.connect(UserURL, function(err, db) {
+  mongo.connect(UserURL, { useNewUrlParser: true }, function(err, db) {
     var dbo = db.db("users");
     var query = {
       "name": message.author.tag
