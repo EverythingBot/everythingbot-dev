@@ -111,7 +111,7 @@ client.on("guildCreate", guild => {
 });
 
 client.on("guildMemberAdd", guild => {
-  mongo.connect(ServerURL, function(err, db) {
+  mongo.connect(ServerURL, { useNewUrlParser: true }, function(err, db) {
     if (err) throw err;
     var dbo = db.db("servers");
     var query = {
@@ -133,7 +133,7 @@ client.on("guildMemberAdd", guild => {
 });
 
 client.on("guildMemberRemove", guild => {
-  mongo.connect(ServerURL, function(err, db) {
+  mongo.connect(ServerURL, { useNewUrlParser: true }, function(err, db) {
     if (err) throw err;
     var dbo = db.db("servers");
     var query = {
