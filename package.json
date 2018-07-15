@@ -15,9 +15,9 @@
     "jimp": "^0.2.28",
     "mongodb": "^3.0.7",
     "ms": "^2.1.1",
-    "node-duckduckgo": "^1.0.5",
     "node-gd": "^1.5.4",
-    "npm": "^6.0.0"
+    "npm": "^6.0.0",
+    "short-number": "^1.0.6"
   },
   "devDependencies": {},
   "engines": {
