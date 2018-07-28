@@ -22,6 +22,6 @@ exports.run = (client, message, args, mongo) => {
             message.reply("guild prefix updated to `" + args[0] + "`");
           });
         });
-      });
+      }, { useNewUrlParser: true });
     }
 }

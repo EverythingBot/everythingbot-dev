@@ -47,7 +47,7 @@ exports.run = (client, message, args, mongo) => {
         }
       }
     });
-  });
+  }, { useNewUrlParser: true });
 
   function makeProfile(mes, money, xp, level, tag) {
     Jimp.read(pic, function(err, image) {

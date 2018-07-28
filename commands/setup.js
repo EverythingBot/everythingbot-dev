@@ -50,7 +50,7 @@ exports.run = async function(client, message, args, mongo) {
                               console.log(err);
                             db.close();
                           });
-                        });
+                        }, { useNewUrlParser: true });
                       } else {
                         message.channel.send("That's not a valid role!");
                       }

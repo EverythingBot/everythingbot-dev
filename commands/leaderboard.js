@@ -14,7 +14,7 @@ exports.run = (client, message, args, mongo) => {
         sendEmbed(message, result, true);
         db.close();
       });
-    });
+    }, { useNewUrlParser: true });
   } else if (args[0] === "level" || args[0] === "l") {
     mongo.connect(UserURL, function(err, db) {
       if (err) message.reply("error connecting to server!");
@@ -27,7 +27,7 @@ exports.run = (client, message, args, mongo) => {
         sendEmbed(message, result, false);
         db.close();
       });
-    });
+    }, { useNewUrlParser: true });
   } else {
     message.reply("leaderboard categories are `money` and `level`");
   }
