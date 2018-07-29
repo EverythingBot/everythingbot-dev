@@ -21,7 +21,7 @@ exports.run = (client, message, args, mongo) => {
             db.close();
           }
         });
-      }, { useNewUrlParser: true });
+      });
     } else if (args[0] === "welcome" || args[0] === "w") {
       mongo.connect(ServerURL, function(err, db) {
         if (err) throw err;
@@ -43,7 +43,7 @@ exports.run = (client, message, args, mongo) => {
             db.close();
           }
         });
-      }, { useNewUrlParser: true });
+      });
     } else {
       message.reply("Available options to disable are `welcome` and `role`");
     }

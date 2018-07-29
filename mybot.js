@@ -122,6 +122,9 @@ client.on("guildMemberAdd", guild => {
       if (result[0].welcomeChannel !== null) {
         guild.guild.channels.get(result[0].welcomeChannel).send(`Welcome to __**${guild.guild.name}**__, <@${guild.user.id}>!`);
       }
+      if(result[0].locked != null && result[0].locked=="true") {
+        guild.addrole(message.guild.roles.find("name", "eBot Mute"));
+      }
       if (result[0].welcomeRole !== null) {
         let r = guild.guild.roles.find("name", result[0].welcomeRole);
         guild.addRole(r)
@@ -231,7 +234,7 @@ client.on("message", async message => {
       if (err) throw err;
       if (result !== null) {
         var upd = result;
-        upd.xp = result.xp + Math.floor(Math.random() * 2) + 1;
+        upd.xp = result.xp + 1;
         dbo.collection("users").update(query, upd, function(err, res) {
           if (err) throw err;
           db.close();

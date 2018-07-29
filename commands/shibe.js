@@ -118,6 +118,6 @@ exports.run = async function(client, message, args, mongo) {
           db.close();
         });
       });
-    }, { useNewUrlParser: true });
+    });
   }
 }

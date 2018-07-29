@@ -35,5 +35,5 @@ exports.run = (client, message, args, mongo) => {
         }
       }
     });
-  }, { useNewUrlParser: true });
+  });
 }
