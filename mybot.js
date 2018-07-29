@@ -123,7 +123,8 @@ client.on("guildMemberAdd", guild => {
         guild.guild.channels.get(result[0].welcomeChannel).send(`Welcome to __**${guild.guild.name}**__, <@${guild.user.id}>!`);
       }
       if(result[0].locked != null && result[0].locked==true) {
-        guild.addRole(guild.roles.find("name", "eBot Mute").id);
+        let muteRole = guild.guild.roles.find("name", "eBot Mute");
+        guild.addRole(muteRole.id);
       }
       if (result[0].welcomeRole !== null) {
         let r = guild.guild.roles.find("name", result[0].welcomeRole);
