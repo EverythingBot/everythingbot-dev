@@ -1,5 +1,5 @@
 exports.run = (client, message, args, mongo) => {
-  var UserURL = process.env.USER;
+  var ServerURL = process.env.SERVER;
 
   if (message.author)
 
