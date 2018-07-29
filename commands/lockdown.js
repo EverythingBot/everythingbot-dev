@@ -1,6 +1,9 @@
 exports.run = (client, message, args, mongo) => {
   var ServerURL = process.env.SERVER;
 
+  const emitter = new EventEmitter();
+  emitter.setMaxListeners(0);
+
   if (!message.member.hasPermission("KICK_MEMBERS"))
     return message.reply("sorry, you don't have permissions to use this.");
 
