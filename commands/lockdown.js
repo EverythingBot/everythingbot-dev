@@ -15,7 +15,11 @@ exports.run = (client, message, args, mongo) => {
       var serv = result;
 
       if (args[0] === "on") {
-        var serv =  { $set: {  "locked": true  }  };
+        var serv = {
+          $set: {
+            "locked": true
+          }
+        };
         dbo.collection("servers").update(query, serv, function(err, res) {
           if (err) throw err;
           message.reply("**lockdown activated!** All members will be muted until the lockdown is deactivated.");
@@ -25,11 +29,15 @@ exports.run = (client, message, args, mongo) => {
             var memb = message.guild.members[u];
             memb.addRole(muteRole.id);
           }
-          dbo.close();
+          db.close();
         });
       } else if (args[0] === "off") {
-        var serv =  { $set: {  "locked": false  }  };
-      //  serv.locked = "false";
+        var serv = {
+          $set: {
+            "locked": false
+          }
+        };
+        //  serv.locked = "false";
         dbo.collection("servers").updateOne(query, serv, function(err, res) {
           if (err) throw err;
           message.reply("**lockdown deactivated!** All members will be unmuted");
@@ -37,10 +45,11 @@ exports.run = (client, message, args, mongo) => {
             var memb = message.guild.members[u];
             memb.removeRole(muteRole.id);
           }
-          dbo.close();
+          db.close();
         });
+      } else {
+        db.close();
       }
-      db.close();
     });
   });
 }
