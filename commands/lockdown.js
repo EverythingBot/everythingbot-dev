@@ -25,9 +25,8 @@ exports.run = (client, message, args, mongo) => {
           message.reply("**lockdown activated!** All members will be muted until the lockdown is deactivated.");
           var u;
           let muteRole = message.guild.roles.find("name", "eBot Mute");
-          for (u in message.guild.members) {
-            var memb = message.guild.members[u];
-            memb.addRole(muteRole.id);
+          message.guild.members.forEach(function(guildMember)) {
+            guildMember.addRole(muteRole.id);
           }
           db.close();
         });
@@ -41,9 +40,8 @@ exports.run = (client, message, args, mongo) => {
         dbo.collection("servers").updateOne(query, serv, function(err, res) {
           if (err) throw err;
           message.reply("**lockdown deactivated!** All members will be unmuted");
-          for (u in message.guild.members) {
-            var memb = message.guild.members[u];
-            memb.removeRole(muteRole.id);
+          message.guild.members.forEach(function(guildMember)) {
+            guildMember.removeRole(muteRole.id);
           }
           db.close();
         });
