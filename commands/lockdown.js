@@ -40,6 +40,7 @@ exports.run = (client, message, args, mongo) => {
         dbo.collection("servers").updateOne(query, serv, function(err, res) {
           if (err) throw err;
           message.reply("**lockdown deactivated!** All members will be unmuted");
+          let muteRole = message.guild.roles.find("name", "eBot Mute");
           message.guild.members.forEach(function(guildMember) {
             guildMember.removeRole(muteRole.id);
           });
