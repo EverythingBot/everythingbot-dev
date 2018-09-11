@@ -1,6 +1,6 @@
-exports.run = (client, message, args, mongo) => {
+exports.run = (client, message, args, mongo, srvURL, clURL) => {
 
-  var ServerURL = process.env.SERVER;
+  var ServerURL = srvURL;
 
   if (message.member.hasPermission("ADMINISTRATOR")) {
     if (args[0] === "role" || args[0] === "r") {
