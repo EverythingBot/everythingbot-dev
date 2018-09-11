@@ -51,7 +51,7 @@ var helpMenu = {
     description: "EverythingBot, does literally everything (Still in production, currently doesn't do much). Here's the list of commands",
     fields: [{
       name: ":straight_ruler:  Admin/Mod",
-      value: "clear, kick, ban, unban, mute, unmute, setprefix, setup, disable"
+      value: "clear, kick, ban, unban, mute, unmute, setprefix, setup, disable, lockdown"
     },
     {
       name: ":camera:  Image commands",
@@ -307,7 +307,7 @@ async function checkCommand(message, prefix) {
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
     let file = require(`./commands/${command}.js`);
-    file.run(client, message, args, mongo);
+    file.run(client, message, args, mongo, ServerURL, UserURL);
   } catch (err){
     console.log(err);
   }
