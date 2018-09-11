@@ -1,4 +1,7 @@
 exports.run = (client, message, args, mongo) => {
+
+  var ServerURL = process.env.SERVER;
+
   if (message.member.hasPermission("ADMINISTRATOR")) {
     if (args[0] === "role" || args[0] === "r") {
       mongo.connect(ServerURL, function(err, db) {
