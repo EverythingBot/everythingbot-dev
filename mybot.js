@@ -404,7 +404,7 @@ client.on("messageUpdate", async (oldMsg,newMsg) => {
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
     let file = require(`./logging/log.js`);
-    file.run(message, mongo, ServerURL, UserURL, "delete", oldMsg);
+    file.run(newMsg, mongo, ServerURL, UserURL, "delete", oldMsg);
   } catch (err){
     console.log(err);
   }
