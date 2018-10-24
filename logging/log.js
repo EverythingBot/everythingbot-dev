@@ -32,6 +32,8 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
           }
         };
 
+        l.send(loggedMessage);
+
       //  l.send(`Message sent by ${message.author.username} was deleted`);
       //  l.send(message.content);
       }
