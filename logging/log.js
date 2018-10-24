@@ -32,7 +32,7 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
         };
 
         l.send(loggedMessage);
-
+        /*
         if (message.attachments.array().length > 0) {
           var attachment = message.attachments.array();
           //Testing the image... thing
@@ -47,6 +47,7 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
           };
           l.send(deletePic);
         }
+        */
       }
 
       if (type == "edit") {
