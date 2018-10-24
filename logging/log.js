@@ -40,12 +40,9 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
             "embed": {
               "title": `Message deleted contained an attachment`,
               "color": 16711680,
-              "fields": [
-                {
-                  "name": "Attachment link",
-                  "value": `${attachment[0].url}`
-                }
-              ]
+              "image": {
+                "value": `${attachment[0].url}`
+              }
             }
           };
           l.send(deletePic);
