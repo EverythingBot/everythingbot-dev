@@ -15,30 +15,47 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
         throw err;
 
       if (type == "delete") {
+        if(message.guild.channels.get(serv.logChannel.toString()) == null)
+          return;
 
+        var l = message.guild.channels.get(serv.logChannel.toString());
+        /*
+        var loggedMessage = {
+          embed: {
+            color: 16711680,
+            description: `Message sent by ${message.author.username} was deleted`,
+            fields: [{
+                name: "Message",
+                value: `Content: ${message.content}`
+              }
+            ]
+          }
+        };
+        */
+        l.send(`Message sent by ${message.author.username} was deleted`);
+        l.send(message.content);
       }
 
       if (type == "edit") {
-        console.log("Message edited");
-        console.log(serv.logChannel);
+        if(message.guild.channels.get(serv.logChannel.toString()) == null)
+          return;
         var l = message.guild.channels.get(serv.logChannel.toString());
         var loggedMessage = {
           embed: {
-            color: 3447003,
-            description: `Message sent by ${message.author.id} was edited`,
+            color: 16776960,
+            description: `Message sent by ${message.author.username} was edited`,
             fields: [{
                 name: "Old Message",
-                value: `${oldMessage.content}`
+                value: `Content: ${oldMessage.content}`
               },
               {
                 name: "New Message",
-                value: `${message.content}`
+                value: `Content: ${message.content}`
               }
             ]
           }
         };
         l.send(loggedMessage);
-        console.log(`Sent in ${serv.logChannel}`);
       }
       db.close();
     });
