@@ -384,4 +384,30 @@ if (command === "invite") {
 }
 }
 
+client.on("messageDelete", async message => {
+  if(message.guild == null)
+    return;
+  try{
+    const args = message.content.slice(prefix.length).trim().split(/ +/g);
+    const command = args.shift().toLowerCase();
+    let file = require(`./logging/log.js`);
+    file.run(message, mongo, ServerURL, UserURL, "delete");
+  } catch (err){
+    console.log(err);
+  }
+});
+
+client.on("messageUpdate", async (oldMsg,newMsg) => {
+  if(newMsg.guild == null)
+    return;
+  try{
+    const args = message.content.slice(prefix.length).trim().split(/ +/g);
+    const command = args.shift().toLowerCase();
+    let file = require(`./logging/log.js`);
+    file.run(message, mongo, ServerURL, UserURL, "delete", oldMsg);
+  } catch (err){
+    console.log(err);
+  }
+});
+
 client.login(process.env.BOT_TOKEN);
