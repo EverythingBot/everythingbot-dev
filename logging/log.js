@@ -27,7 +27,7 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
           "embed": {
             "color": 16711680,
             "author": {
-              "name": `Author: ${message.author.username}`,
+              "name": `${message.author.username}`,
               "icon_url": `${message.author.displayAvatarURL}`
             },
             "description": `Message sent in ${message.channel.name} was deleted`,
@@ -64,7 +64,7 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
           "embed": {
             "color": 16776960,
             "author": {
-              "name": `Author: ${message.author.username}`,
+              "name": `${message.author.username}`,
               "icon_url": `${message.author.displayAvatarURL}`
             },
             "description": `Message sent by ${message.author.username} in ${message.channel.name} was edited`,
