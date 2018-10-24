@@ -42,7 +42,7 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
               "color": 16711680,
               "fields": [
                 {
-                  "name": "Attachment link"
+                  "name": "Attachment link",
                   "value": attachment[0].url;
                 }
               ]
