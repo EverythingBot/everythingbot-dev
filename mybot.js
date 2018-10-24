@@ -388,8 +388,6 @@ client.on("messageDelete", async message => {
   if(message.guild == null)
     return;
   try{
-    const args = message.content.slice(prefix.length).trim().split(/ +/g);
-    const command = args.shift().toLowerCase();
     let file = require(`./logging/log.js`);
     file.run(message, mongo, ServerURL, UserURL, "delete");
   } catch (err){
@@ -401,8 +399,6 @@ client.on("messageUpdate", async (oldMsg,newMsg) => {
   if(newMsg.guild == null)
     return;
   try{
-    const args = message.content.slice(prefix.length).trim().split(/ +/g);
-    const command = args.shift().toLowerCase();
     let file = require(`./logging/log.js`);
     file.run(newMsg, mongo, ServerURL, UserURL, "edit", oldMsg);
   } catch (err){
