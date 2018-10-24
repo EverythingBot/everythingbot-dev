@@ -9,18 +9,17 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
       "serverID": message.guild.id
     };
     dbo.collection("servers").find(query).toArray(function(err, result) {
+      var serv = result;
       if (err)
         throw err;
 
       if (type == "delete") {
-        if (message.guild.channels.get(result.logChannel)) {
 
-        }
       }
 
       if (type == "edit") {
         console.log("Message edited");
-        var l = message.guild.channels.get(result.logChannel);
+        var l = message.guild.channels.get(serv.logChannel);
         var loggedMessage = {
           embed: {
             color: 3447003,
@@ -37,7 +36,7 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
           }
         };
         l.send(loggedMessage);
-        console.log(`Sent in ${result.logChannel}`);
+        console.log(`Sent in ${serv.logChannel}`);
       }
       db.close();
     });
