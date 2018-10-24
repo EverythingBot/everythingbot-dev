@@ -14,8 +14,8 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
       if (err)
         throw err;
 
-      if(serv.logChannel == null)
-      return;
+      if (serv.logChannel == null)
+        return;
 
       if (message.guild.channels.get(serv.logChannel.toString()) == null)
         return;
@@ -26,11 +26,16 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
         var loggedMessage = {
           embed: {
             color: 16711680,
-            description: `Message sent by ${message.author.username} in ${message.channel.name} was deleted`,
+            author: {
+              name: `Author: ${message.author.username}`
+              icon_url: `${message.author.displayAvatarURL}`
+            },
+            description: `Message sent in ${message.channel.name} was deleted`,
             fields: [{
               name: "Message",
               value: `${message.content}`
-            }]
+            }],
+            timestamp: new Date()
           }
         };
 
@@ -58,6 +63,10 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
         var loggedMessage = {
           embed: {
             color: 16776960,
+            author: {
+              name: `Author: ${message.author.username}`
+              icon_url: `${message.author.displayAvatarURL}`
+            },
             description: `Message sent by ${message.author.username} in ${message.channel.name} was edited`,
             fields: [{
                 name: "Old Message",
@@ -67,7 +76,8 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
                 name: "New Message",
                 value: `${message.content}`
               }
-            ]
+            ],
+            timestamp: new Date()
           }
         };
         l.send(loggedMessage);
