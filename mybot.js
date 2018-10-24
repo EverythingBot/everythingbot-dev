@@ -229,6 +229,8 @@ client.on("message", async message => {
   if(message.author.bot)
     return;
 
+  console.log(message.author.id);
+
   mongo.connect(UserURL, { useNewUrlParser: true }, function(err, db) {
     var dbo = db.db("users");
     var query = {
