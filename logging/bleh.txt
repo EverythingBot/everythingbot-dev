@@ -1,1 +1,3 @@
+# Welcome to the logging folder!
 
+This is a temporary file, just so I could make this folder.
