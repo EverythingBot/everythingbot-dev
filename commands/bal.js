@@ -14,9 +14,9 @@ exports.run = (client, message, args, mongo) => {
     var ID;
     if (args[0] == null) {
       ID = message.author.id;
-      tags = message.author.tag;
+      tags = message.author.id;
       query = {
-        name: message.author.tag
+        name: message.author.id
       };
     } else {
       if (args[0].toString().includes('@')) {
