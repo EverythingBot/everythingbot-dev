@@ -24,18 +24,18 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
         var l = message.guild.channels.get(serv.logChannel.toString());
 
         var loggedMessage = {
-          embed: {
-            color: 16711680,
-            author: {
-              name: `Author: ${message.author.username}`
-              icon_url: `${message.author.displayAvatarURL}`
+          "embed": {
+            "color": 16711680,
+            "author": {
+              "name": `Author: ${message.author.username}`
+              "icon_url": `${message.author.displayAvatarURL}`
             },
-            description: `Message sent in ${message.channel.name} was deleted`,
-            fields: [{
-              name: "Message",
-              value: `${message.content}`
+            "description": `Message sent in ${message.channel.name} was deleted`,
+            "fields": [{
+              "name": "Message",
+              "value": `${message.content}`
             }],
-            timestamp: new Date()
+            "timestamp": new Date()
           }
         };
 
@@ -61,23 +61,23 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
       if (type == "edit") {
         var l = message.guild.channels.get(serv.logChannel.toString());
         var loggedMessage = {
-          embed: {
-            color: 16776960,
-            author: {
-              name: `Author: ${message.author.username}`
-              icon_url: `${message.author.displayAvatarURL}`
+          "embed": {
+            "color": 16776960,
+            "author": {
+              "name": `Author: ${message.author.username}`
+              "icon_url": `${message.author.displayAvatarURL}`
             },
-            description: `Message sent by ${message.author.username} in ${message.channel.name} was edited`,
-            fields: [{
-                name: "Old Message",
-                value: `${oldMessage.content}`
+            "description": `Message sent by ${message.author.username} in ${message.channel.name} was edited`,
+            "fields": [{
+                "name": "Old Message",
+                "value": `${oldMessage.content}`
               },
               {
-                name: "New Message",
-                value: `${message.content}`
+                "name": "New Message",
+                "value": `${message.content}`
               }
             ],
-            timestamp: new Date()
+            "timestamp": new Date()
           }
         };
         l.send(loggedMessage);
