@@ -37,7 +37,7 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
           var attachment = message.attachments.array();
           //Testing the image... thing
           l.send("This message had an image", {
-            files: [attachment[0]]
+            file: [attachment[0].url]
           });
         }
       }
