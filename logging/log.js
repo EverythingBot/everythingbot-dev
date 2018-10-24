@@ -14,10 +14,10 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
       if (err)
         throw err;
 
-      if (type == "delete") {
-        if(message.guild.channels.get(serv.logChannel.toString()) == null)
-          return;
+      if (message.guild.channels.get(serv.logChannel.toString()) == null)
+        return;
 
+      if (type == "delete") {
         var l = message.guild.channels.get(serv.logChannel.toString());
 
         var loggedMessage = {
@@ -25,22 +25,22 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
             color: 16711680,
             description: `Message sent by ${message.author.username} in ${message.channel.name} was deleted`,
             fields: [{
-                name: "Message",
-                value: `${message.content}`
-              }
-            ]
+              name: "Message",
+              value: `${message.content}`
+            }]
           }
         };
 
         l.send(loggedMessage);
 
-      //  l.send(`Message sent by ${message.author.username} was deleted`);
-      //  l.send(message.content);
+        if (message.attachments.array.length > 0) {
+          var attachment = message.attachments.array();
+          //Testing the image... thing
+          l.send("This message had an image", attachment[0]);
+        }
       }
 
       if (type == "edit") {
-        if(message.guild.channels.get(serv.logChannel.toString()) == null)
-          return;
         var l = message.guild.channels.get(serv.logChannel.toString());
         var loggedMessage = {
           embed: {
