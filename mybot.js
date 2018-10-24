@@ -385,7 +385,7 @@ if (command === "invite") {
 }
 
 client.on("messageDelete", async message => {
-  if(message.guild == null)
+  if(message.guild == null || message.author.bot)
     return;
   try{
     let file = require(`./logging/log.js`);
@@ -396,7 +396,7 @@ client.on("messageDelete", async message => {
 });
 
 client.on("messageUpdate", async (oldMsg,newMsg) => {
-  if(newMsg.guild == null)
+  if(newMsg.guild == null || newMsg.author.bot)
     return;
   try{
     let file = require(`./logging/log.js`);
