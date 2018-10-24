@@ -8,7 +8,7 @@ exports.run = async function(client, message, args, mongo) {
       else if (args[0] == "role" || args[0] == "r")
         roleSetup(message, message.author.tag);
       else if (args[0] == "logs" || args[0] == "l")
-        roleSetup(message, message.author.tag);
+        logSetup(message, message.author.tag);
       else {
         message.reply("available categories are: `welcome, role, logs`");
       }
