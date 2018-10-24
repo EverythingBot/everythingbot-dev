@@ -43,11 +43,11 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
               "fields": [
                 {
                   "name": "Attachment link",
-                  "value": `${attachment[0].url}`;
+                  "value": `${attachment[0].url}`
                 }
               ]
             }
-          }
+          };
           l.send(deletePic);
         }
       }
