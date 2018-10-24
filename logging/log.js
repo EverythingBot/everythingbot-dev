@@ -39,7 +39,6 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
         }
       }
       db.close();
-    }
-
+    });
   });
 }
