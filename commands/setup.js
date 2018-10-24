@@ -61,7 +61,7 @@ exports.run = async function(client, message, args, mongo) {
     }
 
     function logSetup(message, author) {
-      message.reply("please reply with your welcome channel").then(message => {
+      message.reply("please reply with your log channel").then(message => {
         const filter = m => m.author.tag.includes(author);
         message.channel.awaitMessages(filter, {
             max: 1,
@@ -88,7 +88,7 @@ exports.run = async function(client, message, args, mongo) {
                   if (err)
                     console.log(err);
                   else {
-                    message.channel.send(`Guild welcome channel set to ${x}`);
+                    message.channel.send(`Guild logging channel set to ${x}`);
                   }
                   db.close();
                 });
