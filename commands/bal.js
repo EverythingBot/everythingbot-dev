@@ -25,7 +25,7 @@ exports.run = (client, message, args, mongo) => {
           if (client.users.get(ID)) {
             tags = message.guild.member(ID).user.tag;
             query = {
-              name: message.guild.member(ID).user.tag
+              name: message.guild.member(ID).user.id
             };
           }
         }
