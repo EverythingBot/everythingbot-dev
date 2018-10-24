@@ -245,10 +245,10 @@ client.on("message", async message => {
 
   mongo.connect(UserURL, {
     useNewUrlParser: true
-  }, function(err, d) {
+  }, function(err, db) {
     if (err) console.error('Error occurred', err);
 
-    var dbo = d.db("users");
+    var dbo = db.db("users");
     var query = {
       "name": message.author.id
     };
