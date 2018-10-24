@@ -8,6 +8,7 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
     var query = {
       "serverID": message.guild.id
     };
+
     dbo.collection("servers").find(query).toArray(function(err, result) {
       var serv = result;
       if (err)
@@ -19,7 +20,8 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
 
       if (type == "edit") {
         console.log("Message edited");
-        var l = message.guild.channels.get(serv.logChannel);
+        console.log(serv.logChannel);
+        var l = message.guild.channels.get(serv.logChannel.toString());
         var loggedMessage = {
           embed: {
             color: 3447003,
