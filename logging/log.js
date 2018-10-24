@@ -10,7 +10,7 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
     };
 
     dbo.collection("servers").find(query).toArray(function(err, result) {
-      var serv = result;
+      var serv = result[0];
       if (err)
         throw err;
 
