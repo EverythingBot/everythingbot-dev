@@ -151,6 +151,7 @@ exports.run = async function(client, message, args, mongo) {
           });
       });
     }
+  }
     /*
       function setup(message, author) {
         message.reply("please reply with your welcome channel").then(message => {
