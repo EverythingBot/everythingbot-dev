@@ -107,6 +107,7 @@ client.on("guildCreate", guild => {
     serv.serverID = guild.id;
     try {
       dbo.collection("servers").insertOne(serv);
+      db.close();
     } catch (err) {
       console.log(err);
     }
@@ -209,6 +210,7 @@ client.on("message", async message => {
           serv.serverID = message.guild.id;
           try {
             dbo.collection("servers").insertOne(serv);
+            db.close();
           } catch (err) {
             console.log(err);
           }
@@ -257,10 +259,14 @@ client.on("message", async message => {
       if (result !== null) {
         var upd = result;
         upd.xp = result.xp + 1;
-        dbo.collection("users").update(query, upd, function(err, res) {
-          if (err) console.error('Error occurred', err);
-          db.close();
-        });
+        try {
+          dbo.collection("users").update(query, upd, function(err, res) {
+            if (err) console.error('Error occurred', err);
+            db.close();
+          });
+        } catch (e) {
+          console.error('Error occurred', e);
+        }
       } else {
         db.close();
       }
@@ -294,19 +300,15 @@ client.on("message", async message => {
         }
       } else {
         if (message.author.bot === false) {
-          dbo.collection("users").findOne(query, function(err, result) {
-            if (err) console.error('Error occurred', err);
-            if (result == null) {
               var user = defaultUser;
               user.name = message.author.id;
               try {
                 dbo.collection("users").insertOne(user);
+                db.close();
               } catch (err) {
                 console.log(err);
+                db.close();
               }
-            }
-            db.close();
-          });
         } else
           db.close();
       }
@@ -374,7 +376,6 @@ async function checkCommand(message, prefix) {
   if (command === "gayray") {
   message.channel.send();
   const filter = response => ((response.author.id != "440524747353227275"));
-
   message.channel.send(`Person below triple hella quadruple gay
   AND, if they delete their message they are permanently gay, and will be reminded of that.
   AND, this message can't be deflected.
