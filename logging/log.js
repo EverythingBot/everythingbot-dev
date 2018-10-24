@@ -19,21 +19,21 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
           return;
 
         var l = message.guild.channels.get(serv.logChannel.toString());
-        /*
+
         var loggedMessage = {
           embed: {
             color: 16711680,
-            description: `Message sent by ${message.author.username} was deleted`,
+            description: `Message sent by ${message.author.username} in ${message.channel.name} was deleted`,
             fields: [{
                 name: "Message",
-                value: `Content: ${message.content}`
+                value: `${message.content}`
               }
             ]
           }
         };
-        */
-        l.send(`Message sent by ${message.author.username} was deleted`);
-        l.send(message.content);
+
+      //  l.send(`Message sent by ${message.author.username} was deleted`);
+      //  l.send(message.content);
       }
 
       if (type == "edit") {
@@ -43,14 +43,14 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
         var loggedMessage = {
           embed: {
             color: 16776960,
-            description: `Message sent by ${message.author.username} was edited`,
+            description: `Message sent by ${message.author.username} in ${message.channel.name} was edited`,
             fields: [{
                 name: "Old Message",
-                value: `Content: ${oldMessage.content}`
+                value: `${oldMessage.content}`
               },
               {
                 name: "New Message",
-                value: `Content: ${message.content}`
+                value: `${message.content}`
               }
             ]
           }
