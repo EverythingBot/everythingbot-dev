@@ -14,7 +14,7 @@ exports.run = (client, message, args, mongo) => {
     var ID;
     if (args[0] == null) {
       ID = message.author.id;
-      tags = message.author.id;
+      tags = message.author.tag;
       query = {
         name: message.author.id
       };
