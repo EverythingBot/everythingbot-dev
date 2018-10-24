@@ -36,9 +36,16 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
         if (message.attachments.array().length > 0) {
           var attachment = message.attachments.array();
           //Testing the image... thing
-          l.send("This message had an image", {
-            file: [attachment[0].url]
-          });
+          var deletePic = {
+            "embed": {
+              "title": `Message deleted contained ${attachment.length} attachments(s), here's the first one`,
+              "color": 16711680,
+              "image": {
+                "url": `${attachment[0].url}`
+              }
+            }
+          }
+          l.send(deletePic);
         }
       }
 
