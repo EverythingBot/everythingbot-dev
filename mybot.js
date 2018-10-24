@@ -248,7 +248,7 @@ client.on("message", async message => {
   }, function(err, d) {
     if (err) console.error('Error occurred', err);
 
-    var dbo = d.db("new_user");
+    var dbo = d.db("users");
     var query = {
       "name": message.author.id
     };
@@ -273,7 +273,7 @@ client.on("message", async message => {
 
     if (err) console.error('Error occurred', err);
 
-    var dbo = db.db("new_user");
+    var dbo = db.db("users");
     var query = {
       "name": message.author.id
     };
