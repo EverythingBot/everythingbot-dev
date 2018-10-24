@@ -123,11 +123,11 @@ client.on("guildMemberAdd", guild => {
         guild.guild.channels.get(result[0].welcomeChannel).send(`Welcome to __**${guild.guild.name}**__, <@${guild.user.id}>!`);
       }
       if(result[0].locked != null && result[0].locked==true) {
-        let muteRole = guild.guild.roles.find("name", "eBot Mute");
+        let muteRole = guild.guild.roles.find(x => x.name === "eBot Mute");
         guild.addRole(muteRole.id);
       }
       if (result[0].welcomeRole !== null) {
-        let r = guild.guild.roles.find("name", result[0].welcomeRole);
+        let r = guild.guild.roles.find(x => x.name === result[0].welcomeRole);
         guild.addRole(r)
         .catch(console.error);
       }
@@ -165,7 +165,7 @@ client.on("message", async message => {
     return;
 
   //Creating a muted role, for muting... Also going through every text channel and making sure eBot Mute can't talk!
-  if (!message.guild.roles.find("name", "eBot Mute")) {
+  if (!message.guild.roles.find(x => x.name === "eBot Mute")) {
     message.member.guild.createRole({
         name: 'eBot Mute',
         color: 1,
@@ -209,7 +209,7 @@ client.on("message", async message => {
 });
 
 function addPermission(message) {
-  let ebot = message.guild.roles.find("name", "eBot Mute");
+  let ebot = message.guild.roles.find(x => x.name === "eBot Mute");
   var chann = message.guild.channels.array();
   for (var i = 0; i < chann.length; i++) {
     if (chann[i].type == "text") {
@@ -226,6 +226,9 @@ function addPermission(message) {
 }
 
 client.on("message", async message => {
+  if(message.author.bot)
+    return;
+
   mongo.connect(UserURL, { useNewUrlParser: true }, function(err, db) {
     var dbo = db.db("users");
     var query = {
