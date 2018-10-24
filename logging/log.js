@@ -1,6 +1,6 @@
 exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
 
-  mongo.connect(ServerURL, { useNewUrlParser: true }, function(err, db) {
+  mongo.connect(srvURL, { useNewUrlParser: true }, function(err, db) {
     var dbo = db.db("servers");
 
     var query = {
