@@ -36,7 +36,9 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
         if (message.attachments.array().length > 0) {
           var attachment = message.attachments.array();
           //Testing the image... thing
-          l.send("This message had an image", attachment[0]);
+          l.send("This message had an image", {
+            files: [attachment[0]]
+          });
         }
       }
 
