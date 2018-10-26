@@ -17,8 +17,9 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage, oldChan, newChan
       if (serv.logChannel == null)
         return;
 
-      if (message.guild.channels.get(serv.logChannel.toString()) == null)
-        return;
+      if (message != null)
+        if (message.guild.channels.get(serv.logChannel.toString()) == null)
+          return;
 
       if (type == "delete") {
         var l = message.guild.channels.get(serv.logChannel.toString());
@@ -82,9 +83,9 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage, oldChan, newChan
                 "value": `${oldChan.id}`
               },
               {
-                  "name": "Channel Type",
-                  "value": `${oldChan.type}`
-                }
+                "name": "Channel Type",
+                "value": `${oldChan.type}`
+              }
             ],
             "timestamp": new Date()
           }
@@ -107,9 +108,9 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage, oldChan, newChan
                 "value": `${oldChan.id}`
               },
               {
-                  "name": "Channel Type",
-                  "value": `${oldChan.type}`
-                }
+                "name": "Channel Type",
+                "value": `${oldChan.type}`
+              }
             ],
             "timestamp": new Date()
           }
