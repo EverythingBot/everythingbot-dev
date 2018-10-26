@@ -432,22 +432,4 @@ client.on("messageUpdate", async (oldMsg, newMsg) => {
   }
 });
 
-client.on("channelCreate", async (chan) => {
-  try {
-    let file = require(`./logging/log.js`);
-    file.run(null, mongo, ServerURL, UserURL, "channelCreate", null, chan, client);
-  } catch (err) {
-    console.log(err);
-  }
-});
-
-client.on("channelDelete", async (chan) => {
-  try {
-    let file = require(`./logging/log.js`);
-    file.run(null, mongo, ServerURL, UserURL, "channelDelete", null, chan, client);
-  } catch (err) {
-    console.log(err);
-  }
-});
-
 client.login(process.env.BOT_TOKEN);
