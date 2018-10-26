@@ -26,6 +26,7 @@ var defaultServer = {
 }
 
 var defaultUser = {
+  _id: null,
   "name": null,
   "money": 0,
   "xp": 0,
@@ -301,6 +302,7 @@ client.on("message", async message => {
       } else {
         if (message.author.bot === false) {
               var user = defaultUser;
+              user._id = message.author.id;
               user.name = message.author.id;
               try {
                 dbo.collection("users").insertOne(user);
@@ -425,6 +427,28 @@ client.on("messageUpdate", async (oldMsg, newMsg) => {
   try {
     let file = require(`./logging/log.js`);
     file.run(newMsg, mongo, ServerURL, UserURL, "edit", oldMsg);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+client.on("channelCreate", async (chan) => {
+  if (newMsg.guild == null || newMsg.author.bot)
+    return;
+  try {
+    let file = require(`./logging/log.js`);
+    file.run(null, mongo, ServerURL, UserURL, "channelCreate", null, chan);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+client.on("channelDelete", async (chan) => {
+  if (newMsg.guild == null || newMsg.author.bot)
+    return;
+  try {
+    let file = require(`./logging/log.js`);
+    file.run(null, mongo, ServerURL, UserURL, "channelDelete", null, chan);
   } catch (err) {
     console.log(err);
   }
