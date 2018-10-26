@@ -1,4 +1,4 @@
-exports.run = (message, mongo, srvURL, clURL, type, oldMessage, oldChan, newChan) => {
+exports.run = (message, mongo, srvURL, clURL, type, oldMessage, oldChan, newChan, client) => {
 
   mongo.connect(srvURL, {
     useNewUrlParser: true
@@ -68,7 +68,7 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage, oldChan, newChan
       }
 
       if (type == "channelCreate") {
-        var l = message.guild.channels.get(serv.logChannel.toString());
+        var l = client.channels.get(oldChan.id);
         var loggedMessage = {
           "embed": {
             "color": 16776960,
@@ -93,7 +93,7 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage, oldChan, newChan
       }
 
       if (type == "channelDelete") {
-        var l = message.guild.channels.get(serv.logChannel.toString());
+        var l = client.channels.get(oldChan.id);
         var loggedMessage = {
           "embed": {
             "color": 16711680,
