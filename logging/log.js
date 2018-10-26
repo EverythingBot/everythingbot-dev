@@ -1,4 +1,4 @@
-exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
+exports.run = (message, mongo, srvURL, clURL, type, oldMessage, oldChan, newChan) => {
 
   mongo.connect(srvURL, {
     useNewUrlParser: true
@@ -40,22 +40,6 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
         };
 
         l.send(loggedMessage);
-        /*
-        if (message.attachments.array().length > 0) {
-          var attachment = message.attachments.array();
-          //Testing the image... thing
-          var deletePic = {
-            "embed": {
-              "title": `Message deleted contained an attachment`,
-              "color": 16711680,
-              "image": {
-                "value": `${attachment[0].url}`
-              }
-            }
-          };
-          l.send(deletePic);
-        }
-        */
       }
 
       if (type == "edit") {
@@ -67,7 +51,7 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
               "name": `${message.author.username}`,
               "icon_url": `${message.author.displayAvatarURL}`
             },
-            "description": `Message sent by ${message.author.username} in ${message.channel.name} was edited`,
+            "description": `Message sent in ${message.channel.name} was edited`,
             "fields": [{
                 "name": "Old Message",
                 "value": `${oldMessage.content}`
@@ -82,6 +66,57 @@ exports.run = (message, mongo, srvURL, clURL, type, oldMessage) => {
         };
         l.send(loggedMessage);
       }
+
+      if (type == "channelCreate") {
+        var l = message.guild.channels.get(serv.logChannel.toString());
+        var loggedMessage = {
+          "embed": {
+            "color": 16776960,
+            "author": {
+              "name": `${oldChan.client.user.username}`,
+              "icon_url": `${oldChan.client.user.displayAvatarURL}`
+            },
+            "description": `Channel was Created`,
+            "fields": [{
+                "name": "Channel ID",
+                "value": `${oldChan.id}`
+              },
+              {
+                  "name": "Channel Type",
+                  "value": `${oldChan.type}`
+                }
+            ],
+            "timestamp": new Date()
+          }
+        };
+        l.send(loggedMessage);
+      }
+
+      if (type == "channelDelete") {
+        var l = message.guild.channels.get(serv.logChannel.toString());
+        var loggedMessage = {
+          "embed": {
+            "color": 16711680,
+            "author": {
+              "name": `${oldChan.client.user.username}`,
+              "icon_url": `${oldChan.client.user.displayAvatarURL}`
+            },
+            "description": `Channel was Deleted`,
+            "fields": [{
+                "name": "Channel ID",
+                "value": `${oldChan.id}`
+              },
+              {
+                  "name": "Channel Type",
+                  "value": `${oldChan.type}`
+                }
+            ],
+            "timestamp": new Date()
+          }
+        };
+        l.send(loggedMessage);
+      }
+
       db.close();
     });
   });
