@@ -415,7 +415,7 @@ client.on("messageDelete", async message => {
     return;
   try {
     let file = require(`./logging/log.js`);
-    file.run(message, mongo, ServerURL, UserURL, "delete");
+    file.run(message, mongo, ServerURL, UserURL, "delete", null, null, client);
   } catch (err) {
     console.log(err);
   }
@@ -426,29 +426,25 @@ client.on("messageUpdate", async (oldMsg, newMsg) => {
     return;
   try {
     let file = require(`./logging/log.js`);
-    file.run(newMsg, mongo, ServerURL, UserURL, "edit", oldMsg);
+    file.run(newMsg, mongo, ServerURL, UserURL, "edit", oldMsg, null, client);
   } catch (err) {
     console.log(err);
   }
 });
 
 client.on("channelCreate", async (chan) => {
-  if (newMsg.guild == null || newMsg.author.bot)
-    return;
   try {
     let file = require(`./logging/log.js`);
-    file.run(null, mongo, ServerURL, UserURL, "channelCreate", null, chan);
+    file.run(null, mongo, ServerURL, UserURL, "channelCreate", null, chan, client);
   } catch (err) {
     console.log(err);
   }
 });
 
 client.on("channelDelete", async (chan) => {
-  if (newMsg.guild == null || newMsg.author.bot)
-    return;
   try {
     let file = require(`./logging/log.js`);
-    file.run(null, mongo, ServerURL, UserURL, "channelDelete", null, chan);
+    file.run(null, mongo, ServerURL, UserURL, "channelDelete", null, chan, client);
   } catch (err) {
     console.log(err);
   }
