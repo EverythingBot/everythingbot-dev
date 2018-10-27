@@ -9,7 +9,7 @@ exports.run = async function(client, message, args, mongo) {
       roleSetup(message, message.author.tag);
     else if (args[0] == "logs" || args[0] == "l")
       logSetup(message, message.author.tag);
-    else if (args[0] == "logs" || args[0] == "l")
+    else if (args[0] == "balance" || args[0] == "b")
       balPicSetup(message, args);
     else {
       message.reply("available categories are: `welcome, role, logs`");
