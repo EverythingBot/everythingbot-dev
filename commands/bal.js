@@ -63,7 +63,7 @@ exports.run = (client, message, args, mongo) => {
       dbo.collection("servers").find(query).toArray(function(err, result) {
         if(err) throw err;
 
-        var serv = result;
+        var serv = result[0];
 
         if(serv.balPic == true || serv.balPic == null){
           makeProfile(mes, money, xp, level, tag);
