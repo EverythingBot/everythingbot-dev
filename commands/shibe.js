@@ -13,7 +13,8 @@ exports.run = async function(client, message, args, mongo) {
   var y;
   var z;
   var questIndex;
-  var author = message.author.id;
+  var author = message.author.tag;
+  var mA = message.author.id;
   var a = message.author.username;
 
   var UserURL = process.env.USER;
@@ -32,10 +33,10 @@ exports.run = async function(client, message, args, mongo) {
             errors: ['time']
           })
           .then(c => {
-            if (tag == a && c.first().content.toLowerCase() == "yes" || c.first().content.toLowerCase() == "y") {
+            if (tag == a && c.first().content.toLowerCase() == "yes") {
               msg.channel.send("Nice job, take 5 dollars!");
               shibeMoney(5);
-            } else if (tag != a && c.first().content.toLowerCase() == "no" || c.first().content.toLowerCase() == "n") {
+            } else if (tag != a && c.first().content.toLowerCase() == "no") {
               msg.channel.send("Nice job, take 5 dollars!");
               shibeMoney(5);
             } else {
@@ -70,10 +71,10 @@ exports.run = async function(client, message, args, mongo) {
             errors: ['time']
           })
           .then(c => {
-            if (x + y == z && c.first().content.toLowerCase() == "yes" || c.first().content.toLowerCase() == "y") {
+            if (x + y == z && c.first().content.toLowerCase() == "yes") {
               msg.channel.send("Nice job, take 5 dollars!");
               shibeMoney(5);
-            } else if (x + y != z && c.first().content.toLowerCase() == "no" || c.first().content.toLowerCase() == "n") {
+            } else if (x + y != z && c.first().content.toLowerCase() == "no") {
               msg.channel.send("Nice job, take 5 dollars!");
               shibeMoney(5);
             } else {
@@ -102,7 +103,7 @@ exports.run = async function(client, message, args, mongo) {
   function shibeMoney(amount) {
     mongo.connect(UserURL, function(err, db) {
       query = {
-        name: author
+        name: mA
       };
       var dbo = db.db("users");
       dbo.collection("users").findOne(query, function(err, result) {
