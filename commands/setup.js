@@ -157,16 +157,16 @@ exports.run = async function(client, message, args, mongo) {
 
   function balPicSetup(message, args) {
 
-    if (args[0] == null) {
+    if (args[1] == null) {
       message.reply("correct command usage example: `e!setup balance true`");
       return;
     }
 
     var final = false;
 
-    if (args[0] == "true" || args[0] == "enable" || args[0] == "enabled")
+    if (args[1] == "true" || args[1] == "enable" || args[1] == "enabled")
       final = true;
-    else if (args[0] == "false" || args[0] == "disable" || args[0] == "disabled")
+    else if (args[1] == "false" || args[1] == "disable" || args[1] == "disabled")
       final = false;
 
     mongo.connect(ServerURL, function(err, db) {

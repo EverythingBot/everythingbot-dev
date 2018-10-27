@@ -61,6 +61,8 @@ exports.run = (client, message, args, mongo) => {
       };
 
       dbo.collection("servers").find(query).toArray(function(err, result) {
+        if(err) throw err;
+
         var serv = result;
 
         if(serv.balPic == true || serv.balPic == null){
@@ -89,9 +91,9 @@ exports.run = (client, message, args, mongo) => {
               "timestamp": new Date()
             }
           };
+          mes.channel.send(bal);
         }
       });
-
     });
   }
 
