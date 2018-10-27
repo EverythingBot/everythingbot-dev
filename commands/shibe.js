@@ -32,10 +32,10 @@ exports.run = async function(client, message, args, mongo) {
             errors: ['time']
           })
           .then(c => {
-            if (tag == a && c.first().content.toLowerCase() == "yes") {
+            if (tag == a && c.first().content.toLowerCase() == "yes" || c.first().content.toLowerCase() == "y") {
               msg.channel.send("Nice job, take 5 dollars!");
               shibeMoney(5);
-            } else if (tag != a && c.first().content.toLowerCase() == "no") {
+            } else if (tag != a && c.first().content.toLowerCase() == "no" || c.first().content.toLowerCase() == "n") {
               msg.channel.send("Nice job, take 5 dollars!");
               shibeMoney(5);
             } else {
@@ -70,10 +70,10 @@ exports.run = async function(client, message, args, mongo) {
             errors: ['time']
           })
           .then(c => {
-            if (x + y == z && c.first().content.toLowerCase() == "yes") {
+            if (x + y == z && c.first().content.toLowerCase() == "yes" || c.first().content.toLowerCase() == "y") {
               msg.channel.send("Nice job, take 5 dollars!");
               shibeMoney(5);
-            } else if (x + y != z && c.first().content.toLowerCase() == "no") {
+            } else if (x + y != z && c.first().content.toLowerCase() == "no" || c.first().content.toLowerCase() == "n") {
               msg.channel.send("Nice job, take 5 dollars!");
               shibeMoney(5);
             } else {
@@ -85,7 +85,6 @@ exports.run = async function(client, message, args, mongo) {
                 //take 10 dollars xd
               });
             }
-
           })
           .catch(c => {
             if (c.size < 1) {
@@ -96,6 +95,8 @@ exports.run = async function(client, message, args, mongo) {
           });
       });
     }
+
+
   });
 
   function shibeMoney(amount) {
