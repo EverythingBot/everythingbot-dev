@@ -68,7 +68,7 @@ exports.run = (client, message, args, mongo) => {
         if(serv.balPic == true || serv.balPic == null){
           makeProfile(mes, money, xp, level, tag);
         } else {
-          var user = client.users.get(ID);
+          var user = client.users.get(id);
           var bal = {
             "embed": {
               "color": 62975,
