@@ -154,48 +154,50 @@ exports.run = async function(client, message, args, mongo) {
         });
     });
   }
-}
 
-function balPicSetup(message, args) {
+  function balPicSetup(message, args) {
 
-  if (args[0] == null) {
-    message.reply("correct command usage example: `e!setup balance true`");
-    return;
-  }
+    if (args[0] == null) {
+      message.reply("correct command usage example: `e!setup balance true`");
+      return;
+    }
 
-  var final;
+    var final;
 
-  if (args[0] == "true" || args[0] == "enable" || args[0] == "enabled")
-    final = true;
-  else if (args[0] == "false" || args[0] == "disable" || args[0] == "disabled")
-    final = false;
+    if (args[0] == "true" || args[0] == "enable" || args[0] == "enabled")
+      final = true;
+    else if (args[0] == "false" || args[0] == "disable" || args[0] == "disabled")
+      final = false;
 
-  mongo.connect(ServerURL, function(err, db) {
-    var dbo = db.db("servers");
+    mongo.connect(ServerURL, function(err, db) {
+      var dbo = db.db("servers");
 
-    var query = {
-      "serverID": message.guild.id
-    };
+      var query = {
+        "serverID": message.guild.id
+      };
 
-    var ser = {
-      $set: {
-        "balPic": final
-      }
-    };
+      var ser = {
+        $set: {
+          "balPic": final
+        }
+      };
 
-    dbo.collection("servers").updateOne(query, ser, function(err, result) {
-      if (err)
-        console.log(err);
-      else {
-        if (final)
-          message.channel.send("Balance picture: `enabled`");
-        else
-          message.channel.send("Balance picture: `disabled`");
-      }
-      db.close();
+      dbo.collection("servers").updateOne(query, ser, function(err, result) {
+        if (err)
+          console.log(err);
+        else {
+          if (final)
+            message.channel.send("Balance picture: `enabled`");
+          else
+            message.channel.send("Balance picture: `disabled`");
+        }
+        db.close();
+      });
     });
-  });
+  }
 }
+
+
 /*
   function setup(message, author) {
     message.reply("please reply with your welcome channel").then(message => {
