@@ -52,7 +52,7 @@ exports.run = (client, message, args, mongo) => {
   });
 
   function decide(mes, money, xp, level, tag, id) {
-    mongo.connect(UserURL, function(err, db) {
+    mongo.connect(ServerURL, function(err, db) {
       if (err) throw err;
       var dbo = db.db("servers");
 
