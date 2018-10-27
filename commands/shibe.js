@@ -110,7 +110,7 @@ exports.run = async function(client, message, args, mongo) {
         var cha = result;
         var up = {
           $set: {
-            "money": result.money + amount
+            "money": cha.money + amount
           }
         };
         dbo.collection("users").updateOne(query, up, function(err, result) {
