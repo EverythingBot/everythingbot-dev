@@ -162,7 +162,7 @@ exports.run = async function(client, message, args, mongo) {
       return;
     }
 
-    var final;
+    var final = false;
 
     if (args[0] == "true" || args[0] == "enable" || args[0] == "enabled")
       final = true;
