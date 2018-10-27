@@ -13,7 +13,7 @@ exports.run = async function(client, message, args, mongo) {
   var y;
   var z;
   var questIndex;
-  var author = message.author.tag;
+  var author = message.author.id;
   var a = message.author.username;
 
   var UserURL = process.env.USER;
