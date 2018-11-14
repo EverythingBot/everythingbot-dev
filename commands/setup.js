@@ -208,7 +208,7 @@ function muteSetup (message, args) {
         errors: ['time']
       })
       .then(collected => {
-        console.log(collected.first().content);
+        console.log(collected.first().content.toLowerCase());
         if(collected.first().content.toLowerCase() == "yes")
           updateMute(msg, true);
         else
@@ -223,7 +223,7 @@ function muteSetup (message, args) {
 
 function updateMute (m, state){
 
-  debug.log(state);
+  console.log(state);
 
   var query = {
     "serverID": m.guild.id
@@ -242,9 +242,9 @@ function updateMute (m, state){
         console.log(err);
       else {
         if(state)
-          message.channel.send("EverythingBot will now take care of adding channel overrides for the `eBot Mute` role");
+          m.channel.send("EverythingBot will now take care of adding channel overrides for the `eBot Mute` role");
         else
-          message.channel.send("EverythingBot will not add channel overrides for the `eBot Mute` role");
+          m.channel.send("EverythingBot will not add channel overrides for the `eBot Mute` role");
       }
       db.close();
     });
