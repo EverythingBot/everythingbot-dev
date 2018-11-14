@@ -128,6 +128,7 @@ client.on("guildMemberAdd", guild => {
     };
     dbo.collection("servers").find(query).toArray(function(err, result) {
       if (err) console.error('Error occurred', err);
+
       if (result[0].welcomeChannel !== null) {
         guild.guild.channels.get(result[0].welcomeChannel).send(`Welcome to __**${guild.guild.name}**__, <@${guild.user.id}>!`);
       }
@@ -175,19 +176,8 @@ client.on("message", async message => {
   if (message.guild === null)
     return;
 
-  //Creating a muted role, for muting... Also going through every text channel and making sure eBot Mute can't talk!
-  if (!message.guild.roles.find(x => x.name === "eBot Mute")) {
-    message.member.guild.createRole({
-        name: 'eBot Mute',
-        color: 1,
-        hoist: false,
-        mentionable: false,
-        permissions: ["READ_MESSAGE_HISTORY", "VIEW_CHANNEL"]
-      },
-      'Required for EverythingBot muting');
-    addPermission(message);
-  } else
-    addPermission(message);
+  //This controls all of the muting setup
+  addPermission(message);
 
   mongo.connect(ServerURL, {
     useNewUrlParser: true
@@ -202,6 +192,7 @@ client.on("message", async message => {
     if (message.guild !== null) {
       dbo.collection("servers").find(query).toArray(function(err, result) {
         if (err) console.error('Error occurred', err);
+
         if (result[0] != null) {
           prefix = result[0].prefix;
           checkCommand(message, prefix);
@@ -226,20 +217,52 @@ client.on("message", async message => {
 });
 
 function addPermission(message) {
-  let ebot = message.guild.roles.find(x => x.name === "eBot Mute");
-  var chann = message.guild.channels.array();
-  for (var i = 0; i < chann.length; i++) {
-    if (chann[i].type == "text") {
-      //Check if that channel allows eBot Mute to talk, if it can, DISABLE IT!
-      if (!chann[i].permissionsFor(ebot.id))
-        chann[i].overwritePermissions(
-          ebot.id, {
-            SEND_MESSAGES: false
-          },
-          'Required for EverythingBot muting'
-        );
-    }
-  }
+
+  mongo.connect(ServerURL, {
+    useNewUrlParser: true
+  }, function(err, db) {
+
+    if (err) console.error('Error occurred', err);
+
+    var dbo = db.db("servers");
+    var query = {
+      "serverID": message.guild.id
+    };
+
+    dbo.collection("servers").find(query).toArray(function(err, result) {
+      if (err) console.error('Error occurred', err);
+
+      if (result[0].canMute == false)
+        return;
+      else {
+        if (!message.guild.roles.find(x => x.name === "eBot Mute")) {
+          message.member.guild.createRole({
+              name: 'eBot Mute',
+              color: 1,
+              hoist: false,
+              mentionable: false,
+              permissions: ["READ_MESSAGE_HISTORY", "VIEW_CHANNEL"]
+            },
+            'Required for EverythingBot muting');
+        }
+        let ebot = message.guild.roles.find(x => x.name === "eBot Mute");
+        var chann = message.guild.channels.array();
+        for (var i = 0; i < chann.length; i++) {
+          if (chann[i].type == "text") {
+            //Check if that channel allows eBot Mute to talk, if it can, DISABLE IT!
+            if (!chann[i].permissionsFor(ebot.id))
+              chann[i].overwritePermissions(
+                ebot.id, {
+                  SEND_MESSAGES: false
+                },
+                'Required for EverythingBot muting'
+              );
+          }
+        }
+      }
+
+    });
+  });
 }
 
 client.on("message", async message => {
@@ -301,16 +324,16 @@ client.on("message", async message => {
         }
       } else {
         if (message.author.bot === false) {
-              var user = defaultUser;
-              user._id = message.author.id;
-              user.name = message.author.id;
-              try {
-                dbo.collection("users").insertOne(user);
-                db.close();
-              } catch (err) {
-                console.log(err);
-                db.close();
-              }
+          var user = defaultUser;
+          user._id = message.author.id;
+          user.name = message.author.id;
+          try {
+            dbo.collection("users").insertOne(user);
+            db.close();
+          } catch (err) {
+            console.log(err);
+            db.close();
+          }
         } else
           db.close();
       }
