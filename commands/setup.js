@@ -199,7 +199,7 @@ exports.run = async function(client, message, args, mongo) {
   }
 }
 
-function muteSetup (message, args) {
+function muteSetup(message, args) {
   const filter = m => m.author.tag.includes(message.author.tag);
   message.reply("enabling this function will allow EverythingBot to create a role named `eBot Mute` (if needed) and add channel overrides. If you accept, reply `Yes`. If you do not accept this, do not reply, or reply `No`. This command will expire in two minutes.").then(msg => {
     msg.channel.awaitMessages(filter, {
@@ -209,19 +209,20 @@ function muteSetup (message, args) {
       })
       .then(collected => {
         console.log(collected.first().content.toLowerCase());
-        if(collected.first().content.toLowerCase() == "yes")
+        if (collected.first().content.toLowerCase() == "yes")
           updateMute(msg, true);
         else
           updateMute(msg, false);
-        }
-      ).catch(collected => {
-        if (collected.size < 1)
+      }).catch(collected => {
+        if (collected.size < 1) {
+          updateMute(msg, false);
           msg.channel.send("Command expired.");
+        }
       });
   });
 }
 
-function updateMute (m, state){
+function updateMute(m, state) {
 
   console.log(state);
 
@@ -240,12 +241,10 @@ function updateMute (m, state){
     dbo.collection("servers").updateOne(query, ser, function(err, result) {
       if (err)
         console.log(err);
-      else {
-        if(state)
-          m.channel.send("EverythingBot will now take care of adding channel overrides for the `eBot Mute` role");
-        else
-          m.channel.send("EverythingBot will not add channel overrides for the `eBot Mute` role");
-      }
+      if (state)
+        m.channel.send("EverythingBot will now take care of adding channel overrides for the `eBot Mute` role");
+      else
+        m.channel.send("EverythingBot will not add channel overrides for the `eBot Mute` role");
       db.close();
     });
   });
