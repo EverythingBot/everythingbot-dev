@@ -11,8 +11,10 @@ exports.run = async function(client, message, args, mongo) {
       logSetup(message, message.author.tag);
     else if (args[0] == "balance" || args[0] == "b")
       balPicSetup(message, args);
+    else if (args[0] == "mute" || args[0] == "m")
+      muteSetup(message, args);
     else {
-      message.reply("available categories are: `welcome, role, logs`");
+      message.reply("available categories are: `welcome, role, logs, mute`");
       message.channel.send("You can also enable/disable sending the balance as a picture with `balance true/false`");
     }
   } else {
@@ -126,11 +128,11 @@ exports.run = async function(client, message, args, mongo) {
           var x = collected.first().content;
           var role = c.first().content.toString();
 
-          if (message.channel.guild.roles.exists("name", role)) {
+          if (message.channel.guild.roles.exists("name", x)) {
 
             var ser = {
               $set: {
-                "welcomeRole": c
+                "welcomeRole": x
               }
             };
             mongo.connect(ServerURL, function(err, db) {
@@ -197,6 +199,53 @@ exports.run = async function(client, message, args, mongo) {
   }
 }
 
+function muteSetup (message, args) {
+  message.reply("Enabling this function will allow EverythingBot to create a role named `eBot Mute` (if needed) and add channel overrides. If you accept, reply `Yes`. If you do not accept this, do not reply, or reply `No`. This command will expire in two minutes.").then(message => {
+    const filter = m => m.author.tag.includes(author);
+    message.channel.awaitMessages(filter, {
+        max: 1,
+        time: 120000,
+        errors: ['time']
+      })
+      .then(collected => {
+        if(collected.first().content.toLowerCase() == "yes")
+          updateMute(message, true);
+        else
+          updateMute(message, false);
+      ).catch(collected => {
+        if (collected.size < 1)
+          message.channel.send("Command expired.");
+      });
+  });
+}
+
+function updateMute (m, state){
+
+  var query = {
+    "serverID": m.guild.id
+  };
+
+  var ser = {
+    $set: {
+      "canMute": state
+    }
+  };
+
+  mongo.connect(ServerURL, function(err, db) {
+    var dbo = db.db("servers");
+    dbo.collection("servers").updateOne(query, ser, function(err, result) {
+      if (err)
+        console.log(err);
+      else {
+        if(state)
+          message.channel.send("EverythingBot will now take care of adding channel overrides for the `eBot Mute` role");
+        else
+          message.channel.send("EverythingBot will not add channel overrides for the `eBot Mute` role");
+      }
+      db.close();
+    });
+  });
+}
 
 /*
   function setup(message, author) {
