@@ -224,25 +224,25 @@ function muteSetup(message, args) {
 
 function updateMute(m, state) {
 
-  var query = {
-    "serverID": m.guild.id
-  };
-
-  var ser = {
-    $set: {
-      "canMute": state
-    }
-  };
-
   mongo.connect(ServerURL, function(err, db) {
     var dbo = db.db("servers");
+
+    var query = {
+      "serverID": m.guild.id
+    };
+
+    var ser = {
+      $set: {
+        "canMute": state
+      }
+    };
 
     console.log(state);
 
     if (state == true)
-      m.channel.send("EverythingBot will now take care of adding channel overrides for the `eBot Mute` role");
+      m.channel.send("EverythingBot will now take care of adding channel overrides for the `eBot Mute` role.");
     else
-      m.channel.send("EverythingBot will not add channel overrides for the `eBot Mute` role");
+      m.channel.send("EverythingBot will not add channel overrides for the `eBot Mute` role.");
 
     dbo.collection("servers").updateOne(query, ser, function(err, result) {
       if (err)
