@@ -212,6 +212,7 @@ function muteSetup (message, args) {
           updateMute(message, true);
         else
           updateMute(message, false);
+        }
       ).catch(collected => {
         if (collected.size < 1)
           message.channel.send("Command expired.");
