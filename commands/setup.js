@@ -223,6 +223,8 @@ function muteSetup (message, args) {
 
 function updateMute (m, state){
 
+  debug.log(state);
+
   var query = {
     "serverID": m.guild.id
   };
