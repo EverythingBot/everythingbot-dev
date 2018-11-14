@@ -208,6 +208,7 @@ function muteSetup (message, args) {
         errors: ['time']
       })
       .then(collected => {
+        console.log(collected.first().content);
         if(collected.first().content.toLowerCase() == "yes")
           updateMute(message, true);
         else
