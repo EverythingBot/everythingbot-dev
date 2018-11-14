@@ -225,6 +225,7 @@ function muteSetup(message, args) {
 function updateMute(m, state) {
 
   mongo.connect(ServerURL, function(err, db) {
+
     var dbo = db.db("servers");
 
     var query = {
