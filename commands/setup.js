@@ -238,10 +238,11 @@ function updateMute(m, state) {
 
   mongo.connect(ServerURL, function(err, db) {
     var dbo = db.db("servers");
+
     dbo.collection("servers").updateOne(query, ser, function(err, result) {
       if (err)
         console.log(err);
-      if (state)
+      if (state == true)
         m.channel.send("EverythingBot will now take care of adding channel overrides for the `eBot Mute` role");
       else
         m.channel.send("EverythingBot will not add channel overrides for the `eBot Mute` role");
