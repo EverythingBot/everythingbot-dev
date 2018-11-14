@@ -224,9 +224,17 @@ function muteSetup(message, args) {
 
 function updateMute(m, state) {
 
-  mongo.connect(ServerURL, function(err, db) {
-    if(err)
-      throw(err);
+  if (state == true)
+    m.channel.send("EverythingBot will now take care of adding channel overrides for the `eBot Mute` role.");
+  else
+    m.channel.send("EverythingBot will not add channel overrides for the `eBot Mute` role.");
+
+  mongo.connect(ServerURL, {
+    useNewUrlParser: true
+  }, function(err, db) {
+    if (err)
+      throw (err);
+
     var dbo = db.db("servers");
 
     var query = {
@@ -240,11 +248,6 @@ function updateMute(m, state) {
     };
 
     console.log(state);
-
-    if (state == true)
-      m.channel.send("EverythingBot will now take care of adding channel overrides for the `eBot Mute` role.");
-    else
-      m.channel.send("EverythingBot will not add channel overrides for the `eBot Mute` role.");
 
     dbo.collection("servers").updateOne(query, ser, function(err, result) {
       if (err)
