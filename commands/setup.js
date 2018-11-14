@@ -110,8 +110,8 @@ exports.run = async function(client, message, args, mongo) {
   }
 
   function roleSetup(message, author) {
+    const filter = m => m.author.tag.includes(author);
     message.reply("please reply with your default role").then(message => {
-      const filter = m => m.author.tag.includes(author);
       message.channel.awaitMessages(filter, {
           max: 1,
           time: 60000,
@@ -200,8 +200,8 @@ exports.run = async function(client, message, args, mongo) {
 }
 
 function muteSetup (message, args) {
+  const filter = m => m.author.tag.includes(message.author);
   message.reply("enabling this function will allow EverythingBot to create a role named `eBot Mute` (if needed) and add channel overrides. If you accept, reply `Yes`. If you do not accept this, do not reply, or reply `No`. This command will expire in two minutes.").then(message => {
-    const filter = m => m.author.tag.includes(message.author);
     message.channel.awaitMessages(filter, {
         max: 1,
         time: 120000,
