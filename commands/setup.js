@@ -209,53 +209,49 @@ function muteSetup(message, args) {
       })
       .then(collected => {
         console.log(collected.first().content.toLowerCase());
+
+        var f = false;
+
         if (collected.first().content.toLowerCase() == "yes")
-          updateMute(msg, true);
-        else
-          updateMute(msg, false);
+          f = true;
+
+        mongo.connect(ServerURL, {
+          useNewUrlParser: true
+        }, function(err, db) {
+          if (err)
+            throw (err);
+
+          var dbo = db.db("servers");
+
+          var query = {
+            "serverID": m.guild.id
+          };
+
+          var ser = {
+            $set: {
+              "canMute": f
+            }
+          };
+
+          console.log(state);
+
+          dbo.collection("servers").updateOne(query, ser, function(err, result) {
+            if (err)
+              console.log(err);
+
+            if (state == true)
+              m.channel.send("EverythingBot will now take care of adding channel overrides for the `eBot Mute` role.");
+            else
+              m.channel.send("EverythingBot will not add channel overrides for the `eBot Mute` role.");
+            console.log("Updated");
+            db.close();
+          });
+        });
       }).catch(collected => {
         if (collected.size < 1) {
-          updateMute(msg, false);
           msg.channel.send("Command expired.");
         }
       });
-  });
-}
-
-function updateMute(m, state) {
-
-  if (state == true)
-    m.channel.send("EverythingBot will now take care of adding channel overrides for the `eBot Mute` role.");
-  else
-    m.channel.send("EverythingBot will not add channel overrides for the `eBot Mute` role.");
-
-  mongo.connect(ServerURL, {
-    useNewUrlParser: true
-  }, function(err, db) {
-    if (err)
-      throw (err);
-
-    var dbo = db.db("servers");
-
-    var query = {
-      "serverID": m.guild.id
-    };
-
-    var ser = {
-      $set: {
-        "canMute": state
-      }
-    };
-
-    console.log(state);
-
-    dbo.collection("servers").updateOne(query, ser, function(err, result) {
-      if (err)
-        console.log(err);
-
-      console.log("Updated");
-      db.close();
-    });
   });
 }
 
