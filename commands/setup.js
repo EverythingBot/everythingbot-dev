@@ -172,6 +172,7 @@ exports.run = async function(client, message, args, mongo) {
       final = false;
 
     mongo.connect(ServerURL, function(err, db) {
+      console.log("MongoDB connected");
       var dbo = db.db("servers");
 
       var query = {
@@ -185,6 +186,7 @@ exports.run = async function(client, message, args, mongo) {
       };
 
       dbo.collection("servers").updateOne(query, ser, function(err, result) {
+          console.log("Collection connected");
         if (err)
           console.log(err);
         else {
@@ -220,26 +222,26 @@ function muteSetup(message, args) {
         if (collected.first().content.toLowerCase() == "yes")
           f = true;
 
-          var ser = {
-            $set: {
-              "canMute": f
-            }
-          };
+        var ser = {
+          $set: {
+            "canMute": f
+          }
+        };
 
-          mongo.connect(ServerURL, function(err, db) {
-            var dbo = db.db("servers");
-            dbo.collection("servers").updateOne(query, ser, function(err, result) {
-              if (err)
-                console.log(err);
-              else {
-                if (state == true)
-                  m.channel.send("EverythingBot will now take care of adding channel overrides for the `eBot Mute` role.");
-                else
-                  m.channel.send("EverythingBot will not add channel overrides for the `eBot Mute` role.");
-              }
-              db.close();
-            });
+        mongo.connect(ServerURL, function(err, db) {
+          var dbo = db.db("servers");
+          dbo.collection("servers").updateOne(query, ser, function(err, result) {
+            if (err)
+              console.log(err);
+            else {
+              if (state == true)
+                m.channel.send("EverythingBot will now take care of adding channel overrides for the `eBot Mute` role.");
+              else
+                m.channel.send("EverythingBot will not add channel overrides for the `eBot Mute` role.");
+            }
+            db.close();
           });
+        });
       }).catch(collected => {
         if (collected.size < 1) {
           msg.channel.send("Command expired.");
