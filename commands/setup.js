@@ -1,6 +1,4 @@
-exports.run = async function(client, message, args, mongo) {
-
-  var ServerURL = process.env.SERVER;
+exports.run = async function(client, message, args, mongo, serverURL) {
 
   if (message.member.hasPermission("ADMINISTRATOR")) {
     if (args[0] == "welcome" || args[0] == "w")
@@ -43,7 +41,7 @@ exports.run = async function(client, message, args, mongo) {
                 "welcomeChannel": c1
               }
             };
-            mongo.connect(ServerURL, function(err, db) {
+            mongo.connect(serverURL, function(err, db) {
               var dbo = db.db("servers");
               dbo.collection("servers").updateOne(query, ser, function(err, result) {
                 if (err)
@@ -87,7 +85,7 @@ exports.run = async function(client, message, args, mongo) {
                 "logChannel": c1
               }
             };
-            mongo.connect(ServerURL, function(err, db) {
+            mongo.connect(serverURL, function(err, db) {
               var dbo = db.db("servers");
               dbo.collection("servers").updateOne(query, ser, function(err, result) {
                 if (err)
@@ -135,7 +133,7 @@ exports.run = async function(client, message, args, mongo) {
                 "welcomeRole": x
               }
             };
-            mongo.connect(ServerURL, function(err, db) {
+            mongo.connect(serverURL, function(err, db) {
               var dbo = db.db("servers");
               dbo.collection("servers").updateOne(query, ser, function(err, result) {
                 if (err)
@@ -171,7 +169,7 @@ exports.run = async function(client, message, args, mongo) {
     else if (args[1] == "false" || args[1] == "disable" || args[1] == "disabled")
       final = false;
 
-    mongo.connect(ServerURL, function(err, db) {
+    mongo.connect(serverURL, function(err, db) {
       var dbo = db.db("servers");
 
       var query = {
@@ -226,7 +224,7 @@ function muteSetup(message, args) {
           }
         };
 
-        mongo.connect(ServerURL, function(err, db) {
+        mongo.connect(serverURL, function(err, db) {
           console.log("MongoDB connected");
           var dbo = db.db("servers");
           dbo.collection("servers").updateOne(query, ser, function(err, result) {
@@ -291,7 +289,7 @@ function muteSetup(message, args) {
                           "welcomeChannel": c1
                         }
                       };
-                      mongo.connect(ServerURL, function(err, db) {
+                      mongo.connect(serverURL, function(err, db) {
                         var dbo = db.db("servers");
                         dbo.collection("servers").updateOne(query, ser, function(err, result) {
                           if (err)
