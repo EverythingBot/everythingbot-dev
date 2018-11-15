@@ -200,6 +200,11 @@ exports.run = async function(client, message, args, mongo) {
 }
 
 function muteSetup(message, args) {
+
+  var query = {
+    "serverID": message.guild.id
+  };
+
   const filter = m => m.author.tag.includes(message.author.tag);
   message.reply("enabling this function will allow EverythingBot to create a role named `eBot Mute` (if needed) and add channel overrides. If you accept, reply `Yes`. If you do not accept this, do not reply, or reply `No`. This command will expire in two minutes.").then(msg => {
     msg.channel.awaitMessages(filter, {
@@ -215,38 +220,26 @@ function muteSetup(message, args) {
         if (collected.first().content.toLowerCase() == "yes")
           f = true;
 
-        mongo.connect(ServerURL, {
-          useNewUrlParser: true
-        }, function(err, db) {
-          if (err)
-            throw (err);
-
-          var dbo = db.db("servers");
-
-          var query = {
-            "serverID": m.guild.id
-          };
-
           var ser = {
             $set: {
               "canMute": f
             }
           };
 
-          console.log(state);
-
-          dbo.collection("servers").updateOne(query, ser, function(err, result) {
-            if (err)
-              console.log(err);
-
-            if (state == true)
-              m.channel.send("EverythingBot will now take care of adding channel overrides for the `eBot Mute` role.");
-            else
-              m.channel.send("EverythingBot will not add channel overrides for the `eBot Mute` role.");
-            console.log("Updated");
-            db.close();
+          mongo.connect(ServerURL, function(err, db) {
+            var dbo = db.db("servers");
+            dbo.collection("servers").updateOne(query, ser, function(err, result) {
+              if (err)
+                console.log(err);
+              else {
+                if (state == true)
+                  m.channel.send("EverythingBot will now take care of adding channel overrides for the `eBot Mute` role.");
+                else
+                  m.channel.send("EverythingBot will not add channel overrides for the `eBot Mute` role.");
+              }
+              db.close();
+            });
           });
-        });
       }).catch(collected => {
         if (collected.size < 1) {
           msg.channel.send("Command expired.");
