@@ -172,7 +172,6 @@ exports.run = async function(client, message, args, mongo) {
       final = false;
 
     mongo.connect(ServerURL, function(err, db) {
-      console.log("MongoDB connected");
       var dbo = db.db("servers");
 
       var query = {
@@ -186,7 +185,6 @@ exports.run = async function(client, message, args, mongo) {
       };
 
       dbo.collection("servers").updateOne(query, ser, function(err, result) {
-          console.log("Collection connected");
         if (err)
           console.log(err);
         else {
@@ -229,8 +227,10 @@ function muteSetup(message, args) {
         };
 
         mongo.connect(ServerURL, function(err, db) {
+          console.log("MongoDB connected");
           var dbo = db.db("servers");
           dbo.collection("servers").updateOne(query, ser, function(err, result) {
+            console.log("Collection connected");
             if (err)
               console.log(err);
             else {
